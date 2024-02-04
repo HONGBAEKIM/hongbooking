@@ -16,7 +16,9 @@
 <body>
 
 <header>
-    <h1>Automatically booking evaluation slots</h1>
+    <h2>Automatically </h2>
+    <h2>booking </h2>
+    <h2>evaluation slots </h2>
 </header>
 
 <main>
@@ -38,7 +40,7 @@
         
         <h2>Input</h2>
         <form action="{{ url_for('handle_form') }}" method="POST" onsubmit="return validateTime()">
-            <label for="user_id" class="label-with-space">ID:</label>
+            <label for="user_id" class="label-with-space">Username:</label>
             <input type="text" id="user_id" name="user_id" required><br>
             
             <label for="password" class="label-with-space">Password:</label>
@@ -105,13 +107,13 @@
             </select><br>
 
             <button type="submit">Submit</button>
-            <section id="status"><br>
-                <h2>Status</h2>
-                <div id="status-container"></div>
-            </section><br>
+            
         </form>
-        
 
+    <section id="status"><br>
+        <h2>Status</h2>
+        <div id="status-container"></div>
+    </section><br>
     
     <section>
         <h2>Homepage URL</h2>
