@@ -28,10 +28,10 @@ import sys
 
 #from flask import jsonify
 
+import logging
 from flask import Flask, render_template, request, url_for, redirect
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
-import logging
 
 
 # Define the default GeckoDriver path
@@ -44,20 +44,20 @@ firefox_binary_location = '/usr/bin/firefox'
 firefox_options = FirefoxOptions()
 
 app = Flask(__name__)
-socketio = SocketIO(app)
 
 
 # Set logging level to DEBUG for more detailed logs
-app.logger.setLevel(logging.DEBUG)
-socketio.logger.setLevel(logging.DEBUG)
 
 CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
 
 # Allow Origins: In your Socket.IO server configuration, 
 # you can explicitly allow the specific origins that are allowed to connect.
 # socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com")
+# socketio = SocketIO(app)
 socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
 
+app.logger.setLevel(logging.DEBUG)
+socketio.logger.setLevel(logging.DEBUG)
 
 # Set a secret key for your Flask app
 #app.config['SECRET_KEY'] = 'your_secure_key_here'  # Replace 'your_secure_key_here' with a secure key
