@@ -93,7 +93,7 @@ def handle_form():
     print(f'End Time: {end_time_from_app}')
 
     try:
-        logger.info("test test test test")
+        app.logger.info("test test test test")
     except Exception as e:
         print(f"Exception during logging: {e}")
     #after clicking last step of booking icon, I should check if evaluation slot is booked
