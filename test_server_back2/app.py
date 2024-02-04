@@ -54,9 +54,9 @@ CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
 
 socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
 
-app.logger.setLevel(logging.DEBUG)
 
-socketio.logger.setLevel(logging.DEBUG)
+
+
 
 # Set a secret key for your Flask app
 #app.config['SECRET_KEY'] = 'your_secure_key_here'  # Replace 'your_secure_key_here' with a secure key
