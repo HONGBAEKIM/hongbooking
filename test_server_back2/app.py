@@ -46,17 +46,16 @@ firefox_options = FirefoxOptions()
 app = Flask(__name__)
 
 
+
 # Set logging level to DEBUG for more detailed logs
+logging.basicConfig(level=logging.DEBUG)
 
 CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
 
-# Allow Origins: In your Socket.IO server configuration, 
-# you can explicitly allow the specific origins that are allowed to connect.
-# socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com")
-# socketio = SocketIO(app)
 socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
 
 app.logger.setLevel(logging.DEBUG)
+
 socketio.logger.setLevel(logging.DEBUG)
 
 # Set a secret key for your Flask app
