@@ -31,6 +31,8 @@ import sys
 from flask import Flask, render_template, request, url_for, redirect
 from flask_socketio import SocketIO, emit
 
+
+
 # Define the default GeckoDriver path
 geckodriver_path = "/usr/local/bin/geckodriver"
 
@@ -41,7 +43,10 @@ firefox_binary_location = '/usr/bin/firefox'
 firefox_options = FirefoxOptions()
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+# socketio = SocketIO(app)
+# Allow Origins: In your Socket.IO server configuration, 
+# you can explicitly allow the specific origins that are allowed to connect.
+socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com")
 
 # Set a secret key for your Flask app
 #app.config['SECRET_KEY'] = 'your_secure_key_here'  # Replace 'your_secure_key_here' with a secure key
