@@ -44,7 +44,7 @@ firefox_options = FirefoxOptions()
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/socket.io/*": {"origins": "http://www.hongpage.com"}})
+CORS(app, resources={r"/static/*": {"origins": "https://www.hongpage.com"}})
 
 # socketio = SocketIO(app)
 # Allow Origins: In your Socket.IO server configuration, 
