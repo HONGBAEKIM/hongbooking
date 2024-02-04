@@ -31,6 +31,7 @@ import sys
 from flask import Flask, render_template, request, url_for, redirect
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
+import logging
 
 
 # Define the default GeckoDriver path
@@ -43,6 +44,11 @@ firefox_binary_location = '/usr/bin/firefox'
 firefox_options = FirefoxOptions()
 
 app = Flask(__name__)
+
+
+# Set logging level to DEBUG for more detailed logs
+app.logger.setLevel(logging.DEBUG)
+socketio.logger.setLevel(logging.DEBUG)
 
 CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
 
@@ -75,6 +81,8 @@ def handle_connect():
 
 @app.route('/handle_form', methods=['POST'])
 def handle_form():
+    app.logger.info('Client connected')
+    print('Client connected')
     # display = Display(visible=0, size=(800, 600))
     # display.start()
     user_id_from_app = request.form.get('user_id')
@@ -520,10 +528,21 @@ def handle_form():
     # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg)
     return render_template('index.html')
 
+@socketio.on('disconnect')
+def handle_disconnect():
+    app.logger.info('Client disconnected')
+    print('Client disconnected')
+
+@socketio.on_error_default
+def default_error_handler(e):
+    app.logger.error('An error occurred:', e)
+    print('An error occurred:', e)
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
     socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+
+
 
 # if __name__ == '__main__':
 #     app.run(debug=True)
