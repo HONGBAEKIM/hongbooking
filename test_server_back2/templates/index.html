@@ -1,27 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Simple Website</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<!-- <link rel="stylesheet" href="{{ style_url }}"> -->
-<!-- <link rel="stylesheet" href="/static/style.css"> -->
-<!-- <link rel="stylesheet" href="{{ style_url }}"> -->
-<!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
-<script>
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
-
-    socket.on('message', function (data) {
-        console.log(data.data);  // Log the received message
-        // Handle the message on the client-side as needed
-        // You might want to update the UI to inform the user about different steps
-        // Update the status container with the received message
-        var statusContainer = document.getElementById('status-container');
-        statusContainer.innerHTML += `<p>${data.data}</p>`;
-    });
-</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Simple Website</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- <link rel="stylesheet" href="{{ style_url }}"> -->
+    <!-- <link rel="stylesheet" href="/static/style.css"> -->
+    <!-- <link rel="stylesheet" href="{{ style_url }}"> -->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
 </head>
 <body>
 
@@ -121,20 +109,7 @@
             </section><br>
         </form>
         
-        <script>
-            function validateTime() {
-                var startTime = document.getElementById("start_time").value;
-                var endTime = document.getElementById("end_time").value;
-        
-                if (startTime >= endTime) {
-                    alert("Error: Desired end time must be later than Desired start time.");
-                    return false; // Prevent form submission
-                }
-        
-                return true; // Allow form submission
-            }
-        </script>
-    </section>
+
     
     <section>
         <h2>Homepage URL</h2>
@@ -176,6 +151,41 @@
 
 <!-- <script src="{{ url_for('static', filename='script.js') }}"></script> -->
 <script src="static/script.js"></script>
+
+<script>
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    socket.on('message', function (data) {
+        console.log(data.data);  // Log the received message
+        // Handle the message on the client-side as needed
+        // You might want to update the UI to inform the user about different steps
+        // Update the status container with the received message
+        var statusContainer = document.getElementById('status-container');
+        statusContainer.innerHTML += `<p>${data.data}</p>`;
+        // Optionally, you can scroll to the bottom to always show the latest status
+        statusContainer.scrollTop = statusContainer.scrollHeight;
+    });
+</script>
+
+
+<script>
+    function validateTime() {
+        var startTime = document.getElementById("start_time").value;
+        var endTime = document.getElementById("end_time").value;
+
+        if (startTime >= endTime) {
+            alert("Error: Desired end time must be later than Desired start time.");
+            return false; // Prevent form submission
+        }
+
+        return true; // Allow form submission
+    }
+</script>
+</section>
+
+
+
+
 
 </body>
 </html>
