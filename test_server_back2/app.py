@@ -178,8 +178,9 @@ def handle_form():
             # Wait for navigation and check if the login was successful
             WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
 
+            socketio.emit('login_success', {'data': 'After successfully logging in,'})
+
             print("Successfully logged in")
-            socketio.emit('message', {'data': 'After successfully logging in,'})
             return True  # Return True to indicate successful login
 
         except Exception as e:
@@ -400,8 +401,9 @@ def handle_form():
                     loading_msg = None
                     # print("Grab a coffee and tea or watch a youtube video")
                     # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
-                    socketio.emit('message', {'data': 'While the program is on the evaluation page and checking for available evaluation slots,'})
-                
+                    socketio.emit('checking', {'data': 'Checking for available evaluation slots,'})
+                    
+
                 else:
                     loading_msg = "Page loading failed. Please try again."
 
@@ -451,7 +453,7 @@ def handle_form():
                             time.sleep(8)
                             
                             print("Clicked 'OK' button.")
-                            socketio.emit('message', {'data': 'After booking,'})
+                            socketio.emit('booked', {'data': 'booked,'})
                     except NoSuchElementException:
                         print("OK button not found.")
     

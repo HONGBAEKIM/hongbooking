@@ -181,12 +181,30 @@
     });
 
     // Listen for 'status_update' messages from the server
-    socket.on('status_update', function(data) {
+    socket.on('login_success', function(data) {
         console.log(data.data);  // Log the received message
 
         // Call the updateStatus function with the received message
         updateStatus(data.data);
     });
+
+    // Listen for 'status_update' messages from the server
+    socket.on('checking', function(data) {
+        console.log(data.data);  // Log the received message
+
+        // Call the updateStatus function with the received message
+        updateStatus(data.data);
+    });
+
+    // Listen for 'status_update' messages from the server
+    socket.on('booked', function(data) {
+        console.log(data.data);  // Log the received message
+
+        // Call the updateStatus function with the received message
+        updateStatus(data.data);
+    });
+
+    
 
     // Log any socket errors
     socket.on('error', function(error) {
