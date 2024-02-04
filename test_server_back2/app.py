@@ -78,6 +78,15 @@ def handle_connect():
     print('Client connected')
     emit('message', {'data': 'Connected to WebSocket'})
 
+@socketio.on('disconnect')
+def handle_disconnect():
+    app.logger.info('Client disconnected')
+    print('Client disconnected')
+
+@socketio.on_error_default
+def default_error_handler(e):
+    app.logger.error('An error occurred:', e)
+    print('An error occurred:', e)
 
 @app.route('/handle_form', methods=['POST'])
 def handle_form():
@@ -528,15 +537,7 @@ def handle_form():
     # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg)
     return render_template('index.html')
 
-@socketio.on('disconnect')
-def handle_disconnect():
-    app.logger.info('Client disconnected')
-    print('Client disconnected')
 
-@socketio.on_error_default
-def default_error_handler(e):
-    app.logger.error('An error occurred:', e)
-    print('An error occurred:', e)
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
