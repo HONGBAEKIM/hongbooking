@@ -178,12 +178,11 @@
     }
 
     // Connect to the Socket.IO server
-    var socket = io.connect('https://localhost:5000');
+    // var socket = io.connect('https://localhost:5000');
     // Example Socket.IO client code
-    // var socket = io.connect('https://localhost:5000', { transports: ['websocket'], withCredentials: true });
+    var socket = io.connect('https://localhost:5000', { transports: ['websocket'], withCredentials: true });
 
-    // var socket = io.connect('https://www.hongpage.com');
-
+    
 
     // Log socket connection status
     socket.on('connect', function() {
