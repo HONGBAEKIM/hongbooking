@@ -29,6 +29,7 @@ import sys
 #from flask import jsonify
 
 from flask import Flask, render_template, request, url_for, redirect
+from flask_socketio import SocketIO, emit
 
 # Define the default GeckoDriver path
 geckodriver_path = "/usr/local/bin/geckodriver"
@@ -40,6 +41,7 @@ firefox_binary_location = '/usr/bin/firefox'
 firefox_options = FirefoxOptions()
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 # Set a secret key for your Flask app
 #app.config['SECRET_KEY'] = 'your_secure_key_here'  # Replace 'your_secure_key_here' with a secure key
@@ -54,6 +56,11 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
+    emit('message', {'data': 'Connected to WebSocket'})
 
 
 @app.route('/handle_form', methods=['POST'])
@@ -172,6 +179,7 @@ def handle_form():
             WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
 
             print("Successfully logged in")
+            socketio.emit('message', {'data': 'After successfully logging in,'})
             return True  # Return True to indicate successful login
 
         except Exception as e:
@@ -392,6 +400,7 @@ def handle_form():
                     loading_msg = None
                     # print("Grab a coffee and tea or watch a youtube video")
                     # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
+                    socketio.emit('message', {'data': 'While the program is on the evaluation page and checking for available evaluation slots,'})
                 
                 else:
                     loading_msg = "Page loading failed. Please try again."
@@ -442,6 +451,7 @@ def handle_form():
                             time.sleep(8)
                             
                             print("Clicked 'OK' button.")
+                            socketio.emit('message', {'data': 'After booking,'})
                     except NoSuchElementException:
                         print("OK button not found.")
     
@@ -495,11 +505,13 @@ def handle_form():
     # return response
     # return render_template('index', )
     # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg, booking_msg=booking_msg)
-    return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg)
+    # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg)
+    return render_template('index.html')
 
 
 if __name__ == '__main__':  
-    app.run(host='0.0.0.0', port=5000)
+    # app.run(host='0.0.0.0', port=5000)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
 
 # if __name__ == '__main__':
 #     app.run(debug=True)
