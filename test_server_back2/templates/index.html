@@ -153,7 +153,31 @@
     <p>&copy; 2024 Your Simple Website</p>
 </footer>
 
+<script>
+    // Example function to update the status
+    function updateStatus(message) {
+        // Get the status container element
+        var statusContainer = document.getElementById('status-container');
+        
+        // Create a new paragraph element
+        var newParagraph = document.createElement('p');
+        
+        // Set the text content of the paragraph to the provided message
+        newParagraph.textContent = message;
+        
+        // Append the new paragraph to the status container
+        statusContainer.appendChild(newParagraph);
 
+        // Optionally, scroll to the bottom to always show the latest status
+        statusContainer.scrollTop = statusContainer.scrollHeight;
+    }
+
+    // Example usage:
+    // You can call the updateStatus function with your status message
+    updateStatus('Processing step 1...');
+    updateStatus('Processing step 2...');
+    updateStatus('Process completed!');
+</script>
 
 
 

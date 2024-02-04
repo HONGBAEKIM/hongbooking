@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Log socket connection status
     socket.on('connect', function() {
         console.log('Socket connected');
+        
+        // Emit a test status update event after connection
+        socket.emit('status_update', { data: 'Test status update' });
     });
 
     // Listen for 'status_update' messages from the server
