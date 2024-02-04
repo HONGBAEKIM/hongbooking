@@ -17,6 +17,9 @@
             console.log(data.data);  // Log the received message
             // Handle the message on the client-side as needed
             // You might want to update the UI to inform the user about different steps
+            // Update the status container with the received message
+            var statusContainer = document.getElementById('status-container');
+            statusContainer.innerHTML += `<p>${data.data}</p>`;
         });
     </script>
 </head>
@@ -113,7 +116,10 @@
 
                 <button type="submit">Submit</button>
             </form>
-
+            <section id="status">
+                <h2>Status</h2>
+                <div id="status-container"></div>
+            </section>
             <script>
                 function validateTime() {
                     var startTime = document.getElementById("start_time").value;
