@@ -37,7 +37,7 @@ logger = logging.getLogger('server_logger')
 logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)  # Adjust the logging level as needed
 
-logger.info("test test test test")
+
 
 
 # from pyvirtualdisplay import Display
@@ -92,6 +92,10 @@ def handle_form():
     print(f'Start Time: {start_time_from_app}')
     print(f'End Time: {end_time_from_app}')
 
+    try:
+        logger.info("test test test test")
+    except Exception as e:
+        print(f"Exception during logging: {e}")
     #after clicking last step of booking icon, I should check if evaluation slot is booked
 
     #connected to my webpage
