@@ -9,7 +9,8 @@
     <!-- <link rel="stylesheet" href="/static/style.css"> -->
     <!-- <link rel="stylesheet" href="{{ style_url }}"> -->
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script>
+
     <!-- <script src="{{ url_for('static', filename='script.js') }}"></script> -->
     <!-- <script src="static/script.js"></script> -->
     <script src="http://www.hongpage.com/static/script.js"></script>
@@ -175,8 +176,8 @@
     }
 
     // Connect to the Socket.IO server
-    // var socket = io.connect('http://localhost:5000');
-    var socket = io.connect('https://www.hongpage.com');
+    var socket = io.connect('http://localhost:5000');
+    // var socket = io.connect('https://www.hongpage.com');
 
 
     // Log socket connection status
