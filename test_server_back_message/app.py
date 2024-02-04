@@ -18,12 +18,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from datetime import datetime
 import time
-import logging
-from logging.handlers import RotatingFileHandler
-
-
-
-
 
 
 # from pyvirtualdisplay import Display
@@ -49,21 +43,11 @@ app = Flask(__name__)
 
 # Set a secret key for your Flask app
 #app.config['SECRET_KEY'] = 'your_secure_key_here'  # Replace 'your_secure_key_here' with a secure key
-# Configure logging
-log_formatter = logging.Formatter("%(asctime)s [%(levelname)s] [%(filename)s:%(lineno)d] - %(message)s")
 
 
-# Create a rotating file handler to log messages to a file
-#log_file_path = './logs/server.log'  # Replace with the actual path
-log_file_path = '/home/ubuntu/hongbooking/test_server_back_message/logs/server.log'
-file_handler = RotatingFileHandler(log_file_path, maxBytes=1000000, backupCount=10)
-file_handler.setFormatter(log_formatter)
-file_handler.setLevel(logging.INFO)  # Adjust the logging level as needed
 #from flask_wtf.csrf import CSRFProtect, CSRFError
 
-logger = logging.getLogger('server_logger')
-logger.addHandler(file_handler)
-logger.setLevel(logging.INFO)  # Adjust the logging level as needed
+
 
 #csrf = CSRFProtect(app)
 
@@ -92,10 +76,7 @@ def handle_form():
     print(f'Start Time: {start_time_from_app}')
     print(f'End Time: {end_time_from_app}')
 
-    try:
-        app.logger.info("test test test test")
-    except Exception as e:
-        print(f"Exception during logging: {e}")
+
     #after clicking last step of booking icon, I should check if evaluation slot is booked
 
     #connected to my webpage
@@ -298,9 +279,9 @@ def handle_form():
             try:
                 wait = WebDriverWait(driver, 1)
                 next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
-                print("next page is ready?")
+                # print("next page is ready?")
                 next_page_button.click()
-                print("Clicked next page")
+                # print("Clicked next page")
                 specialcase = 1
 
             except Exception as e:  # Consider catching specific exceptions
@@ -315,9 +296,9 @@ def handle_form():
                 try:
                     wait = WebDriverWait(driver, 1)
                     next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
-                    print("next page is ready?")
+                    # print("next page is ready?")
                     next_page_button.click()
-                    print("Clicked next page")
+                    # print("Clicked next page")
                     int_evaluation_day = 0  
                 except Exception as e:  # Consider catching specific exceptions
                     print(f"Exception occurred: {str(e)}")
@@ -389,10 +370,11 @@ def handle_form():
             try:         
                 available_slots_today = []                      
                 #current_day = datetime.now().weekday()
-                if not specialcase == 0:
-                    xpath = f".//tr/td[{current_day + 2 + int_evaluation_day - specialcase}]//div[contains(@class, 'fc-time')]"
-                else:
+                if specialcase == 0:
                     xpath = f".//tr/td[{current_day + 2 + int_evaluation_day}]//div[contains(@class, 'fc-time')]"
+                else:
+                    xpath = f".//tr/td[{current_day + 2 + int_evaluation_day - specialcase}]//div[contains(@class, 'fc-time')]"
+                
                 slots = driver.find_elements(By.XPATH, xpath)
 
                 if (len(slots) == 0):
@@ -400,13 +382,13 @@ def handle_form():
                     driver.refresh()
                     if not specialcase == 0:
                         try:
-                            wait = WebDriverWait(driver, 1)
+                            wait = WebDriverWait(driver, 2)
                             next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                             next_page_button.click()
                         except Exception as e:  # Consider catching specific exceptions
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
-                    time.sleep(10)
+                    time.sleep(8)
                     loading_msg = None
                     print("Grab a coffee and tea or watch a youtube video")
                     print("https://youtu.be/FClqKwgo5Bw?feature=shared")
@@ -430,13 +412,13 @@ def handle_form():
                     driver.refresh()
                     if not specialcase == 0:
                         try:
-                            wait = WebDriverWait(driver, 1)
+                            wait = WebDriverWait(driver, 2)
                             next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                             next_page_button.click()
                         except Exception as e:  # Consider catching specific exceptions
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
-                    time.sleep(1)
+                    time.sleep(8)
                     continue
 
                 
@@ -457,7 +439,7 @@ def handle_form():
                             
                             
                             #nextok.click()
-                            time.sleep(2000)
+                            time.sleep(8)
                             
                             print("Clicked 'OK' button.")
                     except NoSuchElementException:
@@ -467,7 +449,7 @@ def handle_form():
 
             except NoSuchElementException:
                 print("Today's column is not found or not highlighted.")
-                time.sleep(10)
+                time.sleep(8)
                 driver.refresh()
                 if not specialcase == 0:
                     try:
@@ -481,7 +463,7 @@ def handle_form():
 
         except TimeoutException:
             print("Timeout occurred while looking for slots. Refreshing and retrying...")
-            time.sleep(10)
+            time.sleep(8)
             driver.refresh()
             if not specialcase == 0:
                 try:
@@ -499,7 +481,7 @@ def handle_form():
         print("Reached the maximum number of retries. Exiting.")
 
 
-    time.sleep(1000)
+    time.sleep(8)
     # Close the WebDriver
     #8.Close the WebDriver:
     #This line closes the browser and ends the WebDriver's session. 
