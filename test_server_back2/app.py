@@ -29,8 +29,8 @@ import sys
 #from flask import jsonify
 
 from flask import Flask, render_template, request, url_for, redirect
+from flask_cors import CORS
 from flask_socketio import SocketIO, emit
-
 
 
 # Define the default GeckoDriver path
@@ -43,6 +43,7 @@ firefox_binary_location = '/usr/bin/firefox'
 firefox_options = FirefoxOptions()
 
 app = Flask(__name__)
+CORS(app) # Enable CORS for all routes  
 # socketio = SocketIO(app)
 # Allow Origins: In your Socket.IO server configuration, 
 # you can explicitly allow the specific origins that are allowed to connect.
