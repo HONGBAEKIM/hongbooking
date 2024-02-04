@@ -178,7 +178,7 @@ def handle_form():
             # Wait for navigation and check if the login was successful
             WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
 
-            socketio.emit('login_success', {'data': 'After successfully logging in,'})
+            socketio.emit('login_success', {'data': 'Successfully logged in'})
 
             print("Successfully logged in")
             return True  # Return True to indicate successful login
@@ -453,7 +453,7 @@ def handle_form():
                             time.sleep(8)
                             
                             print("Clicked 'OK' button.")
-                            socketio.emit('booked', {'data': 'booked,'})
+                            socketio.emit('booked', {'data': 'Slot booked successfully'})
                     except NoSuchElementException:
                         print("OK button not found.")
     
