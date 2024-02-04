@@ -26,7 +26,8 @@ log_formatter = logging.Formatter("%(asctime)s [%(levelname)s] [%(filename)s:%(l
 
 
 # Create a rotating file handler to log messages to a file
-log_file_path = './logs/server.log'  # Replace with the actual path
+#log_file_path = './logs/server.log'  # Replace with the actual path
+log_file_path = '/home/ubuntu/hongbooking/test_server_back_message/logs/server.log'
 file_handler = RotatingFileHandler(log_file_path, maxBytes=1000000, backupCount=10)
 file_handler.setFormatter(log_formatter)
 file_handler.setLevel(logging.INFO)  # Adjust the logging level as needed
