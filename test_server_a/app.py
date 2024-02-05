@@ -419,7 +419,7 @@ def handle_form():
         try:
             attempts += 1
             print(f"{attempts} of {max_retries}")
-            time.sleep(1)
+            #time.sleep(1)
 
             try:         
                 available_slots_today = []                      
@@ -441,7 +441,7 @@ def handle_form():
                         except Exception as e:  # Consider catching specific exceptions
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
-                    time.sleep(8)
+                    time.sleep(5)
                 
                     # print("Grab a coffee and tea or watch a youtube video")
                     # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
@@ -481,14 +481,14 @@ def handle_form():
                         except Exception as e:  # Consider catching specific exceptions
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
-                    time.sleep(8)
+                    time.sleep(5)
                     continue
 
                 
                 
                 for slot in available_slots_today:
                     print("40")
-                    WebDriverWait(driver, 5).until(EC.element_to_be_clickable(slot))
+                    WebDriverWait(driver, 3).until(EC.element_to_be_clickable(slot))
                     print("41")
                     slot.click()
                     print("Clicked on an available slot.")
@@ -500,7 +500,7 @@ def handle_form():
                         nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
                         if nextok.text == "OK":
                             
-                            WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
+                            WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
                             #nextok.click()
                             print("Clicked 'OK' button.")
                     
@@ -521,7 +521,7 @@ def handle_form():
 
             except NoSuchElementException:
                 print("Today's column is not found or not highlighted.")
-                time.sleep(8)
+                time.sleep(5)
                 driver.refresh()
                 if not specialcase == 0:
                     try:
@@ -535,7 +535,7 @@ def handle_form():
 
         except TimeoutException:
             print("Timeout occurred while looking for slots. Refreshing and retrying...")
-            time.sleep(8)
+            time.sleep(5)
             driver.refresh()
             if not specialcase == 0:
                 try:
@@ -553,7 +553,7 @@ def handle_form():
         print("Reached the maximum number of retries. Exiting.")
 
 
-    time.sleep(8)
+    time.sleep(3)
     # Close the WebDriver
     #8.Close the WebDriver:
     #This line closes the browser and ends the WebDriver's session. 
