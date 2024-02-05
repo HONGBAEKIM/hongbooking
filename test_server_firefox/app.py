@@ -71,23 +71,23 @@ socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_
 def index():
     return render_template('index.html')
 
-@socketio.on('connect')
-def handle_connect():
-    print('Client connected')
-    socketio.emit('message', {'data': 'Connected'})
+# @socketio.on('connect')
+# def handle_connect():
+#     print('Client connected')
+#     socketio.emit('message', {'data': 'Connected'})
 
-@socketio.on('disconnect')
-def handle_disconnect():
-    print('Client disconnected')
+# @socketio.on('disconnect')
+# def handle_disconnect():
+#     print('Client disconnected')
 
-@socketio.on('start_process')
-def handle_start_process(data):
-    print('Starting process:', data['message'])
-    for i in range(1, 11):
-        socketio.emit('progress', {'data': f'Progress: {i * 10}%'})
-        socketio.sleep(1)
+# @socketio.on('start_process')
+# def handle_start_process(data):
+#     print('Starting process:', data['message'])
+#     for i in range(1, 11):
+#         socketio.emit('progress', {'data': f'Progress: {i * 10}%'})
+#         socketio.sleep(1)
 
-    socketio.emit('process_complete', {'data': 'Process completed'})
+#     socketio.emit('process_complete', {'data': 'Process completed'})
 
 
 
@@ -97,7 +97,7 @@ def handle_start_process(data):
 def handle_form():
     
     
-    handle_connect()
+    # handle_connect()
     # app.logger.info('Client connected')
     # print('Client connected')
     # display = Display(visible=0, size=(800, 600))
@@ -214,16 +214,10 @@ def handle_form():
             WebDriverWait(driver, 10).until(EC.url_to_be("https://profile.intra.42.fr/"))
 
 
-
-
             # socketio.emit('login_success', {'data': 'Successfully logged in'})
+            
 
-
-
-
-
-
-            print("Successfully logged in")
+            
             return True  # Return True to indicate successful login
 
         except Exception as e:
@@ -243,15 +237,13 @@ def handle_form():
         # print("password is", password)
 
         logged_in = attempt_login(driver, username, password)
-        login_msg = None
+        # login_msg = None
         if logged_in:
-            # flash('Login successful', 'success')
-            login_msg = "Login successful! you are now logged in yooooo!!"
+            print("Successfully logged in")
+            socketio.emit('login_success', {'data': 'Successfully logged in'})
         else:
-            login_msg = "Login failed! Please try again nooooo!!!"
-            # flash('Login error', 'Loginerror')
-            # print("Login failed. Please try again.")
-
+            print("Login failed. Please try again.")
+   
 
     # Dynamically build the URL
     base_url = "https://projects.intra.42.fr/projects"
@@ -444,7 +436,7 @@ def handle_form():
                 
                     # print("Grab a coffee and tea or watch a youtube video")
                     # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
-                    handle_start_process("8888888888888888888888888888888888888888888888888888888888")
+                    # handle_start_process("8888888888888888888888888888888888888888888888888888888888")
                     
                     
 
@@ -571,7 +563,7 @@ def handle_form():
 
 
 
-handle_disconnect()
+# handle_disconnect()
 
 
 if __name__ == '__main__':  

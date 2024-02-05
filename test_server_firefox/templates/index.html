@@ -50,7 +50,8 @@
     
         <script>
             // Example function to update the status
-            function updateStatus(message) {
+            function updateStatus(message) 
+            {
                 // Get the status container element
                 var statusContainer = document.getElementById('status-container');
                 
@@ -66,7 +67,19 @@
                 // Optionally, scroll to the bottom to always show the latest status
                 statusContainer.scrollTop = statusContainer.scrollHeight;
             }
-    
+
+        
+            // Connect to the Socket.IO server
+            const socket = io('https://www.hongpage.com');
+
+            // Listen for the 'login_success' event
+            socket.on('login_success', function(data) {
+                // Handle the event, e.g., display a message on the webpage
+                console.log('Login successful:', data.data);
+                // You can update the DOM or perform other actions here
+                document.getElementById('status-container').innerHTML = 'Log-in successful';
+            });
+        
             // Connect to the Socket.IO server
             // var socket = io.connect('https://localhost:5000');
             // Example Socket.IO client code
@@ -150,7 +163,7 @@
     
             // Additional functions and logic for your application can go here
         </script>
-        
+
         <section>
             
             <!-- <h2> Intra API login </h2> -->
