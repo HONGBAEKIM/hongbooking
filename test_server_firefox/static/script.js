@@ -1,31 +1,39 @@
 
 // var socket = new WebSocket('wss://www.hongpage.com/socket.io/?EIO=4&transport=websocket');
 
-// document.addEventListener('DOMContentLoaded', function () {
-//     var socket = io.connect('http://localhost:5000');
+document.addEventListener('DOMContentLoaded', function () {
+    var socket = io('https://www.hongpage.com'); // Replace with your actual server URL
 
-//     socket.on('connect', function() {
-//         console.log('Connected to server');
-//     });
+    // Handle 'checking' event
+    socket.on('checking', function (data) {
+        updateMessage('Checking event: ' + data.data);
+    });
 
-//     socket.on('message', function(data) {
-//         console.log('Server says:', data.data);
-//         document.getElementById('status-container').innerText = data.data;
-//     });
+    // Handle 'login_success' event
+    socket.on('login_success', function (data) {
+        updateMessage('Login success event: ' + data.data);
+    });
 
-//     socket.on('progress', function(data) {
-//         document.getElementById('status-container').innerText = data.data;
-//     });
+    // Handle 'booked' event
+    socket.on('booked', function (data) {
+        updateMessage('Booked event: ' + data.data);
+    });
 
-//     socket.on('process_complete', function(data) {
-//         console.log('Process completed:', data.data);
-//         document.getElementById('status-container').innerText = data.data;
-//     });
+    // Function to update the message container
+    function updateMessage(message) {
+        var messageContainer = document.getElementById('messageContainer');
 
-//     function startProcess() {
-//         socket.emit('start_process', { message: 'Start the process' });
-//     }
-// });
+        // Create a new paragraph element
+        var newParagraph = document.createElement('p');
+
+        // Set the text content of the paragraph
+        newParagraph.textContent = message;
+
+        // Append the new paragraph to the message container
+        messageContainer.appendChild(newParagraph);
+    }
+});
+
 
 
 // Example JavaScript for interactivity (optional)

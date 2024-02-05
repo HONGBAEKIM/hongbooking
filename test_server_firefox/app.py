@@ -214,7 +214,7 @@ def handle_form():
             WebDriverWait(driver, 10).until(EC.url_to_be("https://profile.intra.42.fr/"))
 
 
-            # socketio.emit('login_success', {'data': 'Successfully logged in'})
+            
             
 
             
@@ -442,7 +442,7 @@ def handle_form():
 
 
                     
-                    # socketio.emit('checking', {'data': 'Checking for available evaluation slots,'})
+                    socketio.emit('checking', {'data': 'Checking for available evaluation slots,'})
                     
 
 
@@ -498,7 +498,7 @@ def handle_form():
                     
                     
                     
-                            # socketio.emit('booked', {'data': 'Slot booked successfully'})
+                            socketio.emit('booked', {'data': 'Slot booked successfully'})
                     
                     
                     
@@ -568,7 +568,7 @@ def handle_form():
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=False)
 
 
 
