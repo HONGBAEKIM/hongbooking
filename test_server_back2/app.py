@@ -72,22 +72,25 @@ socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_
 def index():
     return render_template('index.html')
 
+
+
+
 @socketio.on('connect')
 def handle_connect():
     print('Client connected')
-    socketio.emit('connect', {'data': 'Client connected'})
 
+@socketio.on('message')
+def handle_message(data):
+    print('Message:', data)
 
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected')
 
-# @socketio.on('disconnect')
-# def handle_disconnect():
-#     app.logger.info('Client disconnected')
-#     print('Client disconnected')
-
-# @socketio.on_error_default
-# def default_error_handler(e):
-#     app.logger.error('An error occurred:', e)
-#     print('An error occurred:', e)
+@socketio.on_error_default
+def default_error_handler(e):
+    app.logger.error('An error occurred:', e)
+    print('An error occurred:', e)
 
 
 
