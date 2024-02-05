@@ -19,7 +19,6 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from datetime import datetime
 import time
 
-#from flask_wtf.csrf import CSRFProtect, CSRFError
 
 # from pyvirtualdisplay import Display
 import random
@@ -29,7 +28,11 @@ import sys
 
 #from flask import jsonify
 
+import logging
 from flask import Flask, render_template, request, url_for, redirect
+from flask_cors import CORS
+from flask_socketio import SocketIO, emit
+
 
 # Define the default GeckoDriver path
 geckodriver_path = "/usr/local/bin/geckodriver"
@@ -42,8 +45,25 @@ firefox_options = FirefoxOptions()
 
 app = Flask(__name__)
 
+
+
+# Set logging level to DEBUG for more detailed logs
+logging.basicConfig(level=logging.DEBUG)
+
+CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
+
+socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
+
+
+
+
+
 # Set a secret key for your Flask app
 #app.config['SECRET_KEY'] = 'your_secure_key_here'  # Replace 'your_secure_key_here' with a secure key
+
+
+#from flask_wtf.csrf import CSRFProtect, CSRFError
+
 
 
 #csrf = CSRFProtect(app)
@@ -53,8 +73,34 @@ def index():
     return render_template('index.html')
 
 
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
+    socketio.emit('message', {'data': 'Connected'})
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected')
+
+@socketio.on('start_process')
+def handle_start_process(data):
+    print('Starting process:', data['message'])
+    for i in range(1, 11):
+        socketio.emit('progress', {'data': f'Progress: {i * 10}%'})
+        socketio.emit('status', {'data': f'Status: Step {i}'})
+        socketio.sleep(1)
+
+    socketio.emit('process_complete', {'data': 'Process completed'})
+
+
+
+
+
+
 @app.route('/handle_form', methods=['POST'])
 def handle_form():
+    app.logger.info('Client connected')
+    print('Client connected')
     # display = Display(visible=0, size=(800, 600))
     # display.start()
     user_id_from_app = request.form.get('user_id')
@@ -72,6 +118,7 @@ def handle_form():
     print(f'Evaluation Day: {evaluation_day_from_app}')
     print(f'Start Time: {start_time_from_app}')
     print(f'End Time: {end_time_from_app}')
+
 
     #after clicking last step of booking icon, I should check if evaluation slot is booked
 
@@ -165,7 +212,17 @@ def handle_form():
             password_field.send_keys(Keys.ENTER)
             
             # Wait for navigation and check if the login was successful
-            WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
+            WebDriverWait(driver, 10).until(EC.url_to_be("https://profile.intra.42.fr/"))
+
+
+
+
+            # socketio.emit('login_success', {'data': 'Successfully logged in'})
+
+
+
+
+
 
             print("Successfully logged in")
             return True  # Return True to indicate successful login
@@ -179,6 +236,7 @@ def handle_form():
 
     # Continue with the rest of your script after a successful login
     logged_in = False
+    
     while not logged_in:
         username = user_id_from_app    
         password = password_from_app
@@ -186,8 +244,14 @@ def handle_form():
         # print("password is", password)
 
         logged_in = attempt_login(driver, username, password)
-        if not logged_in:
-            print("Login failed. Please try again.")
+        login_msg = None
+        if logged_in:
+            # flash('Login successful', 'success')
+            login_msg = "Login successful! you are now logged in yooooo!!"
+        else:
+            login_msg = "Login failed! Please try again nooooo!!!"
+            # flash('Login error', 'Loginerror')
+            # print("Login failed. Please try again.")
 
 
     # Dynamically build the URL
@@ -268,9 +332,9 @@ def handle_form():
             try:
                 wait = WebDriverWait(driver, 1)
                 next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
-                print("next page is ready?")
+                # print("next page is ready?")
                 next_page_button.click()
-                print("Clicked next page")
+                # print("Clicked next page")
                 specialcase = 1
 
             except Exception as e:  # Consider catching specific exceptions
@@ -285,9 +349,9 @@ def handle_form():
                 try:
                     wait = WebDriverWait(driver, 1)
                     next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
-                    print("next page is ready?")
+                    # print("next page is ready?")
                     next_page_button.click()
-                    print("Clicked next page")
+                    # print("Clicked next page")
                     int_evaluation_day = 0  
                 except Exception as e:  # Consider catching specific exceptions
                     print(f"Exception occurred: {str(e)}")
@@ -350,19 +414,21 @@ def handle_form():
     max_retries = 1000
     attempts = 0
 
+
     while not slot_clicked and attempts < max_retries:
         try:
             attempts += 1
             print(f"{attempts} of {max_retries}")
-            time.sleep(1)
+            #time.sleep(1)
 
             try:         
                 available_slots_today = []                      
                 #current_day = datetime.now().weekday()
-                if not specialcase == 0:
-                    xpath = f".//tr/td[{current_day + 2 + int_evaluation_day - specialcase}]//div[contains(@class, 'fc-time')]"
-                else:
+                if specialcase == 0:
                     xpath = f".//tr/td[{current_day + 2 + int_evaluation_day}]//div[contains(@class, 'fc-time')]"
+                else:
+                    xpath = f".//tr/td[{current_day + 2 + int_evaluation_day - specialcase}]//div[contains(@class, 'fc-time')]"
+                
                 slots = driver.find_elements(By.XPATH, xpath)
 
                 if (len(slots) == 0):
@@ -375,10 +441,25 @@ def handle_form():
                         except Exception as e:  # Consider catching specific exceptions
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
-                    time.sleep(10)
-                    print("Grab a coffee and tea or watch a youtube video")
-                    print("https://youtu.be/FClqKwgo5Bw?feature=shared")
+                    # time.sleep(5)
+                
+                    # print("Grab a coffee and tea or watch a youtube video")
+                    # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
+                    
+                    
+                    
 
+
+                    
+                    # socketio.emit('checking', {'data': 'Checking for available evaluation slots,'})
+                    
+
+
+                else:
+                    print("Page loading failed. Please try again.")
+
+
+                
                 for slot in slots:
                     print("there is another available slot", slot.text)
                     time_str = slot.get_attribute("data-full").split(" - ")[0]
@@ -400,30 +481,39 @@ def handle_form():
                         except Exception as e:  # Consider catching specific exceptions
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
-                    time.sleep(1)
+                    # time.sleep(15)
                     continue
 
                 
                 
                 for slot in available_slots_today:
                     print("40")
-                    WebDriverWait(driver, 1).until(EC.element_to_be_clickable(slot))
+                    WebDriverWait(driver, 5).until(EC.element_to_be_clickable(slot))
                     print("41")
                     slot.click()
                     print("Clicked on an available slot.")
                     slot_clicked = True
                     
-                    time.sleep(1)
+                    #time.sleep(2)
                     # Find the "OK" button. Adjust the selector as per your page's structure
                     try:
                         nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
                         if nextok.text == "OK":
                             
-                            
+                            WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
                             #nextok.click()
-                            time.sleep(2000)
-                            
                             print("Clicked 'OK' button.")
+                    
+                    
+                    
+                    
+                            # socketio.emit('booked', {'data': 'Slot booked successfully'})
+                    
+                    
+                    
+                    
+                    
+                    
                     except NoSuchElementException:
                         print("OK button not found.")
     
@@ -431,7 +521,7 @@ def handle_form():
 
             except NoSuchElementException:
                 print("Today's column is not found or not highlighted.")
-                time.sleep(10)
+                # time.sleep(15)
                 driver.refresh()
                 if not specialcase == 0:
                     try:
@@ -441,11 +531,11 @@ def handle_form():
                     except Exception as e:  # Consider catching specific exceptions
                         print("Exception occurred: ", str(e))
                         # Additional error handling code here 
-                time.sleep(1)
+                # time.sleep(1)
 
         except TimeoutException:
             print("Timeout occurred while looking for slots. Refreshing and retrying...")
-            time.sleep(10)
+            # time.sleep(15)
             driver.refresh()
             if not specialcase == 0:
                 try:
@@ -463,7 +553,7 @@ def handle_form():
         print("Reached the maximum number of retries. Exiting.")
 
 
-    time.sleep(1000)
+    # time.sleep(8)
     # Close the WebDriver
     #8.Close the WebDriver:
     #This line closes the browser and ends the WebDriver's session. 
@@ -475,10 +565,18 @@ def handle_form():
     # response.headers['Content-Type'] = 'application/json'
 
     # return response
-    return "Sucessed"
+    # return render_template('index', )
+    # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg, booking_msg=booking_msg)
+    # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg)
+    return render_template('index.html')
+
+
 
 if __name__ == '__main__':  
-    app.run(host='0.0.0.0', port=5000)
+    # app.run(host='0.0.0.0', port=5000)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+
+
 
 # if __name__ == '__main__':
 #     app.run(debug=True)
