@@ -9,25 +9,27 @@ document.addEventListener('DOMContentLoaded', function ()
 });
 
 
-var socket = new WebSocket('wss://www.hongpage.com/socket.io/?EIO=4&transport=websocket');
+// var socket = new WebSocket('wss://www.hongpage.com/socket.io/?EIO=4&transport=websocket');
 
-// Listen for 'open' event
-socket.addEventListener('open', function(event) {
-    console.log('WebSocket connection opened:', event);
+var socket = io.connect('http://localhost:5000');
+
+socket.on('connect', function() {
+    console.log('Connected to server');
 });
 
-// Listen for 'message' event
-socket.addEventListener('message', function(event) {
-    console.log('WebSocket message received:', event.data);
+socket.on('message', function(data) {
+    console.log('Server says:', data.data);
 });
 
-// Listen for 'close' event
-socket.addEventListener('close', function(event) {
-    console.log('WebSocket connection closed:', event);
+socket.on('progress', function(data) {
+    document.getElementById('progress').innerText = data.data;
 });
 
-// Listen for 'error' event
-socket.addEventListener('error', function(error) {
-    console.error('WebSocket error:', error);
+socket.on('process_complete', function(data) {
+    console.log('Process completed:', data.data);
 });
+
+function startProcess() {
+    socket.emit('start_process', { message: 'Start the process' });
+}
 

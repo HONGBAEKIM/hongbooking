@@ -73,25 +73,23 @@ def index():
     return render_template('index.html')
 
 
-
-
 @socketio.on('connect')
 def handle_connect():
     print('Client connected')
-
-@socketio.on('message')
-def handle_message(data):
-    print('Message:', data)
+    socketio.emit('message', {'data': 'Connected'})
 
 @socketio.on('disconnect')
 def handle_disconnect():
     print('Client disconnected')
 
-@socketio.on_error_default
-def default_error_handler(e):
-    app.logger.error('An error occurred:', e)
-    print('An error occurred:', e)
+@socketio.on('start_process')
+def handle_start_process(data):
+    print('Starting process:', data['message'])
+    for i in range(1, 11):
+        socketio.emit('progress', {'data': f'Progress: {i * 10}%'})
+        socketio.sleep(1)
 
+    socketio.emit('process_complete', {'data': 'Process completed'})
 
 
 
