@@ -87,9 +87,11 @@ def handle_start_process(data):
     print('Starting process:', data['message'])
     for i in range(1, 11):
         socketio.emit('progress', {'data': f'Progress: {i * 10}%'})
+        socketio.emit('status', {'data': f'Status: Step {i}'})
         socketio.sleep(1)
 
     socketio.emit('process_complete', {'data': 'Process completed'})
+
 
 
 
