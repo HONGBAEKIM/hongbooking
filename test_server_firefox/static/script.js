@@ -1,14 +1,4 @@
 
-
-
-// Example JavaScript for interactivity (optional)
-document.addEventListener('DOMContentLoaded', function () 
-{
-    // You can add JavaScript functionality here
-    console.log('Website loaded successfully.');
-});
-
-
 // var socket = new WebSocket('wss://www.hongpage.com/socket.io/?EIO=4&transport=websocket');
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -36,4 +26,14 @@ document.addEventListener('DOMContentLoaded', function () {
         socket.emit('start_process', { message: 'Start the process' });
     }
 });
+
+
+// Example JavaScript for interactivity (optional)
+document.addEventListener('DOMContentLoaded', function () 
+{
+    // You can add JavaScript functionality here
+    console.log('Website loaded successfully.');
+});
+
+
 
