@@ -194,47 +194,47 @@
         console.log('Socket connected');
     });
 
-    // Listen for 'status_update' messages from the server
-    socket.on('login_success', function(data) {
-        console.log(data.data);  // Log the received message
+    // // Listen for 'status_update' messages from the server
+    // socket.on('login_success', function(data) {
+    //     console.log(data.data);  // Log the received message
 
-        // Update the status container with the received message
-        var statusContainer = document.getElementById('status-container');
-        statusContainer.innerHTML += `<p>${data.data}</p>`;
+    //     // Update the status container with the received message
+    //     var statusContainer = document.getElementById('status-container');
+    //     statusContainer.innerHTML += `<p>${data.data}</p>`;
 
-        // Optionally, scroll to the bottom to always show the latest status
-        statusContainer.scrollTop = statusContainer.scrollHeight;
-    });
+    //     // Optionally, scroll to the bottom to always show the latest status
+    //     statusContainer.scrollTop = statusContainer.scrollHeight;
+    // });
    
 
-    // Listen for 'status_update' messages from the server
-    socket.on('checking', function(data) {
-        console.log(data.data);  // Log the received message
+    // // Listen for 'status_update' messages from the server
+    // socket.on('checking', function(data) {
+    //     console.log(data.data);  // Log the received message
 
-        // Update the status container with the received message
-        var statusContainer = document.getElementById('status-container');
-        statusContainer.innerHTML += `<p>${data.data}</p>`;
+    //     // Update the status container with the received message
+    //     var statusContainer = document.getElementById('status-container');
+    //     statusContainer.innerHTML += `<p>${data.data}</p>`;
 
-        // Optionally, scroll to the bottom to always show the latest status
-        statusContainer.scrollTop = statusContainer.scrollHeight;
-    });
+    //     // Optionally, scroll to the bottom to always show the latest status
+    //     statusContainer.scrollTop = statusContainer.scrollHeight;
+    // });
 
-    // Listen for 'status_update' messages from the server
-    socket.on('booked', function(data) {
-        // Update the status container with the received message
-        var statusContainer = document.getElementById('status-container');
-        statusContainer.innerHTML += `<p>${data.data}</p>`;
+    // // Listen for 'status_update' messages from the server
+    // socket.on('booked', function(data) {
+    //     // Update the status container with the received message
+    //     var statusContainer = document.getElementById('status-container');
+    //     statusContainer.innerHTML += `<p>${data.data}</p>`;
 
-        // Optionally, scroll to the bottom to always show the latest status
-        statusContainer.scrollTop = statusContainer.scrollHeight;
-    });
+    //     // Optionally, scroll to the bottom to always show the latest status
+    //     statusContainer.scrollTop = statusContainer.scrollHeight;
+    // });
 
     
 
-    // Log any socket errors
-    socket.on('error', function(error) {
-        console.error('Socket error:', error);
-    });
+    // // Log any socket errors
+    // socket.on('error', function(error) {
+    //     console.error('Socket error:', error);
+    // });
 
     // Additional functions and logic for your application can go here
 </script>

@@ -72,9 +72,11 @@ socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_
 def index():
     return render_template('index.html')
 
-# @socketio.on('connect')
-# def handle_connect():
-#     print('Client connected')
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
+    socketio.emit('connect', {'data': 'Client connected'})
+
 
 
 # @socketio.on('disconnect')
@@ -86,6 +88,11 @@ def index():
 # def default_error_handler(e):
 #     app.logger.error('An error occurred:', e)
 #     print('An error occurred:', e)
+
+
+
+
+
 
 @app.route('/handle_form', methods=['POST'])
 def handle_form():
@@ -204,7 +211,15 @@ def handle_form():
             # Wait for navigation and check if the login was successful
             WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
 
-            socketio.emit('login_success', {'data': 'Successfully logged in'})
+
+
+
+            # socketio.emit('login_success', {'data': 'Successfully logged in'})
+
+
+
+
+
 
             print("Successfully logged in")
             return True  # Return True to indicate successful login
@@ -427,8 +442,19 @@ def handle_form():
                     loading_msg = None
                     # print("Grab a coffee and tea or watch a youtube video")
                     # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
-                    socketio.emit('checking', {'data': 'Checking for available evaluation slots,'})
                     
+                    
+                    
+
+
+                    
+                    # socketio.emit('checking', {'data': 'Checking for available evaluation slots,'})
+                    
+
+
+
+
+
 
                 else:
                     loading_msg = "Page loading failed. Please try again."
@@ -479,7 +505,18 @@ def handle_form():
                             time.sleep(8)
                             
                             print("Clicked 'OK' button.")
-                            socketio.emit('booked', {'data': 'Slot booked successfully'})
+                    
+                    
+                    
+                    
+                    
+                            # socketio.emit('booked', {'data': 'Slot booked successfully'})
+                    
+                    
+                    
+                    
+                    
+                    
                     except NoSuchElementException:
                         print("OK button not found.")
     
