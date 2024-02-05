@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Simple Website</title>
+    
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+    <link rel="stylesheet" href="../static/style.css">
+   
+    <!-- <link rel="stylesheet" href="{{ style_url }}"> -->
+    <!-- <link rel="stylesheet" href="/static/style.css"> -->
+    <!-- <link rel="stylesheet" href="{{ style_url }}"> -->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script>
+    
+    <!-- <script src="{{ url_for('static', filename='script.js') }}"></script> -->
+    <!-- <script src="static/script.js"></script> -->
+    <!-- <script src="https://www.hongpage.com/static/script.js"></script> -->
+    <!-- <script src="{{ url_for('static', filename='script.js') }}"></script> -->
+    <script src="../static/script.js"></script>
+    <!-- <link rel="icon" href="../static/favicon.ico" type="image/x-icon"> -->
+
+    
+
+</head>
+
+
+
+
+
+
+
+<body>
+
+    
+
+
+    <main>
+
+        <header>
+            <h2>Booking evaluation slots</h2>
+        </header>
+    
+        <section id="status"><br>
+            <br><h2>Status</h2>
+            <div id="status-container"></div>
+        </section><br>
+    
+    
+        <script>
+            // Example function to update the status
+            function updateStatus(message) {
+                // Get the status container element
+                var statusContainer = document.getElementById('status-container');
+                
+                // Create a new paragraph element
+                var newParagraph = document.createElement('p');
+                
+                // Set the text content of the paragraph to the provided message
+                newParagraph.textContent = message;
+                
+                // Append the new paragraph to the status container
+                statusContainer.appendChild(newParagraph);
+    
+                // Optionally, scroll to the bottom to always show the latest status
+                statusContainer.scrollTop = statusContainer.scrollHeight;
+            }
+    
+            // Connect to the Socket.IO server
+            // var socket = io.connect('https://localhost:5000');
+            // Example Socket.IO client code
+            // var socket = io.connect('https://www.hongpage.com', { transports: ['websocket'], withCredentials: true });
+    
+            // var socket = new WebSocket('wss://www.hongpage.com/socket.io/?EIO=4&transport=websocket');
+    
+            
+    
+            // // Log socket connection status
+            // socket.on('connect', function() {
+            //     console.log('Socket connected');
+            // });
+    
+            // socket.onopen = function(event) {
+            //     console.log('WebSocket connection opened:', event);
+            // };
+    
+            // socket.onmessage = function(event) {
+            //     console.log('WebSocket message received:', event.data);
+            // };
+    
+            // socket.onclose = function(event) {
+            //     console.log('WebSocket connection closed:', event);
+            // };
+    
+            // socket.onerror = function(error) {
+            //     console.error('WebSocket error:', error);
+            // };
+    
+            // // Emitting 'message' event
+            // socket.emit('message', 'Hello, server!');
+    
+            // // Listening for 'message' event
+            // socket.on('message', function(data) {
+            //     console.log('Server says:', data);
+            // });
+    
+    
+            // // Listen for 'status_update' messages from the server
+            // socket.on('login_success', function(data) {
+            //     console.log(data.data);  // Log the received message
+    
+            //     // Update the status container with the received message
+            //     var statusContainer = document.getElementById('status-container');
+            //     statusContainer.innerHTML += `<p>${data.data}</p>`;
+    
+            //     // Optionally, scroll to the bottom to always show the latest status
+            //     statusContainer.scrollTop = statusContainer.scrollHeight;
+            // });
+        
+    
+            // // Listen for 'status_update' messages from the server
+            // socket.on('checking', function(data) {
+            //     console.log(data.data);  // Log the received message
+    
+            //     // Update the status container with the received message
+            //     var statusContainer = document.getElementById('status-container');
+            //     statusContainer.innerHTML += `<p>${data.data}</p>`;
+    
+            //     // Optionally, scroll to the bottom to always show the latest status
+            //     statusContainer.scrollTop = statusContainer.scrollHeight;
+            // });
+    
+            // // Listen for 'status_update' messages from the server
+            // socket.on('booked', function(data) {
+            //     // Update the status container with the received message
+            //     var statusContainer = document.getElementById('status-container');
+            //     statusContainer.innerHTML += `<p>${data.data}</p>`;
+    
+            //     // Optionally, scroll to the bottom to always show the latest status
+            //     statusContainer.scrollTop = statusContainer.scrollHeight;
+            // });
+    
+            
+    
+            // // Log any socket errors
+            // socket.on('error', function(error) {
+            //     console.error('Socket error:', error);
+            // });
+    
+            // Additional functions and logic for your application can go here
+        </script>
+        
+        <section>
+            
+            <!-- <h2> Intra API login </h2> -->
+            
+            <!-- <h3></h3>  -->
+            
+            <!-- <form id="authForm" action="https://api.intra.42.fr/oauth/authorize" method="GET">
+                <input type="hidden" name="client_id" value="CLIENT_UID-OF-INTRA-APP">
+                <input type="hidden" name="redirect_uri" value="https://42test.ktano-studio.com/redirect">
+                <input type="hidden" name="response_type" value="code">
+                <input type="hidden" name="scope" value="public">
+                <input type="hidden" name="state" id="stateInput"> 
+                <button type="submit">Authorize</button>
+            </form>   -->
+            
+            
+            <h2>Input</h2>
+            <form action="{{ url_for('handle_form') }}" method="POST" onsubmit="return validateTime()">
+                <label for="user_id" class="label-with-space">Username:</label>
+                <input type="text" id="user_id" name="user_id" required><br>
+                
+                <label for="password" class="label-with-space">Password:</label>
+                <input type="password" id="password" name="password" required><br>
+
+
+                <label for="project_name" class="label-with-space">project:</label>
+                <select id="project_name" name="project_name" required>
+                    <option value="42cursus-libft">libft</option>
+                    <option value="42cursus-ft_printf">ft_printf</option>
+                    <option value="42cursus-get_next_line">get_next_line</option>
+                    <option value="born2beroot">born2beroot</option>
+                    <option value="so_long">so_long</option>
+                    <option value="42cursus-fdf">fdf</option>
+                    <option value="42cursus-fract-ol">fract-ol</option>
+                    <option value="42cursus-push_swap">push_swap</option>
+                    <option value="minitalk">minitalk</option>
+                    <option value="pipex">pipex</option>
+                    <option value="42cursus-philosophers">philosophers</option>
+                    <option value="42cursus-minishell">minishell</option>
+                    <option value="minirt">minirt</option>
+                    <option value="cub3d">cub3d</option>
+                    <option value="netpractice">netpractice</option>
+                    <option value="inception">inception</option>
+                    <option value="webserv">webserv</option>
+                    <option value="ft_irc">ft_irc</option>
+                    <option value="cpp-module-00">cpp00</option>
+                    <option value="cpp-module-01">cpp01</option>
+                    <option value="cpp-module-02">cpp02</option>
+                    <option value="cpp-module-03">cpp03</option>
+                    <option value="cpp-module-04">cpp04</option>
+                    <option value="cpp-module-05">cpp05</option>
+                    <option value="cpp-module-06">cpp06</option>
+                    <option value="cpp-module-07">cpp07</option>
+                    <option value="cpp-module-08">cpp08</option>
+                    <option value="cpp-module-09">cpp09</option>
+                    <option value="ft_transcendence">ft_transcendence</option>
+                </select><br>
+
+                <label for="evaluation_day" class="label-with-space">Evaluation Day:</label>
+                <select id="evaluation_day" name="evaluation_day" required>
+                    <option value="today">today</option>
+                    <option value="tomorrow">tomorrow</option>
+                    <option value="2days">2days</option>
+                    <option value="3days">3days</option>
+                </select><br>
+
+                <label for="start_time" class="label-with-space">Desired start time:</label>
+                <select id="start_time" name="start_time" required>
+                    {% for hour in range(0, 24) %}
+                        {% for minute in ['00', '15', '30', '45'] %}
+                            <option value="{{ '{:02d}'.format(hour) }}:{{ minute }}">{{ '{:02d}'.format(hour) }}:{{ minute }}</option>
+                        {% endfor %}
+                    {% endfor %}
+                </select><br>
+
+                <label for="end_time" class="label-with-space">Desired end time:</label>
+                <select id="end_time" name="end_time" required>
+                    {% for hour in range(0, 24) %}
+                        {% for minute in ['00', '15', '30', '45'] %}
+                            <option value="{{ '{:02d}'.format(hour) }}:{{ minute }}">{{ '{:02d}'.format(hour) }}:{{ minute }}</option>
+                        {% endfor %}
+                    {% endfor %}
+                </select><br>
+
+                <button type="submit">Submit</button>
+                
+            </form>
+
+
+        <section>
+            <h2>Homepage URL</h2>
+            <p>Visit our homepage at <a href="{{ url_for('index') }}">Homepage</a></p>
+        </section>
+
+        {% if login_msg %}
+            <div class="{% if logged_in %}success-message{% else %}error-message{% endif %}">
+                {{ login_msg }}
+            </div>
+        {% endif %}
+
+        <!-- Display loading message -->
+        {% if loading_msg %}
+            <div class="{% if len(slots) == 0 %}success-message{% else %}error-message{% endif %}">
+                {{ loading_msg }}
+            </div>
+        {% endif %}
+
+
+        
+        <!-- <script>
+            // Assuming you are using jQuery for simplicity
+            $.post('/handle_form', formData, function(response) {
+                if (response.redirect_url) {
+                    window.location.href = response.redirect_url;
+                }
+            });
+        </script> -->
+        
+
+        <!-- Displaying Python variable in HTML -->
+        
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Your Simple Website</p>
+    </footer>
+
+
+
+
+
+    <script>
+        function validateTime() {
+            var startTime = document.getElementById("start_time").value;
+            var endTime = document.getElementById("end_time").value;
+
+            if (startTime >= endTime) {
+                alert("Error: Desired end time must be later than Desired start time.");
+                return false; // Prevent form submission
+            }
+
+            return true; // Allow form submission
+        }
+    </script>
+    </section>
+
+
+
+
+
+</body>
+</html>
