@@ -419,7 +419,7 @@ def handle_form():
         try:
             attempts += 1
             print(f"{attempts} of {max_retries}")
-            #time.sleep(1)
+            time.sleep(1)
 
             try:         
                 available_slots_today = []                      
@@ -441,7 +441,7 @@ def handle_form():
                         except Exception as e:  # Consider catching specific exceptions
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
-                    time.sleep(15)
+                    time.sleep(8)
                 
                     # print("Grab a coffee and tea or watch a youtube video")
                     # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
@@ -481,7 +481,7 @@ def handle_form():
                         except Exception as e:  # Consider catching specific exceptions
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
-                    time.sleep(15)
+                    time.sleep(8)
                     continue
 
                 
@@ -494,7 +494,7 @@ def handle_form():
                     print("Clicked on an available slot.")
                     slot_clicked = True
                     
-                    #time.sleep(2)
+                    time.sleep(2)
                     # Find the "OK" button. Adjust the selector as per your page's structure
                     try:
                         nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
@@ -521,7 +521,7 @@ def handle_form():
 
             except NoSuchElementException:
                 print("Today's column is not found or not highlighted.")
-                time.sleep(15)
+                time.sleep(8)
                 driver.refresh()
                 if not specialcase == 0:
                     try:
@@ -535,7 +535,7 @@ def handle_form():
 
         except TimeoutException:
             print("Timeout occurred while looking for slots. Refreshing and retrying...")
-            time.sleep(15)
+            time.sleep(8)
             driver.refresh()
             if not specialcase == 0:
                 try:
@@ -553,7 +553,7 @@ def handle_form():
         print("Reached the maximum number of retries. Exiting.")
 
 
-    # time.sleep(8)
+    time.sleep(8)
     # Close the WebDriver
     #8.Close the WebDriver:
     #This line closes the browser and ends the WebDriver's session. 
