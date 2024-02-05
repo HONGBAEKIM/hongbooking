@@ -72,20 +72,20 @@ socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_
 def index():
     return render_template('index.html')
 
-@socketio.on('connect')
-def handle_connect():
-    print('Client connected')
-    emit('message', {'data': 'Connected to WebSocket'})
+# @socketio.on('connect')
+# def handle_connect():
+#     print('Client connected')
 
-@socketio.on('disconnect')
-def handle_disconnect():
-    app.logger.info('Client disconnected')
-    print('Client disconnected')
 
-@socketio.on_error_default
-def default_error_handler(e):
-    app.logger.error('An error occurred:', e)
-    print('An error occurred:', e)
+# @socketio.on('disconnect')
+# def handle_disconnect():
+#     app.logger.info('Client disconnected')
+#     print('Client disconnected')
+
+# @socketio.on_error_default
+# def default_error_handler(e):
+#     app.logger.error('An error occurred:', e)
+#     print('An error occurred:', e)
 
 @app.route('/handle_form', methods=['POST'])
 def handle_form():
