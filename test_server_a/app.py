@@ -441,7 +441,7 @@ def handle_form():
                         except Exception as e:  # Consider catching specific exceptions
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
-                    # time.sleep(5)
+                    time.sleep(15)
                 
                     # print("Grab a coffee and tea or watch a youtube video")
                     # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
@@ -481,7 +481,7 @@ def handle_form():
                         except Exception as e:  # Consider catching specific exceptions
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
-                    # time.sleep(15)
+                    time.sleep(15)
                     continue
 
                 
@@ -521,7 +521,7 @@ def handle_form():
 
             except NoSuchElementException:
                 print("Today's column is not found or not highlighted.")
-                # time.sleep(15)
+                time.sleep(15)
                 driver.refresh()
                 if not specialcase == 0:
                     try:
@@ -535,7 +535,7 @@ def handle_form():
 
         except TimeoutException:
             print("Timeout occurred while looking for slots. Refreshing and retrying...")
-            # time.sleep(15)
+            time.sleep(15)
             driver.refresh()
             if not specialcase == 0:
                 try:
