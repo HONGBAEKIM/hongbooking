@@ -212,7 +212,7 @@ def handle_form():
             password_field.send_keys(Keys.ENTER)
             
             # Wait for navigation and check if the login was successful
-            WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
+            WebDriverWait(driver, 10).until(EC.url_to_be("https://profile.intra.42.fr/"))
 
 
 
