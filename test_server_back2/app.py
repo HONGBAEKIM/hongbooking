@@ -414,6 +414,7 @@ def handle_form():
     max_retries = 1000
     attempts = 0
 
+
     while not slot_clicked and attempts < max_retries:
         try:
             attempts += 1
@@ -431,7 +432,6 @@ def handle_form():
                 slots = driver.find_elements(By.XPATH, xpath)
 
                 if (len(slots) == 0):
-                    loading_msg = "Page loaded successfully! Ready to book the evaluation slot."
                     driver.refresh()
                     if not specialcase == 0:
                         try:
@@ -441,8 +441,8 @@ def handle_form():
                         except Exception as e:  # Consider catching specific exceptions
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
-                    time.sleep(8)
-                    loading_msg = None
+                    time.sleep(15)
+                
                     # print("Grab a coffee and tea or watch a youtube video")
                     # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
                     
@@ -455,12 +455,9 @@ def handle_form():
                     
 
 
-
-
-
-
                 else:
-                    loading_msg = "Page loading failed. Please try again."
+                    print("Page loading failed. Please try again.")
+
 
                 
                 for slot in slots:
@@ -484,7 +481,7 @@ def handle_form():
                         except Exception as e:  # Consider catching specific exceptions
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
-                    time.sleep(8)
+                    time.sleep(15)
                     continue
 
                 
@@ -497,7 +494,7 @@ def handle_form():
                     print("Clicked on an available slot.")
                     slot_clicked = True
                     
-                    time.sleep(1)
+                    time.sleep(2)
                     # Find the "OK" button. Adjust the selector as per your page's structure
                     try:
                         nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
@@ -527,7 +524,7 @@ def handle_form():
 
             except NoSuchElementException:
                 print("Today's column is not found or not highlighted.")
-                time.sleep(8)
+                time.sleep(15)
                 driver.refresh()
                 if not specialcase == 0:
                     try:
@@ -541,7 +538,7 @@ def handle_form():
 
         except TimeoutException:
             print("Timeout occurred while looking for slots. Refreshing and retrying...")
-            time.sleep(8)
+            time.sleep(15)
             driver.refresh()
             if not specialcase == 0:
                 try:
