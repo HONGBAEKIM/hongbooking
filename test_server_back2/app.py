@@ -419,7 +419,7 @@ def handle_form():
         try:
             attempts += 1
             print(f"{attempts} of {max_retries}")
-            time.sleep(1)
+            #time.sleep(1)
 
             try:         
                 available_slots_today = []                      
@@ -435,13 +435,13 @@ def handle_form():
                     driver.refresh()
                     if not specialcase == 0:
                         try:
-                            wait = WebDriverWait(driver, 2)
+                            wait = WebDriverWait(driver, 15)
                             next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                             next_page_button.click()
                         except Exception as e:  # Consider catching specific exceptions
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
-                    time.sleep(15)
+                    # time.sleep(5)
                 
                     # print("Grab a coffee and tea or watch a youtube video")
                     # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
@@ -475,37 +475,34 @@ def handle_form():
                     driver.refresh()
                     if not specialcase == 0:
                         try:
-                            wait = WebDriverWait(driver, 2)
+                            wait = WebDriverWait(driver, 15)
                             next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                             next_page_button.click()
                         except Exception as e:  # Consider catching specific exceptions
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
-                    time.sleep(15)
+                    # time.sleep(15)
                     continue
 
                 
                 
                 for slot in available_slots_today:
                     print("40")
-                    WebDriverWait(driver, 1).until(EC.element_to_be_clickable(slot))
+                    WebDriverWait(driver, 10).until(EC.element_to_be_clickable(slot))
                     print("41")
                     slot.click()
                     print("Clicked on an available slot.")
                     slot_clicked = True
                     
-                    time.sleep(2)
+                    #time.sleep(2)
                     # Find the "OK" button. Adjust the selector as per your page's structure
                     try:
                         nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
                         if nextok.text == "OK":
                             
-                            
+                            WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
                             #nextok.click()
-                            time.sleep(8)
-                            
                             print("Clicked 'OK' button.")
-                    
                     
                     
                     
@@ -524,25 +521,25 @@ def handle_form():
 
             except NoSuchElementException:
                 print("Today's column is not found or not highlighted.")
-                time.sleep(15)
+                # time.sleep(15)
                 driver.refresh()
                 if not specialcase == 0:
                     try:
-                        wait = WebDriverWait(driver, 1)
+                        wait = WebDriverWait(driver, 10)
                         next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                         next_page_button.click()
                     except Exception as e:  # Consider catching specific exceptions
                         print("Exception occurred: ", str(e))
                         # Additional error handling code here 
-                time.sleep(1)
+                # time.sleep(1)
 
         except TimeoutException:
             print("Timeout occurred while looking for slots. Refreshing and retrying...")
-            time.sleep(15)
+            # time.sleep(15)
             driver.refresh()
             if not specialcase == 0:
                 try:
-                    wait = WebDriverWait(driver, 1)
+                    wait = WebDriverWait(driver, 10)
                     next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                     next_page_button.click()
                 except Exception as e:  # Consider catching specific exceptions
@@ -556,7 +553,7 @@ def handle_form():
         print("Reached the maximum number of retries. Exiting.")
 
 
-    time.sleep(8)
+    # time.sleep(8)
     # Close the WebDriver
     #8.Close the WebDriver:
     #This line closes the browser and ends the WebDriver's session. 
