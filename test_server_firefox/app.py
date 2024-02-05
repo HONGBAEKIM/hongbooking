@@ -67,11 +67,9 @@ socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_
 
 
 #csrf = CSRFProtect(app)
-
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @socketio.on('connect')
 def handle_connect():
@@ -87,7 +85,6 @@ def handle_start_process(data):
     print('Starting process:', data['message'])
     for i in range(1, 11):
         socketio.emit('progress', {'data': f'Progress: {i * 10}%'})
-        socketio.emit('status', {'data': f'Status: Step {i}'})
         socketio.sleep(1)
 
     socketio.emit('process_complete', {'data': 'Process completed'})
@@ -96,11 +93,13 @@ def handle_start_process(data):
 
 
 
-
 @app.route('/handle_form', methods=['POST'])
 def handle_form():
-    app.logger.info('Client connected')
-    print('Client connected')
+    
+    
+    handle_connect()
+    # app.logger.info('Client connected')
+    # print('Client connected')
     # display = Display(visible=0, size=(800, 600))
     # display.start()
     user_id_from_app = request.form.get('user_id')
@@ -445,7 +444,7 @@ def handle_form():
                 
                     # print("Grab a coffee and tea or watch a youtube video")
                     # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
-                    
+                    handle_start_process("8888888888888888888888888888888888888888888888888888888888")
                     
                     
 
@@ -570,6 +569,9 @@ def handle_form():
     # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg)
     return render_template('index.html')
 
+
+
+handle_disconnect()
 
 
 if __name__ == '__main__':  
