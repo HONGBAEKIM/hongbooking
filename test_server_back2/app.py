@@ -435,7 +435,7 @@ def handle_form():
                     driver.refresh()
                     if not specialcase == 0:
                         try:
-                            wait = WebDriverWait(driver, 15)
+                            wait = WebDriverWait(driver, 1)
                             next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                             next_page_button.click()
                         except Exception as e:  # Consider catching specific exceptions
@@ -475,7 +475,7 @@ def handle_form():
                     driver.refresh()
                     if not specialcase == 0:
                         try:
-                            wait = WebDriverWait(driver, 15)
+                            wait = WebDriverWait(driver, 1)
                             next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                             next_page_button.click()
                         except Exception as e:  # Consider catching specific exceptions
@@ -488,7 +488,7 @@ def handle_form():
                 
                 for slot in available_slots_today:
                     print("40")
-                    WebDriverWait(driver, 10).until(EC.element_to_be_clickable(slot))
+                    WebDriverWait(driver, 5).until(EC.element_to_be_clickable(slot))
                     print("41")
                     slot.click()
                     print("Clicked on an available slot.")
@@ -500,7 +500,7 @@ def handle_form():
                         nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
                         if nextok.text == "OK":
                             
-                            WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
+                            WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
                             #nextok.click()
                             print("Clicked 'OK' button.")
                     
@@ -525,7 +525,7 @@ def handle_form():
                 driver.refresh()
                 if not specialcase == 0:
                     try:
-                        wait = WebDriverWait(driver, 10)
+                        wait = WebDriverWait(driver, 1)
                         next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                         next_page_button.click()
                     except Exception as e:  # Consider catching specific exceptions
@@ -539,7 +539,7 @@ def handle_form():
             driver.refresh()
             if not specialcase == 0:
                 try:
-                    wait = WebDriverWait(driver, 10)
+                    wait = WebDriverWait(driver, 1)
                     next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                     next_page_button.click()
                 except Exception as e:  # Consider catching specific exceptions
