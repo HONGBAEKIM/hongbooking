@@ -37,17 +37,13 @@ from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
 
-# Define the default GeckoDriver path
-geckodriver_path = "/usr/local/bin/geckodriver"
+chrome_binary_path = '/usr/bin/google-chrome'  # Adjust this path accordingly
+chrome_options = webdriver.ChromeOptions()
+chrome_options.binary_location = chrome_binary_path
 
-# Specify the default path to the Firefox binary
-firefox_binary_location = '/usr/bin/firefox'
 
-# Move the definition of firefox_options outside of the function
-firefox_options = FirefoxOptions()
 
 app = Flask(__name__)
-
 
 
 # Set logging level to DEBUG for more detailed logs
@@ -127,7 +123,8 @@ def handle_form():
 
     #connected to my webpage
 
-
+    
+    # driver = webdriver.Chrome()  # Add options=chrome_options if needed
 
     # Set the environment variable
     # os.environ["APP_PASSWORD"] = password_from_app
@@ -141,7 +138,7 @@ def handle_form():
     #chrome_options.binary_location = chrome_binary_path
     #This option runs Chrome in headless mode, 
     #it will not display a UI or open a browser window.
-    firefox_options.add_argument('--headless')
+    # firefox_options.add_argument('--headless')
     
     
     # localhost_number = random.randint(65536, 79999)
@@ -153,16 +150,18 @@ def handle_form():
     
     
 
-    # Set the path to the Firefox binary
-    firefox_options.binary_location = firefox_binary_location
+    # # Set the path to the Firefox binary
+    # firefox_options.binary_location = firefox_binary_location
     
-    # Specify the path to the GeckoDriver executable using the executable_path property
-    firefox_options.executable_path = geckodriver_path
-
+    # # Specify the path to the GeckoDriver executable using the executable_path property
+    # firefox_options.executable_path = geckodriver_path
+    chrome_options.add_argument("--headless")
+    
     # Instantiate Firefox WebDriver using FirefoxOptions
     try:
         # Instantiate Firefox WebDriver using FirefoxOptions
-        driver = webdriver.Firefox(options=firefox_options)
+        # driver = webdriver.Firefox(options=firefox_options)
+        driver = webdriver.Chrome() 
         login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
         
         # Open the login URL
