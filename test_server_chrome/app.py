@@ -5,7 +5,7 @@ import pkg_resources #to check for installed package
 import getpass
 
 import subprocess
-from selenium import webdriver
+# from selenium import webdriver
 
 # from selenium.webdriver.chrome.options import Options
 # from selenium.webdriver import Firefox
@@ -32,7 +32,7 @@ import sys
 #from flask import jsonify
 
 import logging
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, abort
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
@@ -246,15 +246,18 @@ def handle_form():
         # print("password is", password)
 
         logged_in = attempt_login(driver, username, password)
-        login_msg = None
+        # login_msg = None
         if logged_in:
+            print("Login successful")
             # flash('Login successful', 'success')
-            login_msg = "Login successful! you are now logged in yooooo!!"
+            # login_msg = "Login successful! you are now logged in yooooo!!"
         else:
-            login_msg = "Login failed! Please try again nooooo!!!"
+            # login_msg = "Login failed! Please try again nooooo!!!"
             # flash('Login error', 'Loginerror')
-            # print("Login failed. Please try again.")
-
+            print("Login failed. Please try again.")
+            # return redirect(url_for('error_id_password'))
+    if not logged_in:
+        return redirect(url_for('error_id_password'),300)
 
     # Dynamically build the URL
     base_url = "https://projects.intra.42.fr/projects"
@@ -444,7 +447,7 @@ def handle_form():
                             print("Exception occurred: ", str(e))
                             # Additional error handling code here 
                     time.sleep(5)
-                
+
                     # print("Grab a coffee and tea or watch a youtube video")
                     # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
                     
@@ -505,8 +508,9 @@ def handle_form():
                             WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
                             #nextok.click()
                             print("Clicked 'OK' button.")
-                    
-                    
+                            
+                            return redirect(url_for('boooooooked'))
+                            
                     
                     
                             # socketio.emit('booked', {'data': 'Slot booked successfully'})
@@ -561,7 +565,10 @@ def handle_form():
     #This line closes the browser and ends the WebDriver's session. 
     # It's important to include this to free up resources and not leave the browser running in the background.
     # display.stop()
-    driver.quit()
+
+    
+        
+        
 
     # response = jsonify({'redirect_url': 'https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c'})
     # response.headers['Content-Type'] = 'application/json'
@@ -571,6 +578,16 @@ def handle_form():
     # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg, booking_msg=booking_msg)
     # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg)
     return render_template('index.html')
+
+    #driver.quit()
+
+@app.route('/failed_id_password')
+def error_id_password():
+    abort(400)
+
+@app.route('/main')
+def boooooooked():
+    return 'boooooooked'
 
 
 
