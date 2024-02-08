@@ -6,8 +6,11 @@
     <title>Your Simple Website</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script>
     
-    <link rel="stylesheet" href="../style.css">
-    <script src="../script.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <!-- <link rel="stylesheet" href="../style.css">
+    <script src="../script.js"></script> -->
     <!-- <link rel="icon" href="./static/favicon.ico" type="image/x-icon"> -->
 
 
