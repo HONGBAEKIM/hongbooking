@@ -67,9 +67,9 @@ socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_
 
 #csrf = CSRFProtect(app)
 
-# @app.route('/')
-# def index():
-#     return render_template('index.html')
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/static/<path:path>')
 def serve_static(path):
