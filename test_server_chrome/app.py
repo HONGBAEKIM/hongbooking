@@ -56,7 +56,7 @@ def index():
 
 @app.route('/static/<path:path>')
 def serve_static(path):
-    return send_from_directory('static', path)
+  return send_from_directory('static', path)
 
 @app.route('/static/css/style.css')
 def serve_css():
