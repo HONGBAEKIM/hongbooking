@@ -61,16 +61,15 @@ def serve_static(path):
   print(path)
   return send_from_directory('static', path) 
 
-@app.route('/static/css/style.css')
-def serve_css():
-   print("Serving CSS")
-   return send_from_directory('static', 'css/style.css')
+@app.route('/static/css/<path:filename>')
+def serve_css(filename):
+    logging.info(f"Serving CSS file: {filename}")
+    return send_from_directory('static/css', filename)
 
-@app.route('/static/js/script.js')
-def serve_js():
-  print("Serving JS")
-  return send_from_directory('static', 'js/script.js')  
-
+@app.route('/static/js/<path:filename>')
+def serve_js(filename):
+    logging.info(f"Serving JavaScript file: {filename}")
+    return send_from_directory('static/js', filename)
 
 @app.route('/handle_form', methods=['POST'])
 def handle_form():
