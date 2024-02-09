@@ -39,7 +39,7 @@ from flask_socketio import SocketIO, emit
 
 chrome_binary_path = '/usr/bin/google-chrome'  # Adjust this path accordingly
 chrome_options = webdriver.ChromeOptions()
-chrome_options.binary_location = chrome_binary_path
+# chrome_options.binary_location = chrome_binary_path
 
 
 
@@ -94,10 +94,11 @@ def handle_form():
     print(f'End Time: {end_time_from_app}')
     return "form handled"
 
+#driver.quit()
 
 if __name__ == '__main__':  
     #app.run(host='0.0.0.0', port=5000, debug=True)
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=False)
     
 
 # Set a secret key for your Flask app
