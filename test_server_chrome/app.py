@@ -32,7 +32,7 @@ import sys
 #from flask import jsonify
 
 import logging
-from flask import Flask, render_template, request, url_for, redirect, abort
+from flask import Flask, render_template, request, url_for, redirect, abort, send_from_directory
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
@@ -67,29 +67,34 @@ socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_
 
 #csrf = CSRFProtect(app)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
+
+@app.route('/static/<path:path>')
+def serve_static(path):
+    return send_from_directory('static', path)
 
 
-@socketio.on('connect')
-def handle_connect():
-    print('Client connected')
-    socketio.emit('message', {'data': 'Connected'})
 
-@socketio.on('disconnect')
-def handle_disconnect():
-    print('Client disconnected')
+# @socketio.on('connect')
+# def handle_connect():
+#     print('Client connected')
+#     socketio.emit('message', {'data': 'Connected'})
 
-@socketio.on('start_process')
-def handle_start_process(data):
-    print('Starting process:', data['message'])
-    for i in range(1, 11):
-        socketio.emit('progress', {'data': f'Progress: {i * 10}%'})
-        socketio.emit('status', {'data': f'Status: Step {i}'})
-        socketio.sleep(1)
+# @socketio.on('disconnect')
+# def handle_disconnect():
+#     print('Client disconnected')
 
-    socketio.emit('process_complete', {'data': 'Process completed'})
+# @socketio.on('start_process')
+# def handle_start_process(data):
+#     print('Starting process:', data['message'])
+#     for i in range(1, 11):
+#         socketio.emit('progress', {'data': f'Progress: {i * 10}%'})
+#         socketio.emit('status', {'data': f'Status: Step {i}'})
+#         socketio.sleep(1)
+
+#     socketio.emit('process_complete', {'data': 'Process completed'})
 
 
 
