@@ -54,6 +54,10 @@ def index():
 #     print(path)
 #     return send_from_directory('/home/ubuntu/2booking/test_server_chrome/static', path)
 
+@app.route('/static/<path:path>')
+def serve_static(path):
+    return send_from_directory('static', path)
+
 @app.route('/static/css/style.css')
 def serve_css():
   return "TEST"
@@ -100,6 +104,12 @@ def handle_form():
     print(f'Start Time: {start_time_from_app}')
     print(f'End Time: {end_time_from_app}')
     return "form handled"
+
+
+if __name__ == '__main__':  
+    #app.run(host='0.0.0.0', port=5000, debug=True)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+    
 
 # Set a secret key for your Flask app
 #app.config['SECRET_KEY'] = 'your_secure_key_here'  # Replace 'your_secure_key_here' with a secure key
@@ -628,9 +638,6 @@ def handle_form():
 
 
 
-if __name__ == '__main__':  
-    #app.run(host='0.0.0.0', port=5000, debug=True)
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
 
 
 
