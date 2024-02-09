@@ -80,8 +80,8 @@ socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_
 
 @app.route('/handle_form', methods=['POST'])
 def handle_form():
-    app.logger.info('Client connected')
-    print('Client connected')
+    # app.logger.info('Client connected')
+    # print('Client connected')
     # display = Display(visible=0, size=(800, 600))
     # display.start()
     user_id_from_app = request.form.get('user_id')
@@ -99,7 +99,7 @@ def handle_form():
     print(f'Evaluation Day: {evaluation_day_from_app}')
     print(f'Start Time: {start_time_from_app}')
     print(f'End Time: {end_time_from_app}')
-    return render_template('index.html')
+    return "form handled"
 
 # Set a secret key for your Flask app
 #app.config['SECRET_KEY'] = 'your_secure_key_here'  # Replace 'your_secure_key_here' with a secure key
