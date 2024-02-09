@@ -45,22 +45,25 @@ chrome_options.binary_location = chrome_binary_path
 
 app = Flask(__name__)
 
+# Set logging level to DEBUG for more detailed logs
+logging.basicConfig(level=logging.DEBUG)
+
+CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
+
+socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# @app.route('/static/<path:path>')
-# def serve_static(path):
-#     print(path)
-#     return send_from_directory('/home/ubuntu/2booking/test_server_chrome/static', path)
-
 @app.route('/static/<path:path>')
 def serve_static(path):
-  return send_from_directory('static', path)
+  print(path)
+  return send_from_directory('static', path) 
 
 @app.route('/static/css/style.css')
 def serve_css():
-  return "TEST"
+  return send_from_directory('static', 'css/style.css')
 
 # @app.route('/static/css/style.css')
 # def serve_css():
@@ -74,18 +77,10 @@ def serve_js():
   return send_from_directory('/home/ubuntu/2booking/test_server_chrome/static', 'js/script.js')  
 
 
-# Set logging level to DEBUG for more detailed logs
-logging.basicConfig(level=logging.DEBUG)
-
-CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
-
-socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
-
-
 @app.route('/handle_form', methods=['POST'])
 def handle_form():
-    # app.logger.info('Client connected')
-    # print('Client connected')
+    app.logger.info('Client connected')
+    print('Client connected')
     # display = Display(visible=0, size=(800, 600))
     # display.start()
     user_id_from_app = request.form.get('user_id')
