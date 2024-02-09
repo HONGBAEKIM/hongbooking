@@ -73,9 +73,16 @@ def index():
 
 @app.route('/static/<path:path>')
 def serve_static(path):
+    print(path)
     return send_from_directory('static', path)
 
+@app.route('/static/css/style.css')
+def serve_css():
+  return send_from_directory('static', 'css/style.css')
 
+@app.route('/static/js/script.js')  
+def serve_js():
+  return send_from_directory('static', 'js/script.js')
 
 # @socketio.on('connect')
 # def handle_connect():
