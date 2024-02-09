@@ -31,10 +31,10 @@ import sys
 
 #from flask import jsonify
 
-import logging
+# import logging
 from flask import Flask, render_template, request, url_for, redirect, abort, send_from_directory
-from flask_cors import CORS
-from flask_socketio import SocketIO, emit
+# from flask_cors import CORS
+# from flask_socketio import SocketIO, emit
 
 
 chrome_binary_path = '/usr/bin/google-chrome'  # Adjust this path accordingly
@@ -46,12 +46,12 @@ chrome_options.binary_location = chrome_binary_path
 app = Flask(__name__)
 
 
-# Set logging level to DEBUG for more detailed logs
-logging.basicConfig(level=logging.DEBUG)
+# # Set logging level to DEBUG for more detailed logs
+# logging.basicConfig(level=logging.DEBUG)
 
-CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
+# CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
 
-socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
+# socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
 
 
 
@@ -109,9 +109,6 @@ def serve_js():
 #         socketio.sleep(1)
 
 #     socketio.emit('process_complete', {'data': 'Process completed'})
-
-
-
 
 
 
@@ -275,8 +272,8 @@ def handle_form():
             # flash('Login error', 'Loginerror')
             print("Login failed. Please try again.")
             # return redirect(url_for('error_id_password'))
-    if not logged_in:
-        return redirect(url_for('error_id_password'),300)
+    # if not logged_in:
+    #     return redirect(url_for('error_id_password'),300)
 
     # Dynamically build the URL
     base_url = "https://projects.intra.42.fr/projects"
@@ -528,7 +525,7 @@ def handle_form():
                             #nextok.click()
                             print("Clicked 'OK' button.")
                             
-                            return redirect(url_for('boooooooked'))
+                            # return redirect(url_for('boooooooked'))
                             
                     
                     
@@ -600,19 +597,19 @@ def handle_form():
 
     #driver.quit()
 
-@app.route('/failed_id_password')
-def error_id_password():
-    abort(400)
+# @app.route('/failed_id_password')
+# def error_id_password():
+#     abort(400)
 
-@app.route('/main')
-def boooooooked():
-    return 'boooooooked'
+# @app.route('/main')
+# def boooooooked():
+#     return 'boooooooked'
 
 
 
 if __name__ == '__main__':  
-    # app.run(host='0.0.0.0', port=5000)
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
+    # socketio.run(app, host='0.0.0.0', port=5000, debug=True)
 
 
 
