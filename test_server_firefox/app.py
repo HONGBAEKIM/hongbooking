@@ -213,7 +213,7 @@ def handle_form():
             # Wait for navigation and check if the login was successful
             WebDriverWait(driver, 10).until(EC.url_to_be("https://profile.intra.42.fr/"))
 
-            socketio.emit('login_success', {'data': 'Successfully logged in'})
+            # socketio.emit('login_success', {'data': 'Successfully logged in'})
 
             
             
