@@ -119,10 +119,10 @@
                     })
                     .then(response => response.text())
                     .then(data => {
-                        document.getElementById('result').innerText = data;
+                        document.getElementById('result').innerText = data.message;
                         // Display the success message if applicable
-                        if (data.includes('success')) {
-                            document.getElementById('successMessage').innerText = "Login successful!";
+                        if (data.success) {
+                            document.getElementById('successMessage').innerText = data.message;;
                         }
                     })
                     .catch(error => {
