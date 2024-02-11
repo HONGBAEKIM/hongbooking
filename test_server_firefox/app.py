@@ -29,7 +29,7 @@ import sys
 #from flask import jsonify
 
 import logging
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, jsonify
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
@@ -217,10 +217,13 @@ def handle_form():
         # login_msg = None
         if logged_in:
             print("Successfully logged in")
-            socketio.emit('login_success', {'data': 'Successfully logged in'})
+            response = jsonify({'success': True, 'message': 'Login successful!'})
+            # socketio.emit('login_success', {'data': 'Successfully logged in'})
         else:
             print("Login failed. Please try again.")
-   
+            response = jsonify({'success': False, 'message': 'Login failed. Please try again.'})
+
+
 
     # Dynamically build the URL
     base_url = "https://projects.intra.42.fr/projects"
@@ -536,8 +539,8 @@ def handle_form():
     # return render_template('index', )
     # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg, booking_msg=booking_msg)
     # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg)
-    return render_template('index.html')
-
+    #return render_template('index.html')
+    return response
 
 
 

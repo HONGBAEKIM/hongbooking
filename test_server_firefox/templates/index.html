@@ -106,6 +106,7 @@
             </form>
         
             <div id="result"></div>
+            <div id="successMessage"></div>
 
             <script>
                 document.getElementById('myForm').addEventListener('submit', function(event) {
@@ -119,34 +120,16 @@
                     .then(response => response.text())
                     .then(data => {
                         document.getElementById('result').innerText = data;
+                        // Display the success message if applicable
+                        if (data.includes('success')) {
+                            document.getElementById('successMessage').innerText = "Login successful!";
+                        }
                     })
                     .catch(error => {
                         console.error('Error:', error);
                     });
                 });
             </script>
-
-            <script>
-                // Listen for the 'login_success' event
-                socket.on('login_success', function(data) {
-                    // Display the success message on the webpage
-                    document.getElementById('successMessage').innerText = data.message;
-                });
-            </script>
-
-            <!-- Element to display the success message -->
-            <div id="successMessage"></div><script>
-                // Listen for the 'login_success' event
-                socket.on('login_success', function(data) {
-                    // Display the success message on the webpage
-                    document.getElementById('successMessage').innerText = data.message;
-                });
-            </script>
-
-            <!-- Element to display the success message -->
-            <div id="successMessage"></div>
-
-
         </section>
 
         <!-- <section>
