@@ -58,36 +58,12 @@ socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_
 
 
 
-# Set a secret key for your Flask app
-#app.config['SECRET_KEY'] = 'your_secure_key_here'  # Replace 'your_secure_key_here' with a secure key
 
-
-#from flask_wtf.csrf import CSRFProtect, CSRFError
-
-
-
-#csrf = CSRFProtect(app)
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# @socketio.on('connect')
-# def handle_connect():
-#     print('Client connected')
-#     socketio.emit('message', {'data': 'Connected'})
 
-# @socketio.on('disconnect')
-# def handle_disconnect():
-#     print('Client disconnected')
-
-# @socketio.on('start_process')
-# def handle_start_process(data):
-#     print('Starting process:', data['message'])
-#     for i in range(1, 11):
-#         socketio.emit('progress', {'data': f'Progress: {i * 10}%'})
-#         socketio.sleep(1)
-
-#     socketio.emit('process_complete', {'data': 'Process completed'})
 
 
 
@@ -241,7 +217,7 @@ def handle_form():
         # login_msg = None
         if logged_in:
             print("Successfully logged in")
-            # socketio.emit('login_success', {'data': 'Successfully logged in'})
+            socketio.emit('login_success', {'data': 'Successfully logged in'})
         else:
             print("Login failed. Please try again.")
    

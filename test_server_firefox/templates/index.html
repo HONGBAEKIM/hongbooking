@@ -126,6 +126,26 @@
                 });
             </script>
 
+            <script>
+                // Listen for the 'login_success' event
+                socket.on('login_success', function(data) {
+                    // Display the success message on the webpage
+                    document.getElementById('successMessage').innerText = data.message;
+                });
+            </script>
+
+            <!-- Element to display the success message -->
+            <div id="successMessage"></div><script>
+                // Listen for the 'login_success' event
+                socket.on('login_success', function(data) {
+                    // Display the success message on the webpage
+                    document.getElementById('successMessage').innerText = data.message;
+                });
+            </script>
+
+            <!-- Element to display the success message -->
+            <div id="successMessage"></div>
+
 
         </section>
 
