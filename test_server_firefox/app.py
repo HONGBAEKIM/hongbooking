@@ -105,16 +105,13 @@ def attempt_login(driver, username, password):
         password_field.send_keys(password)
 
         password_field.send_keys(Keys.ENTER)
-        
+    
         # Wait for navigation and check if the login was successful
         WebDriverWait(driver, 5).until(EC.url_to_be("https://profile.intra.42.fr/"))
-
         return True  # Return True to indicate successful login
 
     except Exception as e:
         print("An error occurred:", e)
-         
-        
         return False  # Return False to indicate login failure
     
 
@@ -152,7 +149,7 @@ def handle_form():
 
     except Exception as e:
         print(f"Error initializing WebDriver: {e}")
-        return "Error initializing WebDriver"
+        return jsonify({"error": "Error initializing WebDriver"})
 
     # Continue with the rest of your script after a successful login
     logged_in = False
@@ -464,16 +461,12 @@ def handle_form():
         print("Reached the maximum number of retries. Exiting.")
 
     time.sleep(3)
-    
-    
-
-    
-
     driver.quit()
-    return jsonify({
-        'login_response': login_response,
-        'slot_booking_response': slot_booking_response
-    })
+    return slot_booking_response
+    # return jsonify({
+    #     'login_response': login_response,
+    #     'slot_booking_response': slot_booking_response
+    # })
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)

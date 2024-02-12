@@ -105,69 +105,108 @@
                 <p>Loading...</p>
             </div>
 
+
+
             <script>
-                
-               
-                // Function to show the loading message
-                function showLoadingMessage() {
-                    $('#loading-message').show();
-                }
+            
+            
+            document.getElementById('bookingForm').addEventListener('submit', function(event) {
+                event.preventDefault();
 
-                // Function to hide the loading message
-                function hideLoadingMessage() {
-                    $('#loading-message').hide();
-                }
-        
-                // Event listener for form submission
-                $('#myForm').submit(function(event) {
-                    // Prevent default form submission
-                    event.preventDefault();
+                var formData = new FormData(this);
 
-                    // Show loading message
-                    showLoadingMessage();
+                // Show loading message
+                document.getElementById('loadingMessage').style.display = 'block';
 
-                    // Serialize the form data
-                    var formData = $(this).serialize();
-        
-                    // Your AJAX request code here
-                    $.ajax({
-                        url: '/hongbooking',
-                        type: 'POST',
-                        data: formData,
-                        processData: false,  // Prevent jQuery from processing the data
-                        contentType: false,  // Prevent jQuery from setting contentType
-                        success: function(response) {
-                            
-                            
-                            hideLoadingMessage();
-                            // Handle response here
-                            if (response.success) {
-                                // Update the status message with the success message for each step
-                                if (response.step === 'login') {
-                                    $('#status-messages').append(`<p>Login: ${response.message}</p>`);
-                                } else if (response.step === 'processing') {
-                                    $('#status-messages').append(`<p>Processing: ${response.message}</p>`);
-                                } else if (response.step === 'slot_booking') {
-                                    $('#status-messages').append(`<p>Slot Booking: ${response.message}</p>`);
-                                }
-                                
-                            } 
-                            else {
-                                // Update the status message with the error message
-                                $('#status-messages').append(`<p>${response.step}: ${response.message}</p>`);
-                                
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            // Handle the error if the AJAX request fails
-                            console.error(error);
-                            // Optionally provide feedback to the user about the error
-                            $('#status-messages').append(`<p>Error: ${error}</p>`);
-                            // Hide loading message in case of error
-                            hideLoadingMessage();
-                        }
-                    });
+                // Send AJAX request
+                fetch('/hongbooking', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading message
+                    document.getElementById('loadingMessage').style.display = 'none';
+
+                    // Display result message
+                    var resultMessage = document.getElementById('resultMessage');
+                    resultMessage.textContent = data.message;
+                    resultMessage.style.color = data.success ? 'green' : 'red';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+
+                    // Hide loading message
+                    document.getElementById('loadingMessage').style.display = 'none';
+
+                    // Display error message
+                    var resultMessage = document.getElementById('resultMessage');
+                    resultMessage.textContent = 'An error occurred. Please try again later.';
+                    resultMessage.style.color = 'red';
                 });
+            });
+
+               
+                // // Function to show the loading message
+                // function showLoadingMessage() {
+                //     $('#loading-message').show();
+                // }
+
+                // // Function to hide the loading message
+                // function hideLoadingMessage() {
+                //     $('#loading-message').hide();
+                // }
+        
+                // // Event listener for form submission
+                // $('#myForm').submit(function(event) {
+                //     // Prevent default form submission
+                //     event.preventDefault();
+
+                //     // Show loading message
+                //     showLoadingMessage();
+
+                //     // Serialize the form data
+                //     var formData = $(this).serialize();
+        
+                //     // Your AJAX request code here
+                //     $.ajax({
+                //         url: '/hongbooking',
+                //         type: 'POST',
+                //         data: formData,
+                //         processData: false,  // Prevent jQuery from processing the data
+                //         contentType: false,  // Prevent jQuery from setting contentType
+                //         success: function(response) {
+                            
+                            
+                //             hideLoadingMessage();
+                //             // Handle response here
+                //             if (response.success) {
+                //                 // Update the status message with the success message for each step
+                //                 if (response.step === 'login') {
+                //                     $('#status-messages').append(`<p>Login: ${response.message}</p>`);
+                //                 } else if (response.step === 'processing') {
+                //                     $('#status-messages').append(`<p>Processing: ${response.message}</p>`);
+                //                 } else if (response.step === 'slot_booking') {
+                //                     $('#status-messages').append(`<p>Slot Booking: ${response.message}</p>`);
+                //                 }
+                                
+                //             } 
+                //             else {
+                //                 // Update the status message with the error message
+                //                 $('#status-messages').append(`<p>${response.step}: ${response.message}</p>`);
+                                
+                //             }
+                //         },
+                //         error: function(xhr, status, error) {
+                //             // Handle the error if the AJAX request fails
+                //             console.error(error);
+                //             // Optionally provide feedback to the user about the error
+                //             $('#status-messages').append(`<p>Error: ${error}</p>`);
+                //             // Hide loading message in case of error
+                //             hideLoadingMessage();
+                //         }
+                //     });
+                // });
                 // });
             </script>     
         </section>    
@@ -197,30 +236,7 @@
 </html>
 
 <!-- 
-// document.getElementById('myForm').addEventListener('submit', function(event) {
-//     event.preventDefault(); // Prevent default form submission
 
-//     const formData = new FormData(this); // Get form data
-//     fetch('/hongbooking/handle_form', {
-//         method: 'POST',
-//         body: formData
-//     })
-//     .then(response => response.json()) // Parse response as JSON
-//     .then(data => {
-//         document.getElementById('result').innerText = data.message;
-//         // Display the success message if applicable
-//         if (data.success) {
-//             document.getElementById('successMessage').innerText = data.message;
-//             if (data.message === 'Refreshing page to find eval slot' || data.message === 'Clicked OK button.') {
-//                 // Additional messages
-//                 document.getElementById('additionalMessage').innerText = data.message;
-//             }
-//         }
-//     })
-//     .catch(error => {
-//         console.error('Error:', error);
-//     });
-// });
 // Make an AJAX request to the server
 
 // Show loading message
