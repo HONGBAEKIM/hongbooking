@@ -160,11 +160,17 @@ def handle_form():
         logged_in = attempt_login(driver, username, password)
         
         if logged_in:
+            login_success = handle_login(driver, username, password)
+            if login_success:
+                data = {
+                    'message': 'Successfully logged in.',
+                    'success': True
+                }
+                return jsonify(data)
             print("Successfully logged in")
             
 
         else:
-            login_success = handle_login(driver, username, password)
             if not login_success:
                 data = {
                     'message': 'Login failed. Please try again.',
