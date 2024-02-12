@@ -43,10 +43,6 @@ firefox_binary_location = '/usr/bin/firefox'
 # Move the definition of firefox_options outside of the function
 firefox_options = FirefoxOptions()
 
-#This option runs Chrome in headless mode, 
-#it will not display a UI or open a browser window.
-firefox_options.add_argument('--headless')
-
 app = Flask(__name__)
 
 
@@ -57,6 +53,7 @@ logging.basicConfig(level=logging.DEBUG)
 CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
 
 socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
+
 
 
 
@@ -85,7 +82,36 @@ def handle_slot_booking(driver):
     # Return True if booking is successful, False otherwise
     pass
 
+#log-in 
+def attempt_login(driver, username, password):
+    username_field_id = "username"  # Replace with the actual ID of the username field
+    password_field_id = "password"  # Replace with the actual ID of the password field
 
+    try:
+        WebDriverWait(driver, 1).until(
+            EC.element_to_be_clickable((By.ID, username_field_id))
+        )
+        username_field = driver.find_element(By.ID, username_field_id)
+        username_field.send_keys(username)
+
+        WebDriverWait(driver, 1).until(
+            EC.element_to_be_clickable((By.ID, password_field_id))
+        )
+        password_field = driver.find_element(By.ID, password_field_id)
+        password_field.send_keys(password)
+
+        password_field.send_keys(Keys.ENTER)
+        
+        # Wait for navigation and check if the login was successful
+        WebDriverWait(driver, 10).until(EC.url_to_be("https://profile.intra.42.fr/"))
+
+        return True  # Return True to indicate successful login
+
+    except Exception as e:
+        print("An error occurred:", e)
+         
+        
+        return False  # Return False to indicate login failure
 
 
 
@@ -98,7 +124,9 @@ def handle_form():
     start_time_from_app = request.form.get('start_time')
     end_time_from_app = request.form.get('end_time')
 
-
+    #This option runs Chrome in headless mode, 
+    #it will not display a UI or open a browser window.
+    firefox_options.add_argument('--headless')
 
     # Set the path to the Firefox binary
     firefox_options.binary_location = firefox_binary_location
@@ -121,38 +149,6 @@ def handle_form():
         print(f"Error initializing WebDriver: {e}")
         return "Error initializing WebDriver"
 
-
-    #log-in 
-    def attempt_login(driver, username, password):
-        username_field_id = "username"  # Replace with the actual ID of the username field
-        password_field_id = "password"  # Replace with the actual ID of the password field
-
-        try:
-            WebDriverWait(driver, 1).until(
-                EC.element_to_be_clickable((By.ID, username_field_id))
-            )
-            username_field = driver.find_element(By.ID, username_field_id)
-            username_field.send_keys(username)
-
-            WebDriverWait(driver, 1).until(
-                EC.element_to_be_clickable((By.ID, password_field_id))
-            )
-            password_field = driver.find_element(By.ID, password_field_id)
-            password_field.send_keys(password)
-
-            password_field.send_keys(Keys.ENTER)
-            
-            # Wait for navigation and check if the login was successful
-            WebDriverWait(driver, 10).until(EC.url_to_be("https://profile.intra.42.fr/"))
-
-            return True  # Return True to indicate successful login
-
-        except Exception as e:
-            print("An error occurred:", e)
-            return False  # Return False to indicate login failure
-
-    print("Let's book an evaluation slot automatically")
-
     # Continue with the rest of your script after a successful login
     logged_in = False
     while not logged_in:
@@ -162,18 +158,20 @@ def handle_form():
         # print("password is", password)
 
         logged_in = attempt_login(driver, username, password)
-        login_success = handle_login(driver, username, password) 
+        
         if logged_in:
             print("Successfully logged in")
             
 
         else:
+            login_success = handle_login(driver, username, password)
             if not login_success:
                 data = {
                     'message': 'Login failed. Please try again.',
                     'success': False
                 }
                 return jsonify(data)
+            
 
 
     # Dynamically build the URL
@@ -184,19 +182,6 @@ def handle_form():
     # Navigate to the specified slots page
     driver.get(full_url)
 
-
-    # valid_day_names = {"0",
-    #                 "1"
-    #                 "2",
-    #                 "3"
-    # }
-
-    # project_day_mapping = {
-    #     "today": "0",
-    #     "tomorrow": "1",
-    #     "2days": "2",
-    #     "3days": "3"
-    # }
 
     DAYS = {
         "today": 0,
