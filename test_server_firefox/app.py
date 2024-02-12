@@ -61,6 +61,7 @@ socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_
 
 @app.route('/hongbooking')
 def index():
+    
     return render_template('index.html')
 
 # Function to handle selecting slots
@@ -115,7 +116,7 @@ def attempt_login(driver, username, password):
         return False  # Return False to indicate login failure
     
 
-
+login_response = None
 
 @app.route('/hongbooking', methods=['POST'])
 def handle_form():
@@ -153,18 +154,18 @@ def handle_form():
 
     # Continue with the rest of your script after a successful login
     logged_in = False
+    
     while not logged_in:
         username = user_id_from_app    
         password = password_from_app
 
         logged_in = attempt_login(driver, username, password)
         
-        
         if logged_in:
             print("logged_in")
             
         else:
-            login_response = handle_login(driver, username, password)
+            handle_login(driver, username, password)
 
             
             
@@ -415,7 +416,7 @@ def handle_form():
                         print("Clicked 'OK' button.")
                 
                         slot_booking_response = handle_slot_booking()
-                                            
+                        return slot_booking_response                    
          
                 
                 except NoSuchElementException:
