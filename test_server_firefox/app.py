@@ -346,7 +346,9 @@ def handle_form():
 
 
                 if (len(slots) == 0):
+                    time.sleep(3)
                     driver.refresh()
+                    time.sleep(3)
                     if not specialcase == 0:
                         try:
                             wait = WebDriverWait(driver, 1)
@@ -383,7 +385,9 @@ def handle_form():
 
                 if not available_slots_today:
                     print("No slots available within the desired time range.")
+                    time.sleep(3)
                     driver.refresh()
+                    time.sleep(3)
                     if not specialcase == 0:
                         try:
                             wait = WebDriverWait(driver, 1)
@@ -445,8 +449,10 @@ def handle_form():
 
             except NoSuchElementException:
                 print("Today's column is not found or not highlighted.")
-                time.sleep(5)
+                time.sleep(3)
                 driver.refresh()
+                time.sleep(3)
+
                 if not specialcase == 0:
                     try:
                         wait = WebDriverWait(driver, 1)
@@ -459,8 +465,10 @@ def handle_form():
 
         except TimeoutException:
             print("Timeout occurred while looking for slots. Refreshing and retrying...")
-            time.sleep(5)
+            time.sleep(3)
             driver.refresh()
+            time.sleep(3)
+
             if not specialcase == 0:
                 try:
                     wait = WebDriverWait(driver, 1)
