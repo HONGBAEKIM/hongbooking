@@ -470,7 +470,10 @@ def handle_form():
     
 
     driver.quit()
-    return login_response, slot_booking_response
+    return jsonify({
+        'login_response': login_response,
+        'slot_booking_response': slot_booking_response
+    })
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
