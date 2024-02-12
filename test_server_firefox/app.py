@@ -95,15 +95,6 @@ def handle_form():
     start_time_from_app = request.form.get('start_time')
     end_time_from_app = request.form.get('end_time')
 
-    # Process the form data as needed
-    # For example, print the data to the console
-    # print(f'User ID: {user_id_from_app}')
-    # print(f'User password: {password_from_app}')
-    # print(f'Project Name: {project_name_from_app}')
-    # print(f'Evaluation Day: {evaluation_day_from_app}')
-    # print(f'Start Time: {start_time_from_app}')
-    # print(f'End Time: {end_time_from_app}')
-
     #This option runs Chrome in headless mode, 
     #it will not display a UI or open a browser window.
     firefox_options.add_argument('--headless')
@@ -130,25 +121,6 @@ def handle_form():
         return "Error initializing WebDriver"
 
 
-    # Step 4: Wait for Login Confirmation (Wait until the URL is https://profile.intra.42.fr/)
-    # try:
-    #     # Step 4: Wait for Login Confirmation (Wait until the URL is https://profile.intra.42.fr/)
-    #     WebDriverWait(driver, 20).until(
-    #         EC.url_to_be("https://profile.intra.42.fr/")
-    #     )
-    #     print("Login confirmed. Continue with your program.")
-
-        
-    #     # Now you can trigger the execution of your program.
-    #     # For example, you can call a function that contains the logic you want to execute.
-    #     # Your_program_function(project_name_from_app, evaluation_day_from_app, start_time_from_app, end_time_from_app)
-
-    # except TimeoutException:
-    #     print("Timed out waiting for login confirmation")
-
-
-
-
     #log-in 
     def attempt_login(driver, username, password):
         username_field_id = "username"  # Replace with the actual ID of the username field
@@ -172,24 +144,16 @@ def handle_form():
             # Wait for navigation and check if the login was successful
             WebDriverWait(driver, 10).until(EC.url_to_be("https://profile.intra.42.fr/"))
 
-            # socketio.emit('login_success', {'data': 'Successfully logged in'})
-
-            
-            
-
-            
             return True  # Return True to indicate successful login
 
         except Exception as e:
             print("An error occurred:", e)
             return False  # Return False to indicate login failure
 
-
     print("Let's book an evaluation slot automatically")
 
     # Continue with the rest of your script after a successful login
     logged_in = False
-    
     while not logged_in:
         username = user_id_from_app    
         password = password_from_app
@@ -197,7 +161,7 @@ def handle_form():
         # print("password is", password)
 
         logged_in = attempt_login(driver, username, password)
-        login_success = handle_login(driver, user_id_from_app, password_from_app) 
+        login_success = handle_login(driver, username, password) 
         if logged_in:
             print("Successfully logged in")
             
@@ -414,17 +378,9 @@ def handle_form():
                             'success': False
                         }
                         return jsonify(data)
-                                    
-
-
-                    
-                    # socketio.emit('checking', {'data': 'Checking for available evaluation slots,'})
-                    
-
 
                 else:
                     print("Page loading failed. Please try again.")
-
 
                 
                 for slot in slots:
