@@ -63,6 +63,11 @@ socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_
 def index():
     return render_template('index.html')
 
+# Function to handle selecting slots
+def logged_in2(data):
+    # Your slot selection logic here
+    # Return True if a slot is successfully selected, False otherwise
+    return jsonify(data)
 
 
 # Function to handle selecting slots
@@ -152,7 +157,7 @@ def handle_form():
         password = password_from_app
 
         logged_in = attempt_login(driver, username, password)
-        
+        logged_in_return = logged_in2(data)
         if logged_in:
             print("Successfully logged in")
             data = {
@@ -160,15 +165,18 @@ def handle_form():
                 'step': 'login',
                 'success': True
             }
-            return jsonify(data)
+            logged_in_return
+            
 
         else:
+
             data = {
                 'message': 'Login failed. Please try again.',
                 'step': 'login',
                 'success': False
             }
-            return jsonify(data)
+            logged_in_return
+            
             
 
 
