@@ -113,7 +113,7 @@
                     event.preventDefault(); // Prevent default form submission
         
                     const formData = new FormData(this); // Get form data
-                    fetch('/handle_form', {
+                    fetch('/hongbooking/handle_form', {
                         method: 'POST',
                         body: formData
                     })
