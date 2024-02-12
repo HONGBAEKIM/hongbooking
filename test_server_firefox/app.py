@@ -217,11 +217,15 @@ def handle_form():
         # login_msg = None
         if logged_in:
             print("Successfully logged in")
-            response = jsonify({'success': True, 'message': 'Login successful!'})
+            data = {
+                'message': 'Form submitted successfully',
+                'success': True
+            }
+            # response = jsonify({'success': True, 'message': 'Login successful!'})
             # socketio.emit('login_success', {'data': 'Successfully logged in'})
         else:
             print("Login failed. Please try again.")
-            response = jsonify({'success': False, 'message': 'Login failed. Please try again.'})
+            # response = jsonify({'success': False, 'message': 'Login failed. Please try again.'})
 
 
 
@@ -540,7 +544,7 @@ def handle_form():
     # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg, booking_msg=booking_msg)
     # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg)
     #return render_template('index.html')
-    return response
+    return jsonify(data)
 
 
 
