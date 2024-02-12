@@ -108,7 +108,11 @@
             <div id="result"></div>
             <div id="successMessage"></div>
             <div id="additionalMessage"></div>
-
+            
+            <div id="loading-message" style="display: none;">
+                <p>Loading...</p>
+            </div>
+            
             
 
             <script>
@@ -137,11 +141,20 @@
                 //     });
                 // });
                 // Make an AJAX request to the server
+                
+                // Show loading message
+                $('#loading-message').show();
+
+                // Make an AJAX request to the server
                 $.ajax({
-                    url: '/hongbooking/handle_form',
+                    // url: '/hongbooking/handle_form',
                     type: 'POST',
                     data: formData,
                     success: function(response) {
+                        
+                        // Hide loading message
+                        $('#loading-message').hide();
+
                         if (response.success) {
                             // Update the status message with the success message for each step
                             if (response.step === 'login') {
