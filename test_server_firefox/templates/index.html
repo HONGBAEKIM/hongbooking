@@ -107,7 +107,7 @@
             <script>
                 // $(document).ready(function() {
                 // Show loading message
-                $('#loading-message').show();
+                $('loading-message').show();
         
                 // Define formData
                 var formData = new FormData($('#myForm')[0]);
@@ -121,7 +121,7 @@
                     contentType: false,  // Prevent jQuery from setting contentType
                     success: function(response) {
                         // Hide loading message
-                        $('#loading-message').hide();
+                        $('loading-message').hide();
         
                         // Handle response here
                         if (response.success) {
