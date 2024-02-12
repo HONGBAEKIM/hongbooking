@@ -10,6 +10,7 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script>
     <script src="/static/script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
 
@@ -115,7 +116,9 @@
             
             
 
-            <script>
+
+
+          
                 // document.getElementById('myForm').addEventListener('submit', function(event) {
                 //     event.preventDefault(); // Prevent default form submission
 
@@ -143,38 +146,57 @@
                 // Make an AJAX request to the server
                 
                 // Show loading message
-                $('#loading-message').show();
+                
+
 
                 // Make an AJAX request to the server
-                $.ajax({
-                    url: '/hongbooking',
-                    type: 'POST',
-                    data: formData,
-                    success: function(response) {
-                        
-                        // Hide loading message
-                        $('#loading-message').hide();
 
-                        if (response.success) {
-                            // Update the status message with the success message for each step
-                            if (response.step === 'login') {
-                                $('#status-messages').append(`<p>Login: ${response.message}</p>`);
-                            } else if (response.step === 'processing') {
-                                $('#status-messages').append(`<p>Processing: ${response.message}</p>`);
-                            } else if (response.step === 'slot_booking') {
-                                $('#status-messages').append(`<p>Slot Booking: ${response.message}</p>`);
+            <script>
+                $(document).ready(function() {
+                    // Show loading message
+                    $('#loading-message').show();
+            
+                    // Define formData
+                    var formData = new FormData($('#myForm')[0]);
+            
+                    // Your AJAX request code here
+                    $.ajax({
+                        url: '/hongbooking',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,  // Prevent jQuery from processing the data
+                        contentType: false,  // Prevent jQuery from setting contentType
+                        success: function(response) {
+                            // Hide loading message
+                            $('#loading-message').hide();
+            
+                            // Handle response here
+                            if (response.success) {
+                                // Update the status message with the success message for each step
+                                if (response.step === 'login') {
+                                    $('#status-messages').append(`<p>Login: ${response.message}</p>`);
+                                } else if (response.step === 'processing') {
+                                    $('#status-messages').append(`<p>Processing: ${response.message}</p>`);
+                                } else if (response.step === 'slot_booking') {
+                                    $('#status-messages').append(`<p>Slot Booking: ${response.message}</p>`);
+                                }
+                            } else {
+                                // Update the status message with the error message
+                                $('#status-messages').append(`<p>${response.step}: ${response.message}</p>`);
                             }
-                        } else {
-                            // Update the status message with the error message
-                            $('#status-messages').append(`<p>${response.step}: ${response.message}</p>`);
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle the error if the AJAX request fails
+                            console.error(error);
+                            // Optionally provide feedback to the user about the error
+                            $('#status-messages').append(`<p>Error: ${error}</p>`);
+                            // Hide loading message in case of error
+                            $('#loading-message').hide();
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle the error if the AJAX request fails
-                        console.error(error);
-                    }
+                    });
                 });
             </script>
+                
         </section>
 
         <!-- <section>
