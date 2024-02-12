@@ -107,6 +107,9 @@
         
             <div id="result"></div>
             <div id="successMessage"></div>
+            <div id="additionalMessage"></div>
+
+            
 
             <script>
                 document.getElementById('myForm').addEventListener('submit', function(event) {
@@ -123,6 +126,10 @@
                         // Display the success message if applicable
                         if (data.success) {
                             document.getElementById('successMessage').innerText = data.message;
+                            if (data.message === 'Refreshing page to find eval slot' || data.message === 'Clicked OK button.') {
+                                // Additional messages
+                                document.getElementById('additionalMessage').innerText = data.message;
+                            }
                         }
                     })
                     .catch(error => {
