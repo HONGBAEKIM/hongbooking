@@ -64,11 +64,6 @@ def index():
     return render_template('index.html')
 
 
-# Function to handle login
-def handle_login(driver, username, password):
-    # Your login logic here
-    # Return True if login is successful, False otherwise
-    pass
 
 # Function to handle selecting slots
 def handle_slot_selection(driver, evaluation_day, start_time, end_time):
@@ -112,6 +107,7 @@ def attempt_login(driver, username, password):
          
         
         return False  # Return False to indicate login failure
+    
 
 
 
@@ -154,25 +150,18 @@ def handle_form():
     while not logged_in:
         username = user_id_from_app    
         password = password_from_app
-        # print("Username is", username)
-        # print("password is", password)
 
         logged_in = attempt_login(driver, username, password)
         
-        
         if logged_in:
-            
             print("Successfully logged in")
-            
 
         else:
-            login_success = handle_login(driver, username, password)
-            if not login_success:
-                data = {
-                    'message': 'Login failed. Please try again.',
-                    'success': False
-                }
-                return jsonify(data)
+            data = {
+                'message': 'Login failed. Please try again.',
+                'success': False
+            }
+            return jsonify(data)
             
 
 
