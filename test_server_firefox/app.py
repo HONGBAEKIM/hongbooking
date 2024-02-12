@@ -43,6 +43,10 @@ firefox_binary_location = '/usr/bin/firefox'
 # Move the definition of firefox_options outside of the function
 firefox_options = FirefoxOptions()
 
+#This option runs Chrome in headless mode, 
+#it will not display a UI or open a browser window.
+firefox_options.add_argument('--headless')
+
 app = Flask(__name__)
 
 
@@ -53,7 +57,6 @@ logging.basicConfig(level=logging.DEBUG)
 CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
 
 socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
-
 
 
 
@@ -95,9 +98,7 @@ def handle_form():
     start_time_from_app = request.form.get('start_time')
     end_time_from_app = request.form.get('end_time')
 
-    #This option runs Chrome in headless mode, 
-    #it will not display a UI or open a browser window.
-    firefox_options.add_argument('--headless')
+
 
     # Set the path to the Firefox binary
     firefox_options.binary_location = firefox_binary_location
