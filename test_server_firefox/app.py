@@ -159,7 +159,6 @@ def handle_form():
 
         logged_in = attempt_login(driver, username, password)
         
-        login_success = handle_login(driver, username, password)
         
         if logged_in:
             
@@ -167,6 +166,7 @@ def handle_form():
             
 
         else:
+            login_success = handle_login(driver, username, password)
             if not login_success:
                 data = {
                     'message': 'Login failed. Please try again.',
