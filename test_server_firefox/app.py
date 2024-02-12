@@ -221,6 +221,7 @@ def handle_form():
                 'message': 'Form submitted successfully',
                 'success': True
             }
+            return jsonify(data)
             # response = jsonify({'success': True, 'message': 'Login successful!'})
             # socketio.emit('login_success', {'data': 'Successfully logged in'})
         else:
