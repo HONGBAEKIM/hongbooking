@@ -64,23 +64,27 @@ def index():
     return render_template('index.html')
 
 # Function to handle selecting slots
-def logged_in2(data):
-    # Your slot selection logic here
-    # Return True if a slot is successfully selected, False otherwise
-    return jsonify(data)
+def handle_login(driver, username, password):
+    # Your login logic here
+    # Return True if login is successful, False otherwise
+    return jsonify({
+        'message': 'Login failed. Please try again.',
+        'step': 'login',
+        'success': False
+    })
+
 
 
 # Function to handle selecting slots
-def handle_slot_selection(driver, evaluation_day, start_time, end_time):
-    # Your slot selection logic here
-    # Return True if a slot is successfully selected, False otherwise
-    pass
-
-# Function to handle booking a slot
-def handle_slot_booking(driver):
+def handle_slot_booking():
     # Your slot booking logic here
-    # Return True if booking is successful, False otherwise
-    pass
+    # Return appropriate response data
+    return jsonify({
+        'message': 'Slot booked successfully.',
+        'step': 'slot_booking',
+        'success': True
+    })
+
 
 #log-in 
 def attempt_login(driver, username, password):
@@ -157,25 +161,14 @@ def handle_form():
         password = password_from_app
 
         logged_in = attempt_login(driver, username, password)
-        logged_in_return = logged_in2(data)
+        
+        
         if logged_in:
-            print("Successfully logged in")
-            data = {
-                'message': 'Successfully logged in.',
-                'step': 'login',
-                'success': True
-            }
-            logged_in_return
+            print("logged_in")
             
-
         else:
+            login_response = handle_login(driver, username, password)
 
-            data = {
-                'message': 'Login failed. Please try again.',
-                'step': 'login',
-                'success': False
-            }
-            logged_in_return
             
             
 
@@ -345,7 +338,7 @@ def handle_form():
             slots = driver.find_elements(By.XPATH, xpath)
             
             
-            slot_selected = handle_slot_selection(driver, evaluation_day_from_app, start_time_from_app, end_time_from_app)
+            # slot_selected = handle_slot_selection(driver, evaluation_day_from_app, start_time_from_app, end_time_from_app)
             print("(0)refresh")
 
 
@@ -367,12 +360,7 @@ def handle_form():
                 # print("Grab a coffee and tea or watch a youtube video")
                 # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
                 
-                if not slot_selected:
-                    data = {
-                        'message': 'No available slots within the desired time range.',
-                        'success': False
-                    }
-                    return jsonify(data)
+
 
             # else:
             #     print("Page loading failed. Please try again.")
@@ -429,19 +417,7 @@ def handle_form():
                         #nextok.click()
                         print("Clicked 'OK' button.")
                 
-                        if not slot_booked:
-                            data = {
-                                'message': 'Failed to book the slot.',
-                                'success': False
-                            }
-                            return jsonify(data)
-
-                        # If all steps are successful
-                        data = {
-                            'message': 'Slot booked successfully.',
-                            'success': True
-                        }
-                        return jsonify(data)
+                        slot_booking_response = handle_slot_booking()
                                             
          
                 
@@ -488,9 +464,13 @@ def handle_form():
         print("Reached the maximum number of retries. Exiting.")
 
     time.sleep(3)
+    
+    
+
+    
 
     driver.quit()
-
+    return login_response, slot_booking_response
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
