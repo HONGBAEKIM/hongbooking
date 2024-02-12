@@ -59,7 +59,7 @@ socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_
 
 
 
-@app.route('/')
+@app.route('/hongbooking')
 def index():
     return render_template('index.html')
 
@@ -69,7 +69,7 @@ def index():
 
 
 
-@app.route('/handle_form', methods=['POST'])
+@app.route('/hongbooking/handle_form', methods=['POST'])
 def handle_form():
     
     
