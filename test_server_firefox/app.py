@@ -64,6 +64,23 @@ def index():
     return render_template('index.html')
 
 
+# Function to handle login
+def handle_login(driver, username, password):
+    # Your login logic here
+    # Return True if login is successful, False otherwise
+    pass
+
+# Function to handle selecting slots
+def handle_slot_selection(driver, evaluation_day, start_time, end_time):
+    # Your slot selection logic here
+    # Return True if a slot is successfully selected, False otherwise
+    pass
+
+# Function to handle booking a slot
+def handle_slot_booking(driver):
+    # Your slot booking logic here
+    # Return True if booking is successful, False otherwise
+    pass
 
 
 
@@ -71,13 +88,6 @@ def index():
 
 @app.route('/hongbooking/handle_form', methods=['POST'])
 def handle_form():
-    
-    
-    # handle_connect()
-    # app.logger.info('Client connected')
-    # print('Client connected')
-    # display = Display(visible=0, size=(800, 600))
-    # display.start()
     user_id_from_app = request.form.get('user_id')
     password_from_app = request.form.get('password')
     project_name_from_app = request.form.get('project_name')
@@ -87,43 +97,16 @@ def handle_form():
 
     # Process the form data as needed
     # For example, print the data to the console
-    print(f'User ID: {user_id_from_app}')
-    #print(f'User password: {password_from_app}')
-    print(f'Project Name: {project_name_from_app}')
-    print(f'Evaluation Day: {evaluation_day_from_app}')
-    print(f'Start Time: {start_time_from_app}')
-    print(f'End Time: {end_time_from_app}')
+    # print(f'User ID: {user_id_from_app}')
+    # print(f'User password: {password_from_app}')
+    # print(f'Project Name: {project_name_from_app}')
+    # print(f'Evaluation Day: {evaluation_day_from_app}')
+    # print(f'Start Time: {start_time_from_app}')
+    # print(f'End Time: {end_time_from_app}')
 
-
-    #after clicking last step of booking icon, I should check if evaluation slot is booked
-
-    #connected to my webpage
-
-
-
-    # Set the environment variable
-    # os.environ["APP_PASSWORD"] = password_from_app
-
-
-    #2.Setup Chrome WebDriver:
-    #This line creates a ChromeOptions object, 
-    #which allows you to set various options for the Chrome driver.
-    #chrome_binary_path = '/usr/bin/google-chrome'  # Adjust this path accordingly
-    #chrome_options = webdriver.ChromeOptions()
-    #chrome_options.binary_location = chrome_binary_path
     #This option runs Chrome in headless mode, 
     #it will not display a UI or open a browser window.
     firefox_options.add_argument('--headless')
-    
-    
-    # localhost_number = random.randint(65536, 79999)
-    # chrome_options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
-
-    # firefox_options = FirefoxOptions()
-    # firefox_options.binary_location = '/usr/bin/firefox'
-    # driver = Firefox(options=firefox_options)
-    
-    
 
     # Set the path to the Firefox binary
     firefox_options.binary_location = firefox_binary_location
@@ -214,20 +197,18 @@ def handle_form():
         # print("password is", password)
 
         logged_in = attempt_login(driver, username, password)
-        # login_msg = None
+        login_success = handle_login(driver, user_id_from_app, password_from_app) 
         if logged_in:
             print("Successfully logged in")
-            data = {
-                'message': 'Form submitted successfully',
-                'success': True
-            }
-            return jsonify(data)
-            # response = jsonify({'success': True, 'message': 'Login successful!'})
-            # socketio.emit('login_success', {'data': 'Successfully logged in'})
-        else:
-            print("Login failed. Please try again.")
-            # response = jsonify({'success': False, 'message': 'Login failed. Please try again.'})
+            
 
+        else:
+            if not login_success:
+                data = {
+                    'message': 'Login failed. Please try again.',
+                    'success': False
+                }
+                return jsonify(data)
 
 
     # Dynamically build the URL
@@ -406,6 +387,11 @@ def handle_form():
                     xpath = f".//tr/td[{current_day + 2 + int_evaluation_day - specialcase}]//div[contains(@class, 'fc-time')]"
                 
                 slots = driver.find_elements(By.XPATH, xpath)
+                
+                
+                slot_selected = handle_slot_selection(driver, evaluation_day_from_app, start_time_from_app, end_time_from_app)
+
+
 
                 if (len(slots) == 0):
                     driver.refresh()
@@ -421,13 +407,14 @@ def handle_form():
                 
                     # print("Grab a coffee and tea or watch a youtube video")
                     # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
-                    # handle_start_process("8888888888888888888888888888888888888888888888888888888888")
-                    data = {
-                        'message': 'Refreshing page to find eval slot',
-                        'success': True
-                    }
-                    return jsonify(data)
                     
+                    if not slot_selected:
+                        data = {
+                            'message': 'No available slots within the desired time range.',
+                            'success': False
+                        }
+                        return jsonify(data)
+                                    
 
 
                     
@@ -476,6 +463,9 @@ def handle_form():
                     
                     time.sleep(2)
                     # Find the "OK" button. Adjust the selector as per your page's structure
+                    
+                    slot_booked = handle_slot_booking(driver)
+                    
                     try:
                         nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
                         if nextok.text == "OK":
@@ -484,14 +474,20 @@ def handle_form():
                             #nextok.click()
                             print("Clicked 'OK' button.")
                     
+                            if not slot_booked:
+                                data = {
+                                    'message': 'Failed to book the slot.',
+                                    'success': False
+                                }
+                                return jsonify(data)
+
+                            # If all steps are successful
                             data = {
-                                'message': 'Clicked OK button.',
+                                'message': 'Slot booked successfully.',
                                 'success': True
                             }
                             return jsonify(data)
                     
-                    
-                            # socketio.emit('booked', {'data': 'Slot booked successfully'})
                     
                     
                     
