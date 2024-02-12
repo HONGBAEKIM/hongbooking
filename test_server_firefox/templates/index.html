@@ -112,29 +112,54 @@
             
 
             <script>
-                document.getElementById('myForm').addEventListener('submit', function(event) {
-                    event.preventDefault(); // Prevent default form submission
+                // document.getElementById('myForm').addEventListener('submit', function(event) {
+                //     event.preventDefault(); // Prevent default form submission
 
-                    const formData = new FormData(this); // Get form data
-                    fetch('/hongbooking/handle_form', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json()) // Parse response as JSON
-                    .then(data => {
-                        document.getElementById('result').innerText = data.message;
-                        // Display the success message if applicable
-                        if (data.success) {
-                            document.getElementById('successMessage').innerText = data.message;
-                            if (data.message === 'Refreshing page to find eval slot' || data.message === 'Clicked OK button.') {
-                                // Additional messages
-                                document.getElementById('additionalMessage').innerText = data.message;
+                //     const formData = new FormData(this); // Get form data
+                //     fetch('/hongbooking/handle_form', {
+                //         method: 'POST',
+                //         body: formData
+                //     })
+                //     .then(response => response.json()) // Parse response as JSON
+                //     .then(data => {
+                //         document.getElementById('result').innerText = data.message;
+                //         // Display the success message if applicable
+                //         if (data.success) {
+                //             document.getElementById('successMessage').innerText = data.message;
+                //             if (data.message === 'Refreshing page to find eval slot' || data.message === 'Clicked OK button.') {
+                //                 // Additional messages
+                //                 document.getElementById('additionalMessage').innerText = data.message;
+                //             }
+                //         }
+                //     })
+                //     .catch(error => {
+                //         console.error('Error:', error);
+                //     });
+                // });
+                // Make an AJAX request to the server
+                $.ajax({
+                    url: '/hongbooking/handle_form',
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            // Update the status message with the success message for each step
+                            if (response.step === 'login') {
+                                $('#status-messages').append(`<p>Login: ${response.message}</p>`);
+                            } else if (response.step === 'processing') {
+                                $('#status-messages').append(`<p>Processing: ${response.message}</p>`);
+                            } else if (response.step === 'slot_booking') {
+                                $('#status-messages').append(`<p>Slot Booking: ${response.message}</p>`);
                             }
+                        } else {
+                            // Update the status message with the error message
+                            $('#status-messages').append(`<p>${response.step}: ${response.message}</p>`);
                         }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle the error if the AJAX request fails
+                        console.error(error);
+                    }
                 });
             </script>
         </section>

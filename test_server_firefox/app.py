@@ -155,10 +155,17 @@ def handle_form():
         
         if logged_in:
             print("Successfully logged in")
+            data = {
+                'message': 'Successfully logged in.',
+                'step': 'login',
+                'success': True
+            }
+            return jsonify(data)
 
         else:
             data = {
                 'message': 'Login failed. Please try again.',
+                'step': 'login',
                 'success': False
             }
             return jsonify(data)
