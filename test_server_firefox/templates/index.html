@@ -111,18 +111,18 @@
             <script>
                 document.getElementById('myForm').addEventListener('submit', function(event) {
                     event.preventDefault(); // Prevent default form submission
-        
+
                     const formData = new FormData(this); // Get form data
                     fetch('/hongbooking/handle_form', {
                         method: 'POST',
                         body: formData
                     })
-                    .then(response => response.json())
+                    .then(response => response.json()) // Parse response as JSON
                     .then(data => {
                         document.getElementById('result').innerText = data.message;
                         // Display the success message if applicable
                         if (data.success) {
-                            document.getElementById('successMessage').innerText = data.message;;
+                            document.getElementById('successMessage').innerText = data.message;
                         }
                     })
                     .catch(error => {
