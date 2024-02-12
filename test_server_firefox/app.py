@@ -422,7 +422,11 @@ def handle_form():
                     # print("Grab a coffee and tea or watch a youtube video")
                     # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
                     # handle_start_process("8888888888888888888888888888888888888888888888888888888888")
-                    
+                    data = {
+                        'message': 'Refreshing page to find eval slot',
+                        'success': True
+                    }
+                    return jsonify(data)
                     
 
 
@@ -480,7 +484,11 @@ def handle_form():
                             #nextok.click()
                             print("Clicked 'OK' button.")
                     
-                    
+                            data = {
+                                'message': 'Clicked OK button.',
+                                'success': True
+                            }
+                            return jsonify(data)
                     
                     
                             # socketio.emit('booked', {'data': 'Slot booked successfully'})
@@ -545,7 +553,7 @@ def handle_form():
     # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg, booking_msg=booking_msg)
     # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg)
     #return render_template('index.html')
-    return jsonify(data)
+    # return jsonify(data)
 
 
 
