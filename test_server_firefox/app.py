@@ -330,132 +330,26 @@ def handle_form():
             print(f"{attempts} of {max_retries}")
             #time.sleep(1)
 
-            try:         
-                available_slots_today = []                      
-                #current_day = datetime.now().weekday()
-                if specialcase == 0:
-                    xpath = f".//tr/td[{current_day + 2 + int_evaluation_day}]//div[contains(@class, 'fc-time')]"
-                else:
-                    xpath = f".//tr/td[{current_day + 2 + int_evaluation_day - specialcase}]//div[contains(@class, 'fc-time')]"
-                
-                slots = driver.find_elements(By.XPATH, xpath)
-                
-                
-                slot_selected = handle_slot_selection(driver, evaluation_day_from_app, start_time_from_app, end_time_from_app)
-                print("(0)refresh")
+            # try:         
+            available_slots_today = []                      
+            #current_day = datetime.now().weekday()
+            if specialcase == 0:
+                xpath = f".//tr/td[{current_day + 2 + int_evaluation_day}]//div[contains(@class, 'fc-time')]"
+            else:
+                xpath = f".//tr/td[{current_day + 2 + int_evaluation_day - specialcase}]//div[contains(@class, 'fc-time')]"
+            
+            slots = driver.find_elements(By.XPATH, xpath)
+            
+            
+            slot_selected = handle_slot_selection(driver, evaluation_day_from_app, start_time_from_app, end_time_from_app)
+            print("(0)refresh")
 
 
-                if (len(slots) == 0):
-                    time.sleep(3)
-                    print("(1)refresh")
-                    driver.refresh()
-                    time.sleep(3)
-                    if not specialcase == 0:
-                        try:
-                            wait = WebDriverWait(driver, 1)
-                            next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
-                            next_page_button.click()
-                        except Exception as e:  # Consider catching specific exceptions
-                            print("Exception occurred: ", str(e))
-                            # Additional error handling code here 
-                    time.sleep(5)
-                
-                    # print("Grab a coffee and tea or watch a youtube video")
-                    # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
-                    
-                    if not slot_selected:
-                        data = {
-                            'message': 'No available slots within the desired time range.',
-                            'success': False
-                        }
-                        return jsonify(data)
-
-                # else:
-                #     print("Page loading failed. Please try again.")
-
-                
-                for slot in slots:
-                    
-                    print("(2)there is another available slot", slot.text)
-                    time_str = slot.get_attribute("data-full").split(" - ")[0]
-                    # Debugging: Check the type and value of time_str
-                    #print("21 : time_str:", time_str, "Type:", type(time_str))
-
-                    if is_time_within_range(convert_to_24hr_format(time_str), start_time_from_app, end_time_from_app):
-                        print("30 : check time range")
-                        available_slots_today.append(slot)
-
-                if not available_slots_today:
-                    
-                    print("(3)No slots available within the desired time range.")
-                    time.sleep(3)
-                    driver.refresh()
-                    time.sleep(3)
-                    if not specialcase == 0:
-                        try:
-                            wait = WebDriverWait(driver, 1)
-                            next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
-                            next_page_button.click()
-                        except Exception as e:  # Consider catching specific exceptions
-                            print("Exception occurred: ", str(e))
-                            # Additional error handling code here 
-                    time.sleep(5)
-                    continue
-
-                
-                
-                for slot in available_slots_today:
-                    print("40")
-                    WebDriverWait(driver, 3).until(EC.element_to_be_clickable(slot))
-                    print("41")
-                    slot.click()
-                    print("(4)Clicked on an available slot.")
-                    slot_clicked = True
-                    
-                    time.sleep(2)
-                    # Find the "OK" button. Adjust the selector as per your page's structure
-                    
-                    slot_booked = handle_slot_booking(driver)
-                    
-                    try:
-                        nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
-                        if nextok.text == "OK":
-                            
-                            WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
-                            #nextok.click()
-                            print("Clicked 'OK' button.")
-                    
-                            if not slot_booked:
-                                data = {
-                                    'message': 'Failed to book the slot.',
-                                    'success': False
-                                }
-                                return jsonify(data)
-
-                            # If all steps are successful
-                            data = {
-                                'message': 'Slot booked successfully.',
-                                'success': True
-                            }
-                            return jsonify(data)
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    except NoSuchElementException:
-                        print("OK button not found.")
-    
-                    #break
-
-            except NoSuchElementException:
-                print("Today's column is not found or not highlighted.")
+            if (len(slots) == 0):
                 time.sleep(3)
+                print("(1)refresh")
                 driver.refresh()
                 time.sleep(3)
-
                 if not specialcase == 0:
                     try:
                         wait = WebDriverWait(driver, 1)
@@ -464,7 +358,109 @@ def handle_form():
                     except Exception as e:  # Consider catching specific exceptions
                         print("Exception occurred: ", str(e))
                         # Additional error handling code here 
-                # time.sleep(1)
+                time.sleep(5)
+            
+                # print("Grab a coffee and tea or watch a youtube video")
+                # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
+                
+                if not slot_selected:
+                    data = {
+                        'message': 'No available slots within the desired time range.',
+                        'success': False
+                    }
+                    return jsonify(data)
+
+            # else:
+            #     print("Page loading failed. Please try again.")
+
+            
+            for slot in slots:
+                
+                print("(2)there is another available slot", slot.text)
+                time_str = slot.get_attribute("data-full").split(" - ")[0]
+                # Debugging: Check the type and value of time_str
+                #print("21 : time_str:", time_str, "Type:", type(time_str))
+
+                if is_time_within_range(convert_to_24hr_format(time_str), start_time_from_app, end_time_from_app):
+                    print("30 : check time range")
+                    available_slots_today.append(slot)
+
+            if not available_slots_today:
+                
+                print("(3)No slots available within the desired time range.")
+                time.sleep(3)
+                driver.refresh()
+                time.sleep(3)
+                if not specialcase == 0:
+                    try:
+                        wait = WebDriverWait(driver, 1)
+                        next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
+                        next_page_button.click()
+                    except Exception as e:  # Consider catching specific exceptions
+                        print("Exception occurred: ", str(e))
+                        # Additional error handling code here 
+                time.sleep(5)
+                continue
+
+            
+            
+            for slot in available_slots_today:
+                print("40")
+                WebDriverWait(driver, 3).until(EC.element_to_be_clickable(slot))
+                print("41")
+                slot.click()
+                print("(4)Clicked on an available slot.")
+                slot_clicked = True
+                
+                time.sleep(2)
+                # Find the "OK" button. Adjust the selector as per your page's structure
+                
+                slot_booked = handle_slot_booking(driver)
+                
+                try:
+                    nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
+                    if nextok.text == "OK":
+                        
+                        WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
+                        #nextok.click()
+                        print("Clicked 'OK' button.")
+                
+                        if not slot_booked:
+                            data = {
+                                'message': 'Failed to book the slot.',
+                                'success': False
+                            }
+                            return jsonify(data)
+
+                        # If all steps are successful
+                        data = {
+                            'message': 'Slot booked successfully.',
+                            'success': True
+                        }
+                        return jsonify(data)
+                                            
+         
+                
+                except NoSuchElementException:
+                    print("OK button not found.")
+    
+                    #break
+
+            # except NoSuchElementException:
+            #     print("Today's column is not found or not highlighted.")
+            #     time.sleep(3)
+            #     driver.refresh()
+            #     time.sleep(3)
+
+            #     if not specialcase == 0:
+            #         try:
+            #             wait = WebDriverWait(driver, 1)
+            #             next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
+            #             next_page_button.click()
+            #         except Exception as e:  # Consider catching specific exceptions
+            #             print("Exception occurred: ", str(e))
+            #             # Additional error handling code here 
+            #     # time.sleep(1)
 
         except TimeoutException:
             print("Timeout occurred while looking for slots. Refreshing and retrying...")
