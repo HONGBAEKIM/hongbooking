@@ -342,11 +342,12 @@ def handle_form():
                 
                 
                 slot_selected = handle_slot_selection(driver, evaluation_day_from_app, start_time_from_app, end_time_from_app)
-
+                print("(0)refresh")
 
 
                 if (len(slots) == 0):
                     time.sleep(3)
+                    print("(1)refresh")
                     driver.refresh()
                     time.sleep(3)
                     if not specialcase == 0:
@@ -369,12 +370,13 @@ def handle_form():
                         }
                         return jsonify(data)
 
-                else:
-                    print("Page loading failed. Please try again.")
+                # else:
+                #     print("Page loading failed. Please try again.")
 
                 
                 for slot in slots:
-                    print("there is another available slot", slot.text)
+                    
+                    print("(2)there is another available slot", slot.text)
                     time_str = slot.get_attribute("data-full").split(" - ")[0]
                     # Debugging: Check the type and value of time_str
                     #print("21 : time_str:", time_str, "Type:", type(time_str))
@@ -384,7 +386,8 @@ def handle_form():
                         available_slots_today.append(slot)
 
                 if not available_slots_today:
-                    print("No slots available within the desired time range.")
+                    
+                    print("(3)No slots available within the desired time range.")
                     time.sleep(3)
                     driver.refresh()
                     time.sleep(3)
@@ -406,7 +409,7 @@ def handle_form():
                     WebDriverWait(driver, 3).until(EC.element_to_be_clickable(slot))
                     print("41")
                     slot.click()
-                    print("Clicked on an available slot.")
+                    print("(4)Clicked on an available slot.")
                     slot_clicked = True
                     
                     time.sleep(2)
@@ -418,7 +421,7 @@ def handle_form():
                         nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
                         if nextok.text == "OK":
                             
-                            WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
+                            WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
                             #nextok.click()
                             print("Clicked 'OK' button.")
                     
@@ -484,38 +487,11 @@ def handle_form():
     if attempts >= max_retries:
         print("Reached the maximum number of retries. Exiting.")
 
-
     time.sleep(3)
-    # Close the WebDriver
-    #8.Close the WebDriver:
-    #This line closes the browser and ends the WebDriver's session. 
-    # It's important to include this to free up resources and not leave the browser running in the background.
-    # display.stop()
+
     driver.quit()
-
-    # response = jsonify({'redirect_url': 'https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c'})
-    # response.headers['Content-Type'] = 'application/json'
-
-    # return response
-    # return render_template('index', )
-    # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg, booking_msg=booking_msg)
-    # return render_template('index.html', login_msg=login_msg, loading_msg=loading_msg)
-    #return render_template('index.html')
-    # return jsonify(data)
-
-
-
-
-
-# handle_disconnect()
 
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
     socketio.run(app, host='0.0.0.0', port=5000, debug=True)
-
-
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
-
