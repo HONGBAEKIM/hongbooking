@@ -139,7 +139,8 @@
                 // Send AJAX request
                 fetch('/hongbooking', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    timeout: 30000 // 30 seconds
                 })
                 .then(response => {
                     if (response.ok) {
