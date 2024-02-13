@@ -59,10 +59,6 @@ socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_
 
 
 
-@app.route('/hongbooking')
-def index():
-    
-    return render_template('index.html')
 
 
 
@@ -99,8 +95,14 @@ def attempt_login(driver, username, password):
 
 
 
+# @app.route('/hongbooking')
+# def index():
+    
+    # return render_template('index.html')
+
 @app.route('/hongbooking', methods=['POST'])
-def handle_form():
+def index():
+# def handle_form():
     user_id_from_app = request.form.get('user_id')
     password_from_app = request.form.get('password')
     project_name_from_app = request.form.get('project_name')
@@ -255,21 +257,11 @@ def handle_form():
         try:
             attempts += 1
             print(f"{attempts} of {max_retries}")
-            #time.sleep(1)
-
-            # try:         
-            available_slots_today = []                      
-            #current_day = datetime.now().weekday()
-            # if specialcase == 0:
-            xpath = f".//tr/td[{current_day + 2 + int_evaluation_day}]//div[contains(@class, 'fc-time')]"
-            # else:
-            #     xpath = f".//tr/td[{current_day + 2 + int_evaluation_day - specialcase}]//div[contains(@class, 'fc-time')]"
             
+            available_slots_today = []                      
+            xpath = f".//tr/td[{current_day + 2 + int_evaluation_day}]//div[contains(@class, 'fc-time')]"
             slots = driver.find_elements(By.XPATH, xpath)
             
-            
-            # slot_selected = handle_slot_selection(driver, evaluation_day_from_app, start_time_from_app, end_time_from_app)
-            # print("(0)refresh")
 
 
             if (len(slots) == 0):
@@ -289,12 +281,7 @@ def handle_form():
             
                 # print("Grab a coffee and tea or watch a youtube video")
                 # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
-                
-
-
-            # else:
-            #     print("Page loading failed. Please try again.")
-
+            
             
             for slot in slots:
                 
@@ -307,25 +294,14 @@ def handle_form():
                     print("30 : check time range")
                     available_slots_today.append(slot)
 
-            if not available_slots_today:
+            # if not available_slots_today:
                 
-                print("(3)No slots available within the desired time range.")
-                # time.sleep(3)
-                driver.refresh()
-                # time.sleep(3)
-                if not specialcase == 0:
-                    try:
-                        wait = WebDriverWait(driver, 0.5)
-                        next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
-                        next_page_button.click()
-                    except Exception as e:  # Consider catching specific exceptions
-                        print("Exception occurred: ", str(e))
-                        # Additional error handling code here 
-                # time.sleep(5)
-                continue
+            #     print("(3)No slots available within the desired time range.")
+            #     # time.sleep(3)
+            #     driver.refresh()
+            #     # time.sleep(3)
+            #     continue
 
-            
-            
             for slot in available_slots_today:
                 print("40")
                 WebDriverWait(driver, 1).until(EC.element_to_be_clickable(slot))
@@ -408,7 +384,8 @@ def handle_form():
 
     # time.sleep(3)
     driver.quit()
-    
+    return render_template('index.html')
+
     # return jsonify({
     #     'login_response': login_response,
     #     'slot_booking_response': slot_booking_response
