@@ -192,7 +192,7 @@ def handle_form():
     #         print("day has not typed. Please try again.")
 
     # int_evaluation_day = DAYS[evaluation_day]
-    # current_day = datetime.now().weekday()
+    current_day = datetime.now().weekday()
     # specialcase = 0
     
 
@@ -256,7 +256,7 @@ def handle_form():
             print(f"{attempts} of {max_retries}")
             
             available_slots_today = []                      
-            xpath = f".//tr/td[{current_day + 2 + int_evaluation_day}]//div[contains(@class, 'fc-time')]"
+            xpath = f".//tr/td[{current_day + 2}]//div[contains(@class, 'fc-time')]"
             slots = driver.find_elements(By.XPATH, xpath)
             
 
@@ -338,7 +338,7 @@ def handle_form():
 
     # time.sleep(3)
     driver.quit()
-    # return render_template('index.html')
+    return render_template('index.html')
 
     # return jsonify({
     #     'login_response': login_response,
