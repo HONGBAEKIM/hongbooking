@@ -7,7 +7,7 @@
     
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
     <link rel="stylesheet" href="/static/style.css">
-    <script src="/static/script.js"></script>
+    <!-- <script src="/static/script.js"></script> -->
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script>
@@ -124,7 +124,7 @@
                 // After the transition ends, hide the loading message
                 setTimeout(function() {
                     loadingMessage.classList.add('hidden');
-                }, 500); // Same duration as the transition in CSS
+                }, 1000); // Same duration as the transition in CSS
             }
             
             document.getElementById('myForm').addEventListener('submit', function(event) {
@@ -133,7 +133,6 @@
                 var formData = new FormData(this);
 
                 // Show loading message
-                // document.getElementById('loading-message').style.display = 'block';
                 showLoadingMessage();
                 
                 // Send AJAX request
@@ -151,9 +150,9 @@
                 })
                 
                 .then(data => {
+                    
                     // Hide loading message
                     hideLoadingMessage();
-                    // document.getElementById('loading-message').style.display = 'none';
 
                     // Display result message
                     var resultMessage = document.getElementById('result');
@@ -165,7 +164,6 @@
 
                     // Hide loading message
                     hideLoadingMessage();
-                    // document.getElementById('loading-message').style.display = 'none';
 
                     // Display error message
                     var resultMessage = document.getElementById('result');
