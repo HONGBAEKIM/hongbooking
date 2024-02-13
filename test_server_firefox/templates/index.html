@@ -100,10 +100,9 @@
             <!-- <div id="successMessage"></div>
             <div id="additionalMessage"></div> -->
             
-            <div id="loading-message" style="display: none;">
+            <div id="loading-message" class="hidden">
                 <p>Loading...</p>
             </div>
-
 
 
             <script>
@@ -135,6 +134,7 @@
                 // Show loading message
                 // document.getElementById('loading-message').style.display = 'block';
                 showLoadingMessage();
+                
                 // Send AJAX request
                 fetch('/hongbooking', {
                     method: 'POST',
@@ -172,6 +172,9 @@
                 });
             });
 
+            <footer>
+                <p>&copy; 2024 Your Simple Website</p>
+            </footer>
             
             function validateTime() {
                 var startTime = document.getElementById("start_time").value;
@@ -185,18 +188,12 @@
                 return true; // Allow form submission
             }
                 
-                
-           
-
             </script>     
         </section>    
     </main>
 
     
     
-    <footer>
-        <p>&copy; 2024 Your Simple Website</p>
-    </footer>
 
 </body>
 </html>
