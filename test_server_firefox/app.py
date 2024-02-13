@@ -178,7 +178,7 @@ def handle_form():
 
 
 @app.route('/hongbooking', methods=['POST'])
-def handle_form():
+def handle_form2():
     project_name_from_app = request.form.get('project_name')
     evaluation_day_from_app = request.form.get('evaluation_day')
     start_time_from_app = request.form.get('start_time')
