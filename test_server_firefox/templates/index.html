@@ -144,10 +144,10 @@
                 showLoadingMessage();
                 
                 // Send AJAX request
-                fetch('/hongbooking', {
+                fetch('https://www.hongpage.com/hongbooking', {
                     method: 'POST',
                     body: formData,
-                    timeout: 50000000 // 50000 seconds
+                    timeout: 180000 // 3 min
                 })
                 .then(response => {
                     if (response.ok) {
