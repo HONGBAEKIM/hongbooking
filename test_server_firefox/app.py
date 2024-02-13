@@ -64,28 +64,7 @@ def index():
     
     return render_template('index.html')
 
-# Function to handle selecting slots
-# @app.route('/hongbooking', methods=['POST'])
-# def handle_login():
-#     # Your login logic here
-#     # Return True if login is successful, False otherwise
-#     return jsonify({
-#         'message': 'Login failed. Please try again.',
-#         'step': 'login',
-#         'success': False
-#     })
 
-
-
-# Function to handle selecting slots
-# def handle_slot_booking():
-#     # Your slot booking logic here
-#     # Return appropriate response data
-#     return jsonify({
-#         'message': 'Slot booked successfully.',
-#         'step': 'slot_booking',
-#         'success': True
-#     })
 
 
 #log-in 
@@ -125,7 +104,7 @@ def handle_form():
     user_id_from_app = request.form.get('user_id')
     password_from_app = request.form.get('password')
     project_name_from_app = request.form.get('project_name')
-    evaluation_day_from_app = request.form.get('evaluation_day')
+    #evaluation_day_from_app = request.form.get('evaluation_day')
     start_time_from_app = request.form.get('start_time')
     end_time_from_app = request.form.get('end_time')
 
@@ -189,90 +168,34 @@ def handle_form():
     driver.get(full_url)
 
 
-    DAYS = {
-        "today": 0,
-        "tomorrow": 1,
-        "in 2 days": 2,
-        "in 3 days": 3
-    }
+    # DAYS = {
+    #     "today": 0,
+    #     #"tomorrow": 1,
+    #     #"in 2 days": 2,
+    #     #"in 3 days": 3
+    # }
 
-    def attempt_day(evaluation_day):
-        print("evaluation_day : ", evaluation_day)
-        day_name = DAYS.get(evaluation_day, "invalid")
-        if day_name == "invalid":
-            print("Invalid day. Please check day list.")
-            return False
-        print("Successfully typed day")
-        return True
-
-
-    day_in = False
-    while not day_in:
-        evaluation_day = evaluation_day_from_app
-        day_in = attempt_day(evaluation_day)
-        if not day_in:
-            print("day has not typed. Please try again.")
-
-    int_evaluation_day = DAYS[evaluation_day]
-    current_day = datetime.now().weekday()
-    specialcase = 0
-    #today is sunday
-    if int_evaluation_day == 1 and current_day == 6:
-        specialcase = 1
-    elif int_evaluation_day == 2 and current_day == 6:
-        specialcase = 2
-    elif int_evaluation_day == 3 and current_day == 6:
-        specialcase = 3
-    #today is saturday   
-    elif int_evaluation_day == 2 and current_day == 5:
-        specialcase = 2
-    elif int_evaluation_day == 3 and current_day == 5:
-        specialcase = 3
-    #today is friday 
-    elif int_evaluation_day == 3 and current_day == 4:
-        specialcase = 3
-    else:
-        specialcase = 0
+    # def attempt_day(evaluation_day):
+    #     print("evaluation_day : ", evaluation_day)
+    #     day_name = DAYS.get(evaluation_day, "invalid")
+    #     if day_name == "invalid":
+    #         print("Invalid day. Please check day list.")
+    #         return False
+    #     print("Successfully typed day")
+    #     return True
 
 
-    try:
-        # just for test click next page is working or not
-        #if (int_evaluation_day == 1):
-        
+    # day_in = False
+    # while not day_in:
+    #     evaluation_day = evaluation_day_from_app
+    #     day_in = attempt_day(evaluation_day)
+    #     if not day_in:
+    #         print("day has not typed. Please try again.")
 
-        if not specialcase == 0:
-            #I should click next page 
-            try:
-                wait = WebDriverWait(driver, 0.5)
-                next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
-                # print("next page is ready?")
-                next_page_button.click()
-                # print("Clicked next page")
-                specialcase = 1
-
-            except Exception as e:  # Consider catching specific exceptions
-                print(f"Exception occurred: {str(e)}")
-                # Additional error handling code here
-            
-    except TimeoutException:
-            print("Timeout occurred while looking for slots. Refreshing and retrying...")
-            driver.refresh()
-            if not specialcase == 0:
-            #I should click next page 
-                try:
-                    wait = WebDriverWait(driver, 0.5)
-                    next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
-                    # print("next page is ready?")
-                    next_page_button.click()
-                    # print("Clicked next page")
-                    int_evaluation_day = 0  
-                except Exception as e:  # Consider catching specific exceptions
-                    print(f"Exception occurred: {str(e)}")
-                    # Additional error handling code here 
-        
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-
+    # int_evaluation_day = DAYS[evaluation_day]
+    # current_day = datetime.now().weekday()
+    # specialcase = 0
+    
 
 
     #Select time 
@@ -337,21 +260,21 @@ def handle_form():
             # try:         
             available_slots_today = []                      
             #current_day = datetime.now().weekday()
-            if specialcase == 0:
-                xpath = f".//tr/td[{current_day + 2 + int_evaluation_day}]//div[contains(@class, 'fc-time')]"
-            else:
-                xpath = f".//tr/td[{current_day + 2 + int_evaluation_day - specialcase}]//div[contains(@class, 'fc-time')]"
+            # if specialcase == 0:
+            xpath = f".//tr/td[{current_day + 2 + int_evaluation_day}]//div[contains(@class, 'fc-time')]"
+            # else:
+            #     xpath = f".//tr/td[{current_day + 2 + int_evaluation_day - specialcase}]//div[contains(@class, 'fc-time')]"
             
             slots = driver.find_elements(By.XPATH, xpath)
             
             
             # slot_selected = handle_slot_selection(driver, evaluation_day_from_app, start_time_from_app, end_time_from_app)
-            print("(0)refresh")
+            # print("(0)refresh")
 
 
             if (len(slots) == 0):
                 # time.sleep(3)
-                print("(1)refresh")
+                # print("(1)refresh")
                 driver.refresh()
                 # time.sleep(3)
                 if not specialcase == 0:
@@ -468,14 +391,14 @@ def handle_form():
             driver.refresh()
             # time.sleep(3)
 
-            if not specialcase == 0:
-                try:
-                    wait = WebDriverWait(driver, 0.5)
-                    next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
-                    next_page_button.click()
-                except Exception as e:  # Consider catching specific exceptions
-                    print("Exception occurred: ", str(e))
-                    # Additional error handling code here 
+            # if not specialcase == 0:
+            #     try:
+            #         wait = WebDriverWait(driver, 0.5)
+            #         next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
+            #         next_page_button.click()
+            #     except Exception as e:  # Consider catching specific exceptions
+            #         print("Exception occurred: ", str(e))
+            #         # Additional error handling code here 
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
             break
