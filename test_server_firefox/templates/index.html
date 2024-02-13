@@ -108,24 +108,50 @@
 
             <script>
             
+            // Function to show the loading message with fade-in effect
+            function showLoadingMessage() {
+                var loadingMessage = document.getElementById('loading-message');
+                loadingMessage.classList.remove('hidden');
+                // Trigger reflow to apply the opacity transition
+                loadingMessage.offsetWidth;
+                loadingMessage.style.opacity = '1';
+            }
+
+            // Function to hide the loading message with fade-out effect
+            function hideLoadingMessage() {
+                var loadingMessage = document.getElementById('loading-message');
+                loadingMessage.style.opacity = '0';
+                // After the transition ends, hide the loading message
+                setTimeout(function() {
+                    loadingMessage.classList.add('hidden');
+                }, 500); // Same duration as the transition in CSS
+            }
             
             document.getElementById('myForm').addEventListener('submit', function(event) {
                 event.preventDefault();
 
-                var formData = new FormData(this);
+                var formData = new FormData(this);hideLoadingMessage
 
                 // Show loading message
-                document.getElementById('loading-message').style.display = 'block';
-
+                // document.getElementById('loading-message').style.display = 'block';
+                showLoadingMessage()
                 // Send AJAX request
                 fetch('/hongbooking', {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
+                })
+                
                 .then(data => {
                     // Hide loading message
-                    document.getElementById('loading-message').style.display = 'none';
+                    hideLoadingMessage()
+                    // document.getElementById('loading-message').style.display = 'none';
 
                     // Display result message
                     var resultMessage = document.getElementById('result');
@@ -136,7 +162,8 @@
                     console.error('Error:', error);
 
                     // Hide loading message
-                    document.getElementById('loading-message').style.display = 'none';
+                    hideLoadingMessage()
+                    // document.getElementById('loading-message').style.display = 'none';
 
                     // Display error message
                     var resultMessage = document.getElementById('result');
