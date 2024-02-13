@@ -265,16 +265,8 @@ def handle_form():
                 # time.sleep(3)
                 # print("(1)refresh")
                 driver.refresh()
-                # time.sleep(3)
-                if not specialcase == 0:
-                    try:
-                        wait = WebDriverWait(driver, 0.5)
-                        next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
-                        next_page_button.click()
-                    except Exception as e:  # Consider catching specific exceptions
-                        print("Exception occurred: ", str(e))
-                        # Additional error handling code here 
-                # time.sleep(5)
+                time.sleep(10)
+                
             
                 # print("Grab a coffee and tea or watch a youtube video")
                 # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
@@ -291,13 +283,7 @@ def handle_form():
                     print("30 : check time range")
                     available_slots_today.append(slot)
 
-            # if not available_slots_today:
-                
-            #     print("(3)No slots available within the desired time range.")
-            #     # time.sleep(3)
-            #     driver.refresh()
-            #     # time.sleep(3)
-            #     continue
+          
 
             for slot in available_slots_today:
                 # print("40")
@@ -320,13 +306,7 @@ def handle_form():
                         #nextok.click()
                         print("Clicked 'OK' button.")
                 
-                        # slot_booking_response = handle_slot_booking()
-                        # return slot_booking_response       
-                        # return jsonify({
-                        #     'message': 'Slot booked successfully.',
-                        #     'step': 'slot_booking',
-                        #     'success': True
-                        # })       
+                             
                         slot_booking_response = {
                             'message': 'Slot booked successfully.',
                             'step': 'slot_booking',
@@ -342,36 +322,13 @@ def handle_form():
     
                     #break
 
-            # except NoSuchElementException:
-            #     print("Today's column is not found or not highlighted.")
-            #     time.sleep(3)
-            #     driver.refresh()
-            #     time.sleep(3)
-
-            #     if not specialcase == 0:
-            #         try:
-            #             wait = WebDriverWait(driver, 1)
-            #             next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
-            #             next_page_button.click()
-            #         except Exception as e:  # Consider catching specific exceptions
-            #             print("Exception occurred: ", str(e))
-            #             # Additional error handling code here 
-            #     # time.sleep(1)
-
         except TimeoutException:
             print("Timeout occurred while looking for slots. Refreshing and retrying...")
             # time.sleep(3)
             driver.refresh()
             # time.sleep(3)
 
-            # if not specialcase == 0:
-            #     try:
-            #         wait = WebDriverWait(driver, 0.5)
-            #         next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
-            #         next_page_button.click()
-            #     except Exception as e:  # Consider catching specific exceptions
-            #         print("Exception occurred: ", str(e))
-            #         # Additional error handling code here 
+            
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
             break
@@ -381,7 +338,7 @@ def handle_form():
 
     # time.sleep(3)
     driver.quit()
-    return render_template('index.html')
+    # return render_template('index.html')
 
     # return jsonify({
     #     'login_response': login_response,
