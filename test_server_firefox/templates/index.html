@@ -32,10 +32,7 @@
                 
                 <label for="password" class="label-with-space">Password:</label>
                 <input type="password" id="password" name="password" required><br>
-            </form>
-
-            <form id="myForm2" action="/hongbooking/handle_form2" method="POST" onsubmit="return validateTime()">
-
+           
                 <label for="project_name" class="label-with-space">project:</label>
                 <select id="project_name" name="project_name" required>
                     <option value="42cursus-libft">libft</option>
@@ -112,7 +109,7 @@
             <script>
             
             
-            document.getElementById('bookingForm').addEventListener('submit', function(event) {
+            document.getElementById('myForm').addEventListener('submit', function(event) {
                 event.preventDefault();
 
                 var formData = new FormData(this);
@@ -147,6 +144,8 @@
                     resultMessage.style.color = 'red';
                 });
             });
+
+           
 
                
                 // // Function to show the loading message

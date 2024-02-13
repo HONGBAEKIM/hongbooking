@@ -65,27 +65,27 @@ def index():
     return render_template('index.html')
 
 # Function to handle selecting slots
-@app.route('/hongbooking', methods=['POST'])
-def handle_login():
-    # Your login logic here
-    # Return True if login is successful, False otherwise
-    return jsonify({
-        'message': 'Login failed. Please try again.',
-        'step': 'login',
-        'success': False
-    })
+# @app.route('/hongbooking', methods=['POST'])
+# def handle_login():
+#     # Your login logic here
+#     # Return True if login is successful, False otherwise
+#     return jsonify({
+#         'message': 'Login failed. Please try again.',
+#         'step': 'login',
+#         'success': False
+#     })
 
 
 
 # Function to handle selecting slots
-def handle_slot_booking():
-    # Your slot booking logic here
-    # Return appropriate response data
-    return jsonify({
-        'message': 'Slot booked successfully.',
-        'step': 'slot_booking',
-        'success': True
-    })
+# def handle_slot_booking():
+#     # Your slot booking logic here
+#     # Return appropriate response data
+#     return jsonify({
+#         'message': 'Slot booked successfully.',
+#         'step': 'slot_booking',
+#         'success': True
+#     })
 
 
 #log-in 
@@ -118,12 +118,16 @@ def attempt_login(driver, username, password):
         return False  # Return False to indicate login failure
     
 
-login_response = None
+
 
 @app.route('/hongbooking', methods=['POST'])
 def handle_form():
     user_id_from_app = request.form.get('user_id')
     password_from_app = request.form.get('password')
+    project_name_from_app = request.form.get('project_name')
+    evaluation_day_from_app = request.form.get('evaluation_day')
+    start_time_from_app = request.form.get('start_time')
+    end_time_from_app = request.form.get('end_time')
 
     #This option runs Chrome in headless mode, 
     #it will not display a UI or open a browser window.
@@ -159,30 +163,15 @@ def handle_form():
 
         logged_in = attempt_login(driver, username, password)
         if logged_in:
-            # attempt_login(driver, username, password)
-            login_response = handle_login(driver, username, password)
+
+            print("loged_in")
+            
         else:
             login_response = {
             'message': 'Login failed. Please try again.',
             'step': 'login',
             'success': False
         }
-        # if logged_in:
-        #     print("logged_in")
-            
-        # else:
-        #     print("Failed_logged_in")
-        #     handle_login(driver, username, password)
-    return jsonify(login_response)
-
-
-
-@app.route('/hongbooking', methods=['POST'])
-def handle_form2():
-    project_name_from_app = request.form.get('project_name')
-    evaluation_day_from_app = request.form.get('evaluation_day')
-    start_time_from_app = request.form.get('start_time')
-    end_time_from_app = request.form.get('end_time')
 
     driver = webdriver.Firefox(options=firefox_options)
     # Dynamically build the URL
@@ -419,7 +408,7 @@ def handle_form2():
                 time.sleep(2)
                 # Find the "OK" button. Adjust the selector as per your page's structure
                 
-                slot_booked = handle_slot_booking(driver)
+                # slot_booked = handle_slot_booking(driver)
                 
                 try:
                     nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
@@ -429,8 +418,18 @@ def handle_form2():
                         #nextok.click()
                         print("Clicked 'OK' button.")
                 
-                        slot_booking_response = handle_slot_booking()
-                        return slot_booking_response                    
+                        # slot_booking_response = handle_slot_booking()
+                        # return slot_booking_response       
+                        # return jsonify({
+                        #     'message': 'Slot booked successfully.',
+                        #     'step': 'slot_booking',
+                        #     'success': True
+                        # })       
+                        slot_booking_response = {
+                            'message': 'Slot booked successfully.',
+                            'step': 'slot_booking',
+                            'success': True
+                        }
          
                 
                 except NoSuchElementException:
@@ -477,11 +476,11 @@ def handle_form2():
 
     time.sleep(3)
     driver.quit()
-    return slot_booking_response
-    # return jsonify({
-    #     'login_response': login_response,
-    #     'slot_booking_response': slot_booking_response
-    # })
+    
+    return jsonify({
+        'login_response': login_response,
+        'slot_booking_response': slot_booking_response
+    })
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
