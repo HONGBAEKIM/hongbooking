@@ -115,7 +115,7 @@
                 var formData = new FormData(this);
 
                 // Show loading message
-                document.getElementById('loading-Message').style.display = 'block';
+                document.getElementById('loading-message').style.display = 'block';
 
                 // Send AJAX request
                 fetch('/hongbooking', {
@@ -125,7 +125,7 @@
                 .then(response => response.json())
                 .then(data => {
                     // Hide loading message
-                    document.getElementById('loading-Message').style.display = 'none';
+                    document.getElementById('loading-message').style.display = 'none';
 
                     // Display result message
                     var resultMessage = document.getElementById('result');
@@ -136,7 +136,7 @@
                     console.error('Error:', error);
 
                     // Hide loading message
-                    document.getElementById('loading-Message').style.display = 'none';
+                    document.getElementById('loading-message').style.display = 'none';
 
                     // Display error message
                     var resultMessage = document.getElementById('result');
