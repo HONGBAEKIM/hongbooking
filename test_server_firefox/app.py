@@ -95,14 +95,12 @@ def attempt_login(driver, username, password):
 
 
 
-# @app.route('/hongbooking')
-# def index():
-    
-    # return render_template('index.html')
+@app.route('/hongbooking')
+def index():
+    return render_template('index.html')
 
 @app.route('/hongbooking', methods=['POST'])
-def index():
-# def handle_form():
+def handle_form():
     user_id_from_app = request.form.get('user_id')
     password_from_app = request.form.get('password')
     project_name_from_app = request.form.get('project_name')
