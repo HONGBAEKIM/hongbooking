@@ -158,7 +158,6 @@ def handle_form():
             })
             
 
-    driver = webdriver.Firefox(options=firefox_options)
     # Dynamically build the URL
     base_url = "https://projects.intra.42.fr/projects"
 
@@ -198,7 +197,7 @@ def handle_form():
     
 
 
-    #Select time 
+    # Select time 
     def is_valid_time(time_str):
         try:
             datetime.strptime(time_str, "%H:%M")
@@ -247,7 +246,7 @@ def handle_form():
 
     # This flag will indicate whether a slot has been successfully clicked
     slot_clicked = False
-    max_retries = 1000
+    max_retries = 500
     attempts = 0
 
 
@@ -301,9 +300,9 @@ def handle_form():
             #     continue
 
             for slot in available_slots_today:
-                print("40")
+                # print("40")
                 WebDriverWait(driver, 1).until(EC.element_to_be_clickable(slot))
-                print("41")
+                # print("41")
                 slot.click()
                 print("(4)Clicked on an available slot.")
                 slot_clicked = True
