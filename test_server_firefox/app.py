@@ -350,10 +350,10 @@ def handle_form():
 
 
             if (len(slots) == 0):
-                time.sleep(3)
+                # time.sleep(3)
                 print("(1)refresh")
                 driver.refresh()
-                time.sleep(3)
+                # time.sleep(3)
                 if not specialcase == 0:
                     try:
                         wait = WebDriverWait(driver, 1)
@@ -362,7 +362,7 @@ def handle_form():
                     except Exception as e:  # Consider catching specific exceptions
                         print("Exception occurred: ", str(e))
                         # Additional error handling code here 
-                time.sleep(5)
+                # time.sleep(5)
             
                 # print("Grab a coffee and tea or watch a youtube video")
                 # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
@@ -387,9 +387,9 @@ def handle_form():
             if not available_slots_today:
                 
                 print("(3)No slots available within the desired time range.")
-                time.sleep(3)
+                # time.sleep(3)
                 driver.refresh()
-                time.sleep(3)
+                # time.sleep(3)
                 if not specialcase == 0:
                     try:
                         wait = WebDriverWait(driver, 1)
@@ -398,7 +398,7 @@ def handle_form():
                     except Exception as e:  # Consider catching specific exceptions
                         print("Exception occurred: ", str(e))
                         # Additional error handling code here 
-                time.sleep(5)
+                # time.sleep(5)
                 continue
 
             
@@ -411,7 +411,7 @@ def handle_form():
                 print("(4)Clicked on an available slot.")
                 slot_clicked = True
                 
-                time.sleep(2)
+                # time.sleep(2)
                 # Find the "OK" button. Adjust the selector as per your page's structure
                 
                 # slot_booked = handle_slot_booking(driver)
@@ -464,9 +464,9 @@ def handle_form():
 
         except TimeoutException:
             print("Timeout occurred while looking for slots. Refreshing and retrying...")
-            time.sleep(3)
+            # time.sleep(3)
             driver.refresh()
-            time.sleep(3)
+            # time.sleep(3)
 
             if not specialcase == 0:
                 try:
@@ -483,7 +483,7 @@ def handle_form():
     if attempts >= max_retries:
         print("Reached the maximum number of retries. Exiting.")
 
-    time.sleep(3)
+    # time.sleep(3)
     driver.quit()
     
     # return jsonify({
