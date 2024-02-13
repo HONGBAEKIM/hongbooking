@@ -237,7 +237,7 @@ def handle_form():
             
             if (len(slots) == 0):
                 driver.refresh()
-                time.sleep(10)
+                # time.sleep(10)
                 
             for slot in slots:
                 
