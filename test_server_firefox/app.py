@@ -186,8 +186,8 @@ def handle_form():
     DAYS = {
         "today": 0,
         "tomorrow": 1,
-        "2days": 2,
-        "3days": 3
+        "in 2 days": 2,
+        "in 3 days": 3
     }
 
     def attempt_day(evaluation_day):
