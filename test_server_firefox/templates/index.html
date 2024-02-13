@@ -26,7 +26,7 @@
         <section>         
             
             <h2>Input</h2>
-            <form id="myForm" action="/hongbooking/handle_form" method="POST" onsubmit="return validateTime()">
+            <form id="myForm" action="/hongbooking" method="POST" onsubmit="return validateTime()">
                 <label for="user_id" class="label-with-space">Username:</label>
                 <input type="text" id="user_id" name="user_id" required><br>
                 
@@ -97,8 +97,8 @@
             </form>
         
             <div id="result"></div>
-            <div id="successMessage"></div>
-            <div id="additionalMessage"></div>
+            <!-- <div id="successMessage"></div>
+            <div id="additionalMessage"></div> -->
             
             <div id="loading-message" style="display: none;">
                 <p>Loading...</p>
@@ -115,7 +115,7 @@
                 var formData = new FormData(this);
 
                 // Show loading message
-                document.getElementById('loadingMessage').style.display = 'block';
+                document.getElementById('loading-Message').style.display = 'block';
 
                 // Send AJAX request
                 fetch('/hongbooking', {
@@ -125,10 +125,10 @@
                 .then(response => response.json())
                 .then(data => {
                     // Hide loading message
-                    document.getElementById('loadingMessage').style.display = 'none';
+                    document.getElementById('loading-Message').style.display = 'none';
 
                     // Display result message
-                    var resultMessage = document.getElementById('resultMessage');
+                    var resultMessage = document.getElementById('result');
                     resultMessage.textContent = data.message;
                     resultMessage.style.color = data.success ? 'green' : 'red';
                 })
@@ -136,102 +136,40 @@
                     console.error('Error:', error);
 
                     // Hide loading message
-                    document.getElementById('loadingMessage').style.display = 'none';
+                    document.getElementById('loading-Message').style.display = 'none';
 
                     // Display error message
-                    var resultMessage = document.getElementById('resultMessage');
+                    var resultMessage = document.getElementById('result');
                     resultMessage.textContent = 'An error occurred. Please try again later.';
                     resultMessage.style.color = 'red';
                 });
             });
 
+            
+            function validateTime() {
+                var startTime = document.getElementById("start_time").value;
+                var endTime = document.getElementById("end_time").value;
+                
+                if (startTime >= endTime) {
+                    alert("Error: Desired end time must be later than Desired start time.");
+                    return false; // Prevent form submission
+                }
+                
+                return true; // Allow form submission
+            }
+                
+                
            
 
-               
-                // // Function to show the loading message
-                // function showLoadingMessage() {
-                //     $('#loading-message').show();
-                // }
-
-                // // Function to hide the loading message
-                // function hideLoadingMessage() {
-                //     $('#loading-message').hide();
-                // }
-        
-                // // Event listener for form submission
-                // $('#myForm').submit(function(event) {
-                //     // Prevent default form submission
-                //     event.preventDefault();
-
-                //     // Show loading message
-                //     showLoadingMessage();
-
-                //     // Serialize the form data
-                //     var formData = $(this).serialize();
-        
-                //     // Your AJAX request code here
-                //     $.ajax({
-                //         url: '/hongbooking',
-                //         type: 'POST',
-                //         data: formData,
-                //         processData: false,  // Prevent jQuery from processing the data
-                //         contentType: false,  // Prevent jQuery from setting contentType
-                //         success: function(response) {
-                            
-                            
-                //             hideLoadingMessage();
-                //             // Handle response here
-                //             if (response.success) {
-                //                 // Update the status message with the success message for each step
-                //                 if (response.step === 'login') {
-                //                     $('#status-messages').append(`<p>Login: ${response.message}</p>`);
-                //                 } else if (response.step === 'processing') {
-                //                     $('#status-messages').append(`<p>Processing: ${response.message}</p>`);
-                //                 } else if (response.step === 'slot_booking') {
-                //                     $('#status-messages').append(`<p>Slot Booking: ${response.message}</p>`);
-                //                 }
-                                
-                //             } 
-                //             else {
-                //                 // Update the status message with the error message
-                //                 $('#status-messages').append(`<p>${response.step}: ${response.message}</p>`);
-                                
-                //             }
-                //         },
-                //         error: function(xhr, status, error) {
-                //             // Handle the error if the AJAX request fails
-                //             console.error(error);
-                //             // Optionally provide feedback to the user about the error
-                //             $('#status-messages').append(`<p>Error: ${error}</p>`);
-                //             // Hide loading message in case of error
-                //             hideLoadingMessage();
-                //         }
-                //     });
-                // });
-                // });
             </script>     
         </section>    
     </main>
 
+    
+    
     <footer>
         <p>&copy; 2024 Your Simple Website</p>
     </footer>
-
-    <script>
-        function validateTime() {
-            var startTime = document.getElementById("start_time").value;
-            var endTime = document.getElementById("end_time").value;
-
-            if (startTime >= endTime) {
-                alert("Error: Desired end time must be later than Desired start time.");
-                return false; // Prevent form submission
-            }
-
-            return true; // Allow form submission
-        }
-    </script>
-    </section>
-
 
 </body>
 </html>
