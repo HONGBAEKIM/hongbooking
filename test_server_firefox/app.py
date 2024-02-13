@@ -243,7 +243,7 @@ def handle_form():
         if not specialcase == 0:
             #I should click next page 
             try:
-                wait = WebDriverWait(driver, 1)
+                wait = WebDriverWait(driver, 0.5)
                 next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                 # print("next page is ready?")
                 next_page_button.click()
@@ -260,7 +260,7 @@ def handle_form():
             if not specialcase == 0:
             #I should click next page 
                 try:
-                    wait = WebDriverWait(driver, 1)
+                    wait = WebDriverWait(driver, 0.5)
                     next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                     # print("next page is ready?")
                     next_page_button.click()
@@ -356,7 +356,7 @@ def handle_form():
                 # time.sleep(3)
                 if not specialcase == 0:
                     try:
-                        wait = WebDriverWait(driver, 1)
+                        wait = WebDriverWait(driver, 0.5)
                         next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                         next_page_button.click()
                     except Exception as e:  # Consider catching specific exceptions
@@ -392,7 +392,7 @@ def handle_form():
                 # time.sleep(3)
                 if not specialcase == 0:
                     try:
-                        wait = WebDriverWait(driver, 1)
+                        wait = WebDriverWait(driver, 0.5)
                         next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                         next_page_button.click()
                     except Exception as e:  # Consider catching specific exceptions
@@ -470,7 +470,7 @@ def handle_form():
 
             if not specialcase == 0:
                 try:
-                    wait = WebDriverWait(driver, 1)
+                    wait = WebDriverWait(driver, 0.5)
                     next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
                     next_page_button.click()
                 except Exception as e:  # Consider catching specific exceptions
