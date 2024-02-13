@@ -167,33 +167,9 @@ def handle_form():
     driver.get(full_url)
 
 
-    # DAYS = {
-    #     "today": 0,
-    #     #"tomorrow": 1,
-    #     #"in 2 days": 2,
-    #     #"in 3 days": 3
-    # }
 
-    # def attempt_day(evaluation_day):
-    #     print("evaluation_day : ", evaluation_day)
-    #     day_name = DAYS.get(evaluation_day, "invalid")
-    #     if day_name == "invalid":
-    #         print("Invalid day. Please check day list.")
-    #         return False
-    #     print("Successfully typed day")
-    #     return True
-
-
-    # day_in = False
-    # while not day_in:
-    #     evaluation_day = evaluation_day_from_app
-    #     day_in = attempt_day(evaluation_day)
-    #     if not day_in:
-    #         print("day has not typed. Please try again.")
-
-    # int_evaluation_day = DAYS[evaluation_day]
     current_day = datetime.now().weekday()
-    # specialcase = 0
+    
     
 
 
@@ -259,45 +235,25 @@ def handle_form():
             xpath = f".//tr/td[{current_day + 2}]//div[contains(@class, 'fc-time')]"
             slots = driver.find_elements(By.XPATH, xpath)
             
-
-
             if (len(slots) == 0):
-                # time.sleep(3)
-                # print("(1)refresh")
                 driver.refresh()
                 time.sleep(10)
                 
-            
-                # print("Grab a coffee and tea or watch a youtube video")
-                # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
-            
-            
             for slot in slots:
                 
                 print("(2)there is another available slot", slot.text)
                 time_str = slot.get_attribute("data-full").split(" - ")[0]
-                # Debugging: Check the type and value of time_str
-                #print("21 : time_str:", time_str, "Type:", type(time_str))
-
+                
                 if is_time_within_range(convert_to_24hr_format(time_str), start_time_from_app, end_time_from_app):
                     print("30 : check time range")
                     available_slots_today.append(slot)
 
-          
-
             for slot in available_slots_today:
-                # print("40")
                 WebDriverWait(driver, 1).until(EC.element_to_be_clickable(slot))
-                # print("41")
                 slot.click()
                 print("(4)Clicked on an available slot.")
                 slot_clicked = True
-                
-                # time.sleep(2)
-                # Find the "OK" button. Adjust the selector as per your page's structure
-                
-                # slot_booked = handle_slot_booking(driver)
-                
+                    
                 try:
                     nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
                     if nextok.text == "OK":
@@ -324,10 +280,7 @@ def handle_form():
 
         except TimeoutException:
             print("Timeout occurred while looking for slots. Refreshing and retrying...")
-            # time.sleep(3)
             driver.refresh()
-            # time.sleep(3)
-
             
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
@@ -336,7 +289,6 @@ def handle_form():
     if attempts >= max_retries:
         print("Reached the maximum number of retries. Exiting.")
 
-    # time.sleep(3)
     driver.quit()
     return render_template('index.html')
 
