@@ -171,7 +171,7 @@ def handle_form():
             'message': 'Login failed. Please try again.',
             'step': 'login',
             'success': False
-        }
+            }
 
     driver = webdriver.Firefox(options=firefox_options)
     # Dynamically build the URL

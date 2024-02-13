@@ -126,6 +126,14 @@
                     loadingMessage.classList.add('hidden');
                 }, 1000); // Same duration as the transition in CSS
             }
+
+            // Update this function to handle the AJAX response
+            function handleResponse(response) {
+                // Assuming the response contains 'message' and 'success' keys
+                var resultMessage = document.getElementById('result');
+                resultMessage.textContent = response.message;
+                resultMessage.style.color = response.success ? 'green' : 'red';
+            }
             
             document.getElementById('myForm').addEventListener('submit', function(event) {
                 event.preventDefault();
@@ -154,10 +162,8 @@
                     // Hide loading message
                     hideLoadingMessage();
 
-                    // Display result message
-                    var resultMessage = document.getElementById('result');
-                    resultMessage.textContent = data.message;
-                    resultMessage.style.color = data.success ? 'green' : 'red';
+                    // Handle the response
+                    handleResponse(data);
                 })
                 .catch(error => {
                     console.error('Error:', error);
