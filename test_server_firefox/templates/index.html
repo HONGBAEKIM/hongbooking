@@ -103,11 +103,7 @@
                 <p>Loading...</p>
             </div>
 
-            <style>
-                .hidden {
-                    display: none;
-                }
-            </style>
+            
 
 
             <script>
@@ -177,33 +173,43 @@
                 });
             });
 
-            <footer>
-                <p>&copy; 2024 Your Simple Website</p>
-            </footer>
             
-            function validateTime() {
-                var startTime = document.getElementById("start_time").value;
-                var endTime = document.getElementById("end_time").value;
+
+
+            </script>
                 
-                if (startTime >= endTime) {
-                    alert("Error: Desired end time must be later than Desired start time.");
-                    return false; // Prevent form submission
+
+            <style>
+                .hidden {
+                    display: none;
                 }
+            </style>
+
+
+
+
+            <script>
+                <footer>
+                    <p>&copy; 2024 Your Simple Website</p>
+                </footer>
                 
-                return true; // Allow form submission
-            }
-                
+                function validateTime() {
+                    var startTime = document.getElementById("start_time").value;
+                    var endTime = document.getElementById("end_time").value;
+                    
+                    if (startTime >= endTime) {
+                        alert("Error: Desired end time must be later than Desired start time.");
+                        return false; // Prevent form submission
+                    }
+                    
+                    return true; // Allow form submission
+                }
+            
             </script>
             
             
-
-            
         </section>    
     </main>
-
-    
-    
-
 </body>
 </html>
 
