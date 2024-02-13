@@ -167,11 +167,17 @@ def handle_form():
             print("loged_in")
             
         else:
+            
             login_response = {
             'message': 'Login failed. Please try again.',
             'step': 'login',
             'success': False
             }
+
+            return jsonify({
+                'login_response': login_response,
+            })
+            
 
     driver = webdriver.Firefox(options=firefox_options)
     # Dynamically build the URL
@@ -430,6 +436,9 @@ def handle_form():
                             'step': 'slot_booking',
                             'success': True
                         }
+                        return jsonify({
+                            'slot_booking_response': slot_booking_response
+                        })
          
                 
                 except NoSuchElementException:
@@ -477,10 +486,15 @@ def handle_form():
     time.sleep(3)
     driver.quit()
     
-    return jsonify({
-        'login_response': login_response,
-        'slot_booking_response': slot_booking_response
-    })
+    # return jsonify({
+    #     'login_response': login_response,
+    #     'slot_booking_response': slot_booking_response
+    # })
+
+    # return jsonify({
+    #     'login_response': login_response,
+    #     'slot_booking_response': slot_booking_response
+    # })
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
