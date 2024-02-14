@@ -100,13 +100,24 @@
 
             
             <div id="loading-message" class="hidden">
-                <p>Loading...</p>
+                <p id="loading-progress"></p>
             </div>
 
             
 
 
             <script>
+
+            // Global variable to track loading progress
+            var currentProgress = 0;
+            var totalProgress = 5; // Total number of steps in loading process
+
+            // Function to update the loading progress message
+            function updateLoadingProgress() {
+                var loadingProgress = document.getElementById('loading-progress');
+                loadingProgress.textContent = (currentProgress + 1) + ' of ' + totalProgress;
+            }
+
             
             // Function to show the loading message with fade-in effect
             function showLoadingMessage() {
@@ -180,6 +191,9 @@
             document.getElementById('myForm').addEventListener('submit', function() {
                 // Show loading message
                 showLoadingMessage();
+                // Later in your code, as progress is made:
+                currentProgress++; // Increment progress
+                updateLoadingProgress(); // Update loading progress
             });
 
 
