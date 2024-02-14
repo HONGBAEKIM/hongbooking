@@ -124,7 +124,7 @@
                 // After the transition ends, hide the loading message
                 setTimeout(function() {
                     loadingMessage.classList.add('hidden');
-                }, 1000); // Same duration as the transition in CSS
+                }, 5000); // Same duration as the transition in CSS
             }
 
             // Update this function to handle the AJAX response
@@ -147,7 +147,6 @@
                 fetch('/hongbooking/handle_form', {
                     method: 'POST',
                     body: formData
-                    // timeout: 120000 // 2 min
                 })
                 .then(response => {
                     if (response.ok) {
@@ -176,7 +175,7 @@
                         var resultMessage = document.getElementById('result');
                         resultMessage.textContent = 'An error occurred. Please try again later.';
                         resultMessage.style.color = 'red';
-                    }, 120000);  // 2 min
+                    }, 180000);  // 3 min
                 });
             });
             
