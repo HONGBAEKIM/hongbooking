@@ -239,6 +239,7 @@ def handle_form():
             slots = driver.find_elements(By.XPATH, xpath)
             
             if (len(slots) == 0):
+                time.sleep(10)
                 driver.refresh()
 
                 
