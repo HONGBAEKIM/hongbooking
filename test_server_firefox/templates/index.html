@@ -92,7 +92,7 @@
                     {% endfor %}
                 </select><br>
 
-                <button type="submit">Submit</button>
+                <button type="submit" id="submitButton">Submit</button>
                 
             </form>
         
@@ -135,22 +135,41 @@
                 resultMessage.style.color = response.success ? 'green' : 'red';
             }
             
+
+
+            // Disable submit button
+            function disableSubmitButton() {
+                document.getElementById('submitButton').disabled = true;
+            }
+
+            // Enable submit button
+            function enableSubmitButton() {
+                document.getElementById('submitButton').disabled = false;
+            }
+
             document.getElementById('myForm').addEventListener('submit', function(event) {
                 event.preventDefault();
 
-                // Check if enough time has passed since the last submission
-                var lastSubmissionTime = localStorage.getItem('lastSubmissionTime');
-                var currentTime = new Date().getTime();
-                var minTimeDifference = 60 * 60 * 1000; // 60 minutes in milliseconds
-
-                if (lastSubmissionTime && currentTime - lastSubmissionTime < minTimeDifference) {
-                    // Display a message indicating that the user needs to wait before submitting again
-                    alert("Please wait for 60 minutes before submitting again.");
-                    return;
-                }
-
-
-
+                // Disable submit button to prevent multiple clicks
+                disableSubmitButton();
+                
+                // Make a GET request to check if app.py is running
+                fetch('/is_running')
+                    .then(response => response.json())
+                    .then(data => {
+                
+                        const programIsRunning = data.is_running;
+                    
+                        if (!programIsRunning) {
+                            // Enable submit button if app.py is not running
+                            enableSubmitButton();
+                            alert("The program is currently not running. Please try again later.");
+                        } else {
+                            // Submit form as usual if app.py is running
+                            this.submit(); 
+                        }
+                
+                    });
 
                 var formData = new FormData(this);
 
@@ -162,6 +181,7 @@
                     method: 'POST',
                     body: formData
                 })
+
                 .then(response => {
                     if (response.ok) {
                         return response.json();
@@ -178,9 +198,9 @@
                     // Handle the response
                     handleResponse(data);
 
-                    // Store the timestamp of the current submission
-                    localStorage.setItem('lastSubmissionTime', new Date().getTime());
+
                 })
+
                 .catch(error => {
                     console.error('Error:', error);
 
@@ -194,11 +214,15 @@
                         resultMessage.style.color = 'red';
                     }, 180000);  // 3 min
                 });
+            
+                
+                
+            
+            
             });
             
             </script>
 
-                
 
             <style>
                 .hidden {
@@ -207,10 +231,20 @@
             </style>
 
 
+            <!-- <script>
+            document.getElementById('myForm').addEventListener('submit', function(event) {
+            
+                event.preventDefault();
+                
+
+            });
+            
+            </script> -->
+
+
             <footer>
                 <p>&copy; 2024 Your Simple Website</p>
             </footer>
-
 
             <script>
                 

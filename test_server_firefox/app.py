@@ -92,8 +92,11 @@ def attempt_login(driver, username, password):
         print("An error occurred:", e)
         return False  # Return False to indicate login failure
     
-
-
+@app.route('/is_running')
+def check_if_running():
+  return jsonify({
+    'is_running': True 
+  })
 
 @app.route('/hongbooking')
 def index():
@@ -292,15 +295,7 @@ def handle_form():
     driver.quit()
     return render_template('index.html')
 
-    # return jsonify({
-    #     'login_response': login_response,
-    #     'slot_booking_response': slot_booking_response
-    # })
 
-    # return jsonify({
-    #     'login_response': login_response,
-    #     'slot_booking_response': slot_booking_response
-    # })
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
