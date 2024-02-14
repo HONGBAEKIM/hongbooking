@@ -104,109 +104,171 @@
             </div>
 
 
+            
+
             <script>
+                // Function to disable submit button
+                function disableSubmitButton() {
+                    document.getElementById('submitButton').disabled = true;
+                }
 
+                // Function to enable submit button
+                function enableSubmitButton() {
+                    document.getElementById('submitButton').disabled = false;
+                }
 
+                // Function to handle AJAX response
+                function handleResponse(response) {
+                    // Assuming the response contains 'message' and 'success' keys
+                    var resultMessage = document.getElementById('result');
+                    resultMessage.textContent = response.message;
+                    resultMessage.style.color = response.success ? 'green' : 'red';
+                }
 
+                // Add submit event listener to form
+                document.getElementById('myForm').addEventListener('submit', function(event) {
+                    // Prevent the default form submission
+                    event.preventDefault();
 
-            // Update this function to handle the AJAX response
-            function handleResponse(response) {
-                // Assuming the response contains 'message' and 'success' keys
-                var resultMessage = document.getElementById('result');
-                resultMessage.textContent = response.message;
-                resultMessage.style.color = response.success ? 'green' : 'red';
-            }
-            
+                    // Disable submit button to prevent multiple submissions
+                    disableSubmitButton();
 
-
-            // Disable submit button
-            function disableSubmitButton() {
-                document.getElementById('submitButton').disabled = true;
-            }
-
-            // Enable submit button
-            function enableSubmitButton() {
-                document.getElementById('submitButton').disabled = false;
-            }
-
-            
-
-            document.getElementById('myForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                // Disable submit button to prevent multiple clicks
-                disableSubmitButton();
-                
-                // Make a GET request to check if app.py is running
-                fetch('/is_running')
-                    .then(response => response.json())
-                    .then(data => {
-                
-                        const programIsRunning = data.is_running;
-                    
-                        if (!programIsRunning) {
-                            // Enable submit button if app.py is not running
-                            enableSubmitButton();
-                            alert("The program is currently not running. Please try again later.");
+                    // Fetch the form data
+                    fetch('/hongbooking/handle_form', {
+                        method: 'POST',
+                        body: new FormData(this)
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else if (response.status === 405) {
+                            throw new Error('Method Not Allowed');
                         } else {
-                            // Submit form as usual if app.py is running
-                            this.submit(); 
+                            throw new Error('Network response was not ok.');
                         }
+                    })
+                    .then(data => {
+                        // Handle the response
+                        handleResponse(data);
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        // Enable submit button on error
+                        // Display error message
+                        var resultMessage = document.getElementById('result');
+                        if (error.message === 'Method Not Allowed') {
+                            resultMessage.textContent = 'Form submission is currently not allowed. Please try again later.';
+                        } else {
+                            resultMessage.textContent = 'An error occurred. Please try again later.';
+                        }
+                        resultMessage.style.color = 'red';
+                    })
+                    .finally(() => {
+                        // Enable submit button after the request completes (success or error)
                         enableSubmitButton();
                     });
-            });
-
-
-
-
-
-
-            // Handle AJAX response
-            document.getElementById('myForm').addEventListener('submit', function() {
-                
-                fetch('/hongbooking/handle_form', {
-                    method: 'POST',
-                    body: new FormData(this)
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else if (response.status === 405) {
-                        throw new Error('Method Not Allowed');
-                    } else {
-                        throw new Error('Network response was not ok.');
-                    }
-                })
-                
-                .then(data => {
-                    
-                    // Handle the response
-                    handleResponse(data);
-                    // Enable submit button after successful submission
-                    enableSubmitButton();
-                })
-
-                .catch(error => {
-                    console.error('Error:', error);
-                    
-                    // Display error message
-                    var resultMessage = document.getElementById('result');
-                    if (error.message === 'Method Not Allowed') {
-                        resultMessage.textContent = 'Form submission is currently not allowed. Please try again later.';
-                    } else {
-                        resultMessage.textContent = 'An error occurred. Please try again later.';
-                    }
-                    resultMessage.style.color = 'red';
-                    // Enable submit button after error
-                    enableSubmitButton();
                 });
-            });
-            
             </script>
+            <script>
+            // // Disable submit button
+            // function disableSubmitButton() {
+            //     document.getElementById('submitButton').disabled = true;
+            // }
+
+            // // Enable submit button
+            // function enableSubmitButton() {
+            //     document.getElementById('submitButton').disabled = false;
+            // }
+
+
+            // // Update this function to handle the AJAX response
+            // function handleResponse(response) {
+            //     // Assuming the response contains 'message' and 'success' keys
+            //     var resultMessage = document.getElementById('result');
+            //     resultMessage.textContent = response.message;
+            //     resultMessage.style.color = response.success ? 'green' : 'red';
+            // }
+            
+
+
+
+            
+
+            // document.getElementById('myForm').addEventListener('submit', function(event) {
+            //     event.preventDefault();
+
+            //     // Disable submit button to prevent multiple clicks
+            //     disableSubmitButton();
+                
+            //     // Make a GET request to check if app.py is running
+            //     fetch('/is_running')
+            //         .then(response => response.json())
+            //         .then(data => {
+                
+            //             const programIsRunning = data.is_running;
+                    
+            //             if (!programIsRunning) {
+            //                 // Enable submit button if app.py is not running
+            //                 enableSubmitButton();
+            //                 alert("The program is currently not running. Please try again later.");
+            //             } else {
+            //                 // Submit form as usual if app.py is running
+            //                 this.submit(); 
+            //             }
+            //         })
+            //         .catch(error => {
+            //             console.error('Error:', error);
+            //             // Enable submit button on error
+            //             enableSubmitButton();
+            //         });
+            // });
+
+
+
+
+
+
+            // // Handle AJAX response
+            // document.getElementById('myForm').addEventListener('submit', function() {
+                
+            //     fetch('/hongbooking/handle_form', {
+            //         method: 'POST',
+            //         body: new FormData(this)
+            //     })
+            //     .then(response => {
+            //         if (response.ok) {
+            //             return response.json();
+            //         } else if (response.status === 405) {
+            //             throw new Error('Method Not Allowed');
+            //         } else {
+            //             throw new Error('Network response was not ok.');
+            //         }
+            //     })
+                
+            //     .then(data => {
+                    
+            //         // Handle the response
+            //         handleResponse(data);
+            //         // Enable submit button after successful submission
+            //         enableSubmitButton();
+            //     })
+
+            //     .catch(error => {
+            //         console.error('Error:', error);
+                    
+            //         // Display error message
+            //         var resultMessage = document.getElementById('result');
+            //         if (error.message === 'Method Not Allowed') {
+            //             resultMessage.textContent = 'Form submission is currently not allowed. Please try again later.';
+            //         } else {
+            //             resultMessage.textContent = 'An error occurred. Please try again later.';
+            //         }
+            //         resultMessage.style.color = 'red';
+            //         // Enable submit button after error
+            //         enableSubmitButton();
+            //     });
+            // });
+            
+            // </script>
 
 
             <style>
