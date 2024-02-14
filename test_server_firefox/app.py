@@ -249,7 +249,7 @@ def handle_form():
                     available_slots_today.append(slot)
 
             for slot in available_slots_today:
-                WebDriverWait(driver, 1).until(EC.element_to_be_clickable(slot))
+                # WebDriverWait(driver, 1).until(EC.element_to_be_clickable(slot))
                 slot.click()
                 print("(4)Clicked on an available slot.")
                 slot_clicked = True
@@ -258,7 +258,7 @@ def handle_form():
                     nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
                     if nextok.text == "OK":
                         
-                        WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
+                        # WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
                         #nextok.click()
                         print("Clicked 'OK' button.")
                 
