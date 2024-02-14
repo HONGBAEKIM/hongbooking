@@ -100,25 +100,30 @@
 
             
             <div id="loading-message" class="hidden">
-                <p id="loading-progress"></p>
+                <p id="Loading..."></p>
             </div>
 
-            
-
+            <div id="attempts-info"></div>
 
             <script>
 
-            // Global variable to track loading progress
-            var currentProgress = 0;
-            var totalProgress = 5; // Total number of steps in loading process
 
-            // Function to update the loading progress message
-            function updateLoadingProgress() {
-                var loadingProgress = document.getElementById('loading-progress');
-                loadingProgress.textContent = (currentProgress + 1) + ' of ' + totalProgress;
+            // Function to update attempts info on the website
+            function updateAttemptsInfo(attempts, maxRetries) {
+                var attemptsInfo = document.getElementById('attempts-info');
+                attemptsInfo.textContent = `Attempt ${attempts} of ${maxRetries}`;
             }
 
-            
+            var attempts = 0;
+            var maxRetries = 5; // Example value, you can set it to your desired value
+            while (!slot_clicked && attempts < maxRetries) {
+                attempts += 1;
+                console.log(`${attempts} of ${maxRetries}`); // Print to console
+                updateAttemptsInfo(attempts, maxRetries); // Update info on website
+                // Rest of your code
+            }
+
+           
             // Function to show the loading message with fade-in effect
             function showLoadingMessage() {
                 var loadingMessage = document.getElementById('loading-message');
@@ -126,7 +131,7 @@
                 // Trigger reflow to apply the opacity transition
                 loadingMessage.offsetWidth;
                 loadingMessage.style.opacity = '1';
-                updateLoadingProgress();
+
             }
 
             // Function to hide the loading message with fade-out effect
@@ -158,6 +163,8 @@
             function enableSubmitButton() {
                 document.getElementById('submitButton').disabled = false;
             }
+
+            
 
             document.getElementById('myForm').addEventListener('submit', function(event) {
                 event.preventDefault();
@@ -192,9 +199,6 @@
             document.getElementById('myForm').addEventListener('submit', function() {
                 // Show loading message
                 showLoadingMessage();
-                // Later in your code, as progress is made:
-                currentProgress++; // Increment progress
-                updateLoadingProgress(); // Update loading progress
             });
 
 
