@@ -168,7 +168,7 @@
             // Handle AJAX response
             document.getElementById('myForm').addEventListener('submit', function() {
                 
-                fetch('/hongbooking', {
+                fetch('/hongbooking/handle_form', {
                     method: 'POST',
                     body: new FormData(this)
                 })
