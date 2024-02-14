@@ -13,9 +13,21 @@ app.post('/hongbooking', (req, res) => {
     const formData = req.body;
 
     // Process the form data here (e.g., save to database)
+    // For demonstration purposes, let's log the form data
+    console.log('Form data received:', formData);
 
-    // Send a response to the client
-    res.json({ message: 'Form data received successfully', success: true });
+    // Check if form data is valid
+    if (formData && formData.username && formData.password) {
+        // Form data is valid
+        // You can perform additional processing or validation here
+        
+        // Send a success response to the client
+        res.status(200).json({ message: 'Form data received successfully', success: true });
+    } else {
+        // Form data is invalid or incomplete
+        // Send an error response to the client
+        res.status(400).json({ message: 'Invalid form data', success: false });
+    }
 });
 
 // Start the server
