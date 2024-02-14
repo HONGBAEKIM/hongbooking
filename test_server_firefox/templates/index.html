@@ -108,25 +108,6 @@
 
 
 
-           
-            // Function to show the loading message with fade-in effect
-            function showLoadingMessage() {
-                var loadingMessage = document.getElementById('loading-message');
-                loadingMessage.classList.remove('hidden');
-                // Trigger reflow to apply the opacity transition
-                loadingMessage.offsetWidth;
-                loadingMessage.style.opacity = '1';
-            }
-
-            // Function to hide the loading message with fade-out effect
-            function hideLoadingMessage() {
-                var loadingMessage = document.getElementById('loading-message');
-                loadingMessage.style.opacity = '0';
-                // After the transition ends, hide the loading message
-                setTimeout(function() {
-                    loadingMessage.classList.add('hidden');
-                }, 500); // Same duration as the transition in CSS
-            }
 
             // Update this function to handle the AJAX response
             function handleResponse(response) {
@@ -179,11 +160,7 @@
                     });
             });
 
-            // Handle form submission completion
-            document.getElementById('myForm').addEventListener('submit', function() {
-                // Show loading message
-                showLoadingMessage();
-            });
+
 
 
 
@@ -206,8 +183,7 @@
                 })
                 
                 .then(data => {
-                    // Hide loading message
-                    hideLoadingMessage();
+                    
                     // Handle the response
                     handleResponse(data);
                     // Enable submit button after successful submission
@@ -216,8 +192,7 @@
 
                 .catch(error => {
                     console.error('Error:', error);
-                    // Hide loading message
-                    hideLoadingMessage();
+                    
                     // Display error message
                     var resultMessage = document.getElementById('result');
                     if (error.message === 'Method Not Allowed') {
@@ -240,16 +215,6 @@
                 }
             </style>
 
-
-            <!-- <script>
-            document.getElementById('myForm').addEventListener('submit', function(event) {
-            
-                event.preventDefault();
-                
-
-            });
-            
-            </script> -->
 
 
             <footer>
