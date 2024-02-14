@@ -99,7 +99,7 @@ def attempt_login(driver, username, password):
 def index():
     return render_template('index.html')
 
-@app.route('/hongbooking', methods=['POST'])
+@app.route('/hongbooking/handle_form', methods=['POST'])
 def handle_form():
     user_id_from_app = request.form.get('user_id')
     password_from_app = request.form.get('password')
@@ -222,7 +222,7 @@ def handle_form():
 
     # This flag will indicate whether a slot has been successfully clicked
     slot_clicked = False
-    max_retries = 500
+    max_retries = 100
     attempts = 0
 
 

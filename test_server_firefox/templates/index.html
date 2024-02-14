@@ -144,10 +144,10 @@
                 showLoadingMessage();
                 
                 // Send AJAX request
-                fetch('/hongbooking', {
+                fetch('/hongbooking/handle_form', {
                     method: 'POST',
-                    body: formData,
-                    timeout: 180000 // 3 min
+                    body: formData
+                    // timeout: 120000 // 2 min
                 })
                 .then(response => {
                     if (response.ok) {
@@ -176,7 +176,7 @@
                         var resultMessage = document.getElementById('result');
                         resultMessage.textContent = 'An error occurred. Please try again later.';
                         resultMessage.style.color = 'red';
-                    }, 180000);  // 3 min
+                    }, 120000);  // 2 min
                 });
             });
             
