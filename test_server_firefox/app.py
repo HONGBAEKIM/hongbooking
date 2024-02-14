@@ -69,15 +69,15 @@ def attempt_login(driver, username, password):
     password_field_id = "password"  # Replace with the actual ID of the password field
 
     try:
-        WebDriverWait(driver, 1).until(
-            EC.element_to_be_clickable((By.ID, username_field_id))
-        )
+        # WebDriverWait(driver, 1).until(
+        #     EC.element_to_be_clickable((By.ID, username_field_id))
+        # )
         username_field = driver.find_element(By.ID, username_field_id)
         username_field.send_keys(username)
 
-        WebDriverWait(driver, 1).until(
-            EC.element_to_be_clickable((By.ID, password_field_id))
-        )
+        # WebDriverWait(driver, 1).until(
+        #     EC.element_to_be_clickable((By.ID, password_field_id))
+        # )
         password_field = driver.find_element(By.ID, password_field_id)
         password_field.send_keys(password)
 
@@ -85,7 +85,7 @@ def attempt_login(driver, username, password):
     
         # Wait for navigation and check if the login was successfuld
 
-        WebDriverWait(driver, 5).until(EC.url_to_be("https://profile.intra.42.fr/"))
+        # WebDriverWait(driver, 5).until(EC.url_to_be("https://profile.intra.42.fr/"))
         return True  # Return True to indicate successful login
 
     except Exception as e:
@@ -237,7 +237,7 @@ def handle_form():
             
             if (len(slots) == 0):
                 driver.refresh()
-                # time.sleep(10)
+
                 
             for slot in slots:
                 
