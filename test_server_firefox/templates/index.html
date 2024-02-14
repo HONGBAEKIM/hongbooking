@@ -191,40 +191,6 @@
                 resultMessage.style.color = response.success ? 'green' : 'red';
             }
 
-            // document.getElementById('myForm').addEventListener('submit', function(event) {
-            //     event.preventDefault();
-
-            //     // Disable submit button to prevent multiple clicks
-            //     disableSubmitButton();
-                
-            //     // Make a GET request to check if app.py is running
-            //     fetch('/is_running')
-            //         .then(response => response.json())
-            //         .then(data => {
-                
-            //             const programIsRunning = data.is_running;
-                    
-            //             if (!programIsRunning) {
-            //                 // Enable submit button if app.py is not running
-            //                 enableSubmitButton();
-            //                 alert("The program is currently not running. Please try again later.");
-            //             } else {
-            //                 // Submit form as usual if app.py is running
-            //                 this.submit(); 
-            //             }
-            //         })
-            //         .catch(error => {
-            //             console.error('Error:', error);
-            //             // Enable submit button on error
-            //             enableSubmitButton();
-            //         });
-            // });
-
-
-
-
-
-
             // Handle AJAX response
             document.getElementById('myForm').addEventListener('submit', function(event) {
                 event.preventDefault();
