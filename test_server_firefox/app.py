@@ -225,7 +225,7 @@ def handle_form():
 
     # This flag will indicate whether a slot has been successfully clicked
     slot_clicked = False
-    max_retries = 3
+    max_retries = 2
     attempts = 0
 
 
@@ -239,7 +239,7 @@ def handle_form():
             slots = driver.find_elements(By.XPATH, xpath)
             
             if (len(slots) == 0):
-                time.sleep(10)
+                time.sleep(3)
                 driver.refresh()
 
                 
