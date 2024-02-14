@@ -222,7 +222,7 @@ def handle_form():
 
     # This flag will indicate whether a slot has been successfully clicked
     slot_clicked = False
-    max_retries = 100
+    max_retries = 200
     attempts = 0
 
 
