@@ -116,7 +116,7 @@
 
             var attempts = 0;
             var maxRetries = 5; // Example value, you can set it to your desired value
-            while (!slot_clicked && attempts < maxRetries) {
+            while (attempts < maxRetries) {
                 attempts += 1;
                 console.log(`${attempts} of ${maxRetries}`); // Print to console
                 updateAttemptsInfo(attempts, maxRetries); // Update info on website
