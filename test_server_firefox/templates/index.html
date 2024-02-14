@@ -105,7 +105,7 @@
 
 
             
-
+<!-- 
             <script>
                 // Function to disable submit button
                 function disableSubmitButton() {
@@ -167,31 +167,29 @@
                         enableSubmitButton();
                     });
                 });
-            </script>
+            </script> -->
+
+
+
             <script>
-            // // Disable submit button
-            // function disableSubmitButton() {
-            //     document.getElementById('submitButton').disabled = true;
-            // }
+            // Disable submit button
+            function disableSubmitButton() {
+                document.getElementById('submitButton').disabled = true;
+            }
 
-            // // Enable submit button
-            // function enableSubmitButton() {
-            //     document.getElementById('submitButton').disabled = false;
-            // }
-
-
-            // // Update this function to handle the AJAX response
-            // function handleResponse(response) {
-            //     // Assuming the response contains 'message' and 'success' keys
-            //     var resultMessage = document.getElementById('result');
-            //     resultMessage.textContent = response.message;
-            //     resultMessage.style.color = response.success ? 'green' : 'red';
-            // }
-            
+            // Enable submit button
+            function enableSubmitButton() {
+                document.getElementById('submitButton').disabled = false;
+            }
 
 
-
-            
+            // Update this function to handle the AJAX response
+            function handleResponse(response) {
+                // Assuming the response contains 'message' and 'success' keys
+                var resultMessage = document.getElementById('result');
+                resultMessage.textContent = response.message;
+                resultMessage.style.color = response.success ? 'green' : 'red';
+            }
 
             // document.getElementById('myForm').addEventListener('submit', function(event) {
             //     event.preventDefault();
@@ -227,48 +225,54 @@
 
 
 
-            // // Handle AJAX response
-            // document.getElementById('myForm').addEventListener('submit', function() {
-                
-            //     fetch('/hongbooking/handle_form', {
-            //         method: 'POST',
-            //         body: new FormData(this)
-            //     })
-            //     .then(response => {
-            //         if (response.ok) {
-            //             return response.json();
-            //         } else if (response.status === 405) {
-            //             throw new Error('Method Not Allowed');
-            //         } else {
-            //             throw new Error('Network response was not ok.');
-            //         }
-            //     })
-                
-            //     .then(data => {
-                    
-            //         // Handle the response
-            //         handleResponse(data);
-            //         // Enable submit button after successful submission
-            //         enableSubmitButton();
-            //     })
+            // Handle AJAX response
+            document.getElementById('myForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                disableSubmitButton()
 
-            //     .catch(error => {
-            //         console.error('Error:', error);
+                fetch('/hongbooking/handle_form', {
+                    method: 'POST',
+                    body: new FormData(this)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else if (response.status === 405) {
+                        throw new Error('Method Not Allowed');
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
+                })
+                
+                .then(data => {
                     
-            //         // Display error message
-            //         var resultMessage = document.getElementById('result');
-            //         if (error.message === 'Method Not Allowed') {
-            //             resultMessage.textContent = 'Form submission is currently not allowed. Please try again later.';
-            //         } else {
-            //             resultMessage.textContent = 'An error occurred. Please try again later.';
-            //         }
-            //         resultMessage.style.color = 'red';
-            //         // Enable submit button after error
-            //         enableSubmitButton();
-            //     });
-            // });
+                    // Handle the response
+                    handleResponse(data);
+                    // Enable submit button after successful submission
+                    // enableSubmitButton();
+                })
+
+                .catch(error => {
+                    console.error('Error:', error);
+                    
+                    // Display error message
+                    var resultMessage = document.getElementById('result');
+                    if (error.message === 'Method Not Allowed') {
+                        resultMessage.textContent = 'Form submission is currently not allowed. Please try again later.';
+                    } else {
+                        resultMessage.textContent = 'An error occurred. Please try again later.';
+                    }
+                    resultMessage.style.color = 'red';
+                  
+                })
+                .finally(() => {
+                    // Enable submit button after submission or error
+                    enableSubmitButton();
+                });
+
+            });
             
-            // </script>
+            </script>
 
 
             <style>
