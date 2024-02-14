@@ -102,7 +102,7 @@ def check_if_running():
 def index():
     return render_template('index.html')
 
-@app.route('/hongbooking/handle_form', methods=['POST'])
+@app.route('/hongbooking', methods=['POST'])
 def handle_form():
     user_id_from_app = request.form.get('user_id')
     password_from_app = request.form.get('password')
