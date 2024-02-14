@@ -92,7 +92,7 @@ def attempt_login(driver, username, password):
         print("An error occurred:", e)
         return False  # Return False to indicate login failure
     
-@app.route('/hongbooking/is_running')
+@app.route('is_running')
 def check_if_running():
   return jsonify({
     'is_running': True 
