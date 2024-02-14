@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Set the server response timeout to 2 minutes (120,000 milliseconds)
+const serverTimeout = 120000; // 2 minutes in milliseconds
+
 // Middleware to parse JSON and URL-encoded bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
