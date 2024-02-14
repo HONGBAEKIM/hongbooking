@@ -168,58 +168,65 @@
                             // Submit form as usual if app.py is running
                             this.submit(); 
                         }
-                
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // Enable submit button on error
+                        enableSubmitButton();
                     });
+                });
 
-                var formData = new FormData(this);
+                // Handle form submission completion
+                document.getElementById('myForm').addEventListener('submit', function() {
+                    // Show loading message
+                    showLoadingMessage();
+                });
 
-                // Show loading message
-                showLoadingMessage();
-                
-                // Send AJAX request
-                fetch('/hongbooking/handle_form', {
-                    method: 'POST',
-                    body: formData
-                })
 
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Network response was not ok.');
-                    }
-                })
-                
-                .then(data => {
+
+
+                // Handle AJAX response
+                document.getElementById('myForm').addEventListener('submit', function() {
                     
-                    // Hide loading message
-                    hideLoadingMessage();
+                    fetch('/hongbooking/handle_form', {
+                        method: 'POST',
+                        body: new FormData(this)
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else if (response.status === 405) {
+                            throw new Error('Method Not Allowed');
+                        } else {
+                            throw new Error('Network response was not ok.');
+                        }
+                    })
+                    
+                    .then(data => {
+                        // Hide loading message
+                        hideLoadingMessage();
+                        // Handle the response
+                        handleResponse(data);
+                        // Enable submit button after successful submission
+                        enableSubmitButton();
+                    })
 
-                    // Handle the response
-                    handleResponse(data);
-
-
-                })
-
-                .catch(error => {
-                    console.error('Error:', error);
-
-                    // Hide loading message
-                    hideLoadingMessage();
-
-                    setTimeout(() => {
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // Hide loading message
+                        hideLoadingMessage();
                         // Display error message
                         var resultMessage = document.getElementById('result');
-                        resultMessage.textContent = 'An error occurred. Please try again later.';
+                        if (error.message === 'Method Not Allowed') {
+                            resultMessage.textContent = 'Form submission is currently not allowed. Please try again later.';
+                        } else {
+                            resultMessage.textContent = 'An error occurred. Please try again later.';
+                        }
                         resultMessage.style.color = 'red';
-                    }, 180000);  // 3 min
+                        // Enable submit button after error
+                        enableSubmitButton();
+                    });
                 });
-            
-                
-                
-            
-            
-            });
             
             </script>
 
