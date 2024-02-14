@@ -93,7 +93,7 @@
                 <p id="Loading..."></p>
             </div>
 
-            
+
             <script>
             // Disable submit button
             function disableSubmitButton() {
@@ -118,11 +118,13 @@
                 event.preventDefault();
                 disableSubmitButton()
 
+                var responseClone;
                 fetch('/hongbooking', {
                     method: 'POST',
                     body: new FormData(this)
                 })
                 .then(response => {
+                    responseClone = response.clone();
                     if (response.ok) {
                         return response.json();
                     } else if (response.status === 405) {
@@ -132,9 +134,21 @@
                     }
                 })
                 
-                .then(data => {
+                // .then(data => {
+                //     // Handle the response
+                //     handleResponse(data);
+                // })
+
+                .then(function (data) {
+                    // Do something with data
                     // Handle the response
                     handleResponse(data);
+                }, function (rejectionReason) { // 3
+                    console.log('Error parsing JSON from response:', rejectionReason, responseClone); // 4
+                    responseClone.text() // 5
+                    .then(function (bodyText) {
+                        console.log('Received the following instead of valid JSON:', bodyText); // 6
+                    });
                 })
 
                 .catch(error => {
