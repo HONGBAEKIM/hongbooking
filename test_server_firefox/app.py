@@ -92,17 +92,17 @@ def attempt_login(driver, username, password):
         print("An error occurred:", e)
         return False  # Return False to indicate login failure
     
-@app.route('/is_running')
-def check_if_running():
-  return jsonify({
-    'is_running': True 
-  })
+# @app.route('/is_running')
+# def check_if_running():
+#   return jsonify({
+#     'is_running': True 
+#   })
 
 @app.route('/hongbooking')
 def index():
     return render_template('index.html')
 
-@app.route('/hongbooking', methods=['POST'])
+@app.route('/hongbooking/handle_form', methods=['POST'])
 def handle_form():
     user_id_from_app = request.form.get('user_id')
     password_from_app = request.form.get('password')
@@ -294,7 +294,10 @@ def handle_form():
         print("Reached the maximum number of retries. Exiting.")
 
     driver.quit()
-    return render_template('index.html')
+    # return render_template('index.html')
+    return jsonify({
+        'slot_booking_response': slot_booking_response
+    })
 
 
 
