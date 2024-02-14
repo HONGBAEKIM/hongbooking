@@ -294,10 +294,10 @@ def handle_form():
         print("Reached the maximum number of retries. Exiting.")
 
     driver.quit()
-    # return render_template('index.html')
-    return jsonify({
-        'slot_booking_response': slot_booking_response
-    })
+    return render_template('index.html')
+    # return jsonify({
+    #     'slot_booking_response': slot_booking_response
+    # })
 
 
 
