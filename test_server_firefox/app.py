@@ -85,6 +85,13 @@ def attempt_login(driver, username, password):
 def index():
     return render_template('index.html')
 
+slot_clicked = False
+######## How many times to try to reload page ########
+global max_retries = 20
+######## How many times to try to reload page ########
+global attempts = 0
+
+
 @app.route('/hongbooking', methods=['POST'])
 def handle_form():
     user_id_from_app = request.form.get('user_id')
@@ -193,13 +200,6 @@ def handle_form():
             print(f"Error parsing time: {time_str} - {e}")
             return False
 
-    slot_clicked = False
-    ######## How many times to try to reload page ########
-    max_retries = 20
-    ######## How many times to try to reload page ########
-    attempts = 0
-
-
     while not slot_clicked and attempts < max_retries:
         try:
             attempts += 1
@@ -262,7 +262,6 @@ def handle_form():
 
     driver.quit()
     return render_template('index.html')
-
 
 @app.route('/status')
 def status():
