@@ -207,6 +207,10 @@ def handle_form():
     while not slot_clicked and attempts < max_retries:
         try:
             attempts += 1
+            
+            #to send user
+            get_current_attempts = attempts
+
             print(f"{attempts} of {max_retries}")
             
             available_slots_today = []                      
@@ -267,9 +271,12 @@ def handle_form():
     driver.quit()
     return render_template('index.html')
 
+
+
 @app.route('/hongbooking/status')
 def status():
-    attempts = 0  # Define or retrieve attempts here
+    # attempts = 0  # Define or retrieve attempts here
+    attempts = get_current_attempts()
     max_retries = 20  # Define or retrieve max_retries here
     return jsonify({'attempts': attempts, 'maxRetries': max_retries})
 
