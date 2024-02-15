@@ -86,12 +86,7 @@ def index():
     return render_template('index.html')
 
 
-######## How many times to try to reload page ########
-global max_retries
-max_retries = 20
-######## How many times to try to reload page ########
-global attempts
-attempts = 0
+
 
 
 @app.route('/hongbooking', methods=['POST'])
@@ -204,6 +199,12 @@ def handle_form():
             return False
 
     slot_clicked = False
+    ######## How many times to try to reload page ########
+    global max_retries
+    max_retries = 20
+    ######## How many times to try to reload page ########
+    global attempts
+    attempts = 0
     while not slot_clicked and attempts < max_retries:
         try:
             attempts += 1
