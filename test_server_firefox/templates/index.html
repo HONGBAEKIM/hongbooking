@@ -181,7 +181,7 @@
 
                 // Function to fetch the status from the server and update the display
                 function fetchStatus() {
-                    fetch('/status')
+                    fetch('/hongbooking/status')
                         .then(response => response.json())
                         .then(data => {
                             updateStatus(data.attempts, data.maxRetries);

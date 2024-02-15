@@ -33,6 +33,16 @@ app.post('/hongbooking', (req, res) => {
     }
 });
 
+// Endpoint to provide status information to the client
+app.get('/hongbooking/status', (req, res) => {
+    // Assuming attempts and maxRetries are defined elsewhere in your application
+    const attempts = 0; // Example value for attempts
+    const maxRetries = 10; // Example value for maxRetries
+    
+    // Send the status information to the client
+    res.json({ attempts, maxRetries });
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);

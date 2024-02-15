@@ -265,7 +265,7 @@ def handle_form():
     driver.quit()
     return render_template('index.html')
 
-@app.route('/status')
+@app.route('/hongbooking/status')
 def status():
     return jsonify({'attempts': attempts, 'maxRetries': max_retries})
 
