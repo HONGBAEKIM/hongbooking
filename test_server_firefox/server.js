@@ -35,13 +35,16 @@ app.post('/hongbooking', (req, res) => {
 
 // Endpoint to provide status information to the client
 app.get('/hongbooking/status', (req, res) => {
-    // Assuming attempts and maxRetries are defined elsewhere in your application
-    const attempts = 0; // Example value for attempts
-    const maxRetries = 10; // Example value for maxRetries
+    // Assuming attempts is defined or retrieved elsewhere in your application
+    // Replace this with your logic to calculate the current value of attempts
+    const attempts = ...; // Calculate attempts dynamically
+    
+    const maxRetries = 20; // Example value for maxRetries
     
     // Send the status information to the client
     res.json({ attempts, maxRetries });
 });
+
 
 // Start the server
 app.listen(PORT, () => {
