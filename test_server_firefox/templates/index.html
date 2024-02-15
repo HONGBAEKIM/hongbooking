@@ -94,6 +94,49 @@
             </div>
 
 
+            <div id="status"></div>
+
+            
+
+            <script>
+            
+                function fetchInitialAttempts() {
+                    fetch('/hongbooking/status')
+                        .then(response => response.json())
+                        .then(data => {
+                            // Once we have the initial value, start updating the status display
+                            updateStatus(data.attempts, data.maxRetries);
+                            setInterval(fetchStatus, 1000); // Start fetching the status regularly
+                        })
+                        .catch(error => {
+                            console.error('Error fetching initial attempts:', error);
+                        });
+                }
+
+                // Update the status display initially
+                fetchInitialAttempts();
+
+                // Function to update the status display
+                function updateStatus(attempts, maxRetries) {
+                    document.getElementById('status').textContent = `Attempt ${attempts} of ${maxRetries}`;
+                }
+
+                // Function to fetch the status from the server and update the display
+                function fetchStatus() {
+                    fetch('/hongbooking/status')
+                        .then(response => response.json())
+                        .then(data => {
+                            updateStatus(data.attempts, data.maxRetries);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching status:', error);
+                        });
+                }
+
+            </script>
+
+
+
             <script>
             // Disable submit button
             function disableSubmitButton() {
@@ -171,33 +214,7 @@
             </script>
 
 
-            <div id="status"></div>
-
-            <script>
-                // Function to update the status display
-                function updateStatus(attempts, maxRetries) {
-                    document.getElementById('status').textContent = `Attempt ${attempts} of ${maxRetries}`;
-                }
-
-                // Function to fetch the status from the server and update the display
-                function fetchStatus() {
-                    fetch('/hongbooking/status')
-                        .then(response => response.json())
-                        .then(data => {
-                            updateStatus(data.attempts, data.maxRetries);
-                        })
-                        .catch(error => {
-                            console.error('Error fetching status:', error);
-                        });
-                }
-
-                // Update the status display initially
-                fetchStatus();
-
-                // Update the status display every 1 second
-                setInterval(fetchStatus, 1000);
-            </script>
-
+            
 
 
 
