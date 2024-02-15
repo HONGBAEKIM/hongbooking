@@ -86,7 +86,8 @@ def index():
     return render_template('index.html')
 
 
-
+def get_current_attempts():
+    return session.get('attempts', 0)
 
 
 @app.route('/hongbooking', methods=['POST'])
@@ -208,8 +209,7 @@ def handle_form():
         try:
             attempts += 1
             
-            #to send user
-            get_current_attempts = attempts
+            session['attempts'] = session.get('attempts', 0) + 1
 
             print(f"{attempts} of {max_retries}")
             
