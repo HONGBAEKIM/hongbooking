@@ -44,6 +44,7 @@ firefox_binary_location = '/usr/bin/firefox'
 firefox_options = FirefoxOptions()
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'
 
 # Set logging level to DEBUG for more detailed logs
 logging.basicConfig(level=logging.DEBUG)
