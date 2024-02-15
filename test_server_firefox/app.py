@@ -85,7 +85,7 @@ def attempt_login(driver, username, password):
 def index():
     return render_template('index.html')
 
-slot_clicked = False
+
 ######## How many times to try to reload page ########
 global max_retries
 max_retries = 20
@@ -171,6 +171,7 @@ def handle_form():
             print("Invalid time format. Please use HH:MM format.")
             return False
 
+
     time_in = False
     while not time_in:
 
@@ -202,6 +203,7 @@ def handle_form():
             print(f"Error parsing time: {time_str} - {e}")
             return False
 
+    slot_clicked = False
     while not slot_clicked and attempts < max_retries:
         try:
             attempts += 1
