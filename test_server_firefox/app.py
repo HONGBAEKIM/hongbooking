@@ -200,11 +200,10 @@ def handle_form():
 
     slot_clicked = False
     ######## How many times to try to reload page ########
-    global max_retries
     max_retries = 20
     ######## How many times to try to reload page ########
-    global attempts
     attempts = 0
+
     while not slot_clicked and attempts < max_retries:
         try:
             attempts += 1
@@ -270,6 +269,8 @@ def handle_form():
 
 @app.route('/hongbooking/status')
 def status():
+    attempts = 0  # Define or retrieve attempts here
+    max_retries = 20  # Define or retrieve max_retries here
     return jsonify({'attempts': attempts, 'maxRetries': max_retries})
 
 
