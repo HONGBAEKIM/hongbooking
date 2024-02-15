@@ -87,9 +87,11 @@ def index():
 
 slot_clicked = False
 ######## How many times to try to reload page ########
-global max_retries = 20
+global max_retries
+max_retries = 20
 ######## How many times to try to reload page ########
-global attempts = 0
+global attempts
+attempts = 0
 
 
 @app.route('/hongbooking', methods=['POST'])
