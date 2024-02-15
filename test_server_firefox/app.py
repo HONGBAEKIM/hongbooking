@@ -197,7 +197,6 @@ def handle_form():
     ######## How many times to try to reload page ########
     max_retries = 20
     ######## How many times to try to reload page ########
-    
     attempts = 0
 
 
@@ -263,6 +262,12 @@ def handle_form():
 
     driver.quit()
     return render_template('index.html')
+
+
+@app.route('/status')
+def status():
+    return jsonify({'attempts': attempts, 'maxRetries': max_retries})
+
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
