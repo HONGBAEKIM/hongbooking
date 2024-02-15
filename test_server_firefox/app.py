@@ -18,6 +18,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from datetime import datetime
 import time
+from config import SECRET_KEY
 
 
 # from pyvirtualdisplay import Display
@@ -44,7 +45,8 @@ firefox_binary_location = '/usr/bin/firefox'
 firefox_options = FirefoxOptions()
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+#app.secret_key = os.getenv('MY_SECRET_KEY')
+app.secret_key = SECRET_KEY
 
 # Set logging level to DEBUG for more detailed logs
 logging.basicConfig(level=logging.DEBUG)
