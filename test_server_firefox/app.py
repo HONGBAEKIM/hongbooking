@@ -45,23 +45,12 @@ firefox_options = FirefoxOptions()
 
 app = Flask(__name__)
 
-
-
 # Set logging level to DEBUG for more detailed logs
 logging.basicConfig(level=logging.DEBUG)
 
 CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
 
 socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
-
-
-
-
-
-
-
-
-
 
 #log-in 
 def attempt_login(driver, username, password):
@@ -84,19 +73,13 @@ def attempt_login(driver, username, password):
         password_field.send_keys(Keys.ENTER)
     
         # Wait for navigation and check if the login was successfuld
-
         # WebDriverWait(driver, 5).until(EC.url_to_be("https://profile.intra.42.fr/"))
         return True  # Return True to indicate successful login
 
     except Exception as e:
         print("An error occurred:", e)
         return False  # Return False to indicate login failure
-    
-# @app.route('/is_running')
-# def check_if_running():
-#   return jsonify({
-#     'is_running': True 
-#   })
+
 
 @app.route('/hongbooking')
 def index():
@@ -121,35 +104,27 @@ def handle_form():
     # Specify the path to the GeckoDriver executable using the executable_path property
     firefox_options.executable_path = geckodriver_path
 
-    # Instantiate Firefox WebDriver using FirefoxOptions
     try:
         # Instantiate Firefox WebDriver using FirefoxOptions
         driver = webdriver.Firefox(options=firefox_options)
         login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
-        
         # Open the login URL
         driver.get(login_url)
         
-        # Further actions with the WebDriver can be added here
-
     except Exception as e:
         print(f"Error initializing WebDriver: {e}")
         return jsonify({"error": "Error initializing WebDriver"})
 
     # Continue with the rest of your script after a successful login
     logged_in = False
-    
     while not logged_in:
         username = user_id_from_app    
         password = password_from_app
 
         logged_in = attempt_login(driver, username, password)
         if logged_in:
-
             print("loged_in")
-            
         else:
-            
             login_response = {
             'message': 'Login failed. Please try again.',
             'step': 'login',
@@ -163,18 +138,13 @@ def handle_form():
 
     # Dynamically build the URL
     base_url = "https://projects.intra.42.fr/projects"
-
+    # Project evaluation page where we should book the slots 
     full_url = f"{base_url}/{project_name_from_app}/slots?team_id=True"
-
     # Navigate to the specified slots page
     driver.get(full_url)
 
 
-
     current_day = datetime.now().weekday()
-    
-    
-
 
     # Select time 
     def is_valid_time(time_str):
@@ -223,9 +193,11 @@ def handle_form():
             print(f"Error parsing time: {time_str} - {e}")
             return False
 
-    # This flag will indicate whether a slot has been successfully clicked
     slot_clicked = False
+    ######## How many times to try to reload page ########
     max_retries = 20
+    ######## How many times to try to reload page ########
+    
     attempts = 0
 
 
@@ -239,10 +211,11 @@ def handle_form():
             slots = driver.find_elements(By.XPATH, xpath)
             
             if (len(slots) == 0):
+                ######## reload time setting ########
                 time.sleep(10)
+                ######## reload time setting ########
                 driver.refresh()
 
-                
             for slot in slots:
                 
                 print("(2)there is another available slot", slot.text)
@@ -257,15 +230,12 @@ def handle_form():
                 slot.click()
                 print("(4)Clicked on an available slot.")
                 slot_clicked = True
-                    
                 try:
                     nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
                     if nextok.text == "OK":
-                        
                         # WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
                         #nextok.click()
                         print("Clicked 'OK' button.")
-                
                              
                         slot_booking_response = {
                             'message': 'Slot booked successfully.',
@@ -275,11 +245,9 @@ def handle_form():
                         return jsonify({
                             'slot_booking_response': slot_booking_response
                         })
-         
                 
                 except NoSuchElementException:
                     print("OK button not found.")
-    
                     #break
 
         except TimeoutException:
@@ -295,11 +263,6 @@ def handle_form():
 
     driver.quit()
     return render_template('index.html')
-    # return jsonify({
-    #     'slot_booking_response': slot_booking_response
-    # })
-
-
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
