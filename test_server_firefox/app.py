@@ -100,6 +100,24 @@ def attempt_time(start_time, end_time):
         print("Invalid time format. Please use HH:MM format.")
         return False
 
+# Function to convert 12-hour format time to 24-hour format
+def convert_to_24hr_format(time_str):
+    try:
+        return datetime.strptime(time_str, "%I:%M %p").strftime("%H:%M")
+    except ValueError:
+        print(f"Error converting time: {time_str}")
+        return None
+
+# Function to check if the slot time is within the desired range
+def is_time_within_range(time_str, start_time_from_app, end_time_from_app):
+    try:
+        slot_time = datetime.strptime(time_str, "%H:%M").time()  # Expecting 24-hour format
+        return start_time_from_app <= slot_time <= end_time_from_app
+    except ValueError as e:
+        print(f"Error parsing time: {time_str} - {e}")
+        return False
+
+
 
 @app.route('/hongbooking')
 def index():
@@ -110,11 +128,10 @@ def get_current_attempts():
 
 @app.route('/hongbooking/status')
 def status():
-    # attempts = 0  # Define or retrieve attempts here
-    attempts = get_current_attempts()
+    trial = get_current_attempts()
     print("attempts(from app.route def status) :", attempts)
     max_retries = 20  # Define or retrieve max_retries here
-    return jsonify({'attempts': attempts, 'maxRetries': max_retries})
+    return jsonify({'attempts': trial, 'maxRetries': max_retries})
 
 
 @app.route('/hongbooking', methods=['POST'])
@@ -122,7 +139,6 @@ def handle_form():
     user_id_from_app = request.form.get('user_id')
     password_from_app = request.form.get('password')
     project_name_from_app = request.form.get('project_name')
-    #evaluation_day_from_app = request.form.get('evaluation_day')
     start_time_from_app = request.form.get('start_time')
     end_time_from_app = request.form.get('end_time')
 
@@ -165,8 +181,7 @@ def handle_form():
 
             return jsonify({
                 'login_response': login_response,
-            })
-            
+            })       
 
     # Dynamically build the URL
     base_url = "https://projects.intra.42.fr/projects"
@@ -175,17 +190,12 @@ def handle_form():
     # Navigate to the specified slots page
     driver.get(full_url)
 
-
     current_day = datetime.now().weekday()
-
-
 
     time_in = False
     while not time_in:
-
         start_time = start_time_from_app
         end_time = end_time_from_app
-
         time_in = attempt_time(start_time, end_time)
         if not time_in:
             print("time has not typed. Please try again.")
@@ -194,36 +204,20 @@ def handle_form():
     start_time_from_app = datetime.strptime(start_time, "%H:%M").time()  # 24-hour format
     end_time_from_app = datetime.strptime(end_time, "%H:%M").time()  # 24-hour format
 
-    # Function to convert 12-hour format time to 24-hour format
-    def convert_to_24hr_format(time_str):
-        try:
-            return datetime.strptime(time_str, "%I:%M %p").strftime("%H:%M")
-        except ValueError:
-            print(f"Error converting time: {time_str}")
-            return None
-
-    # Function to check if the slot time is within the desired range
-    def is_time_within_range(time_str, start_time_from_app, end_time_from_app):
-        try:
-            slot_time = datetime.strptime(time_str, "%H:%M").time()  # Expecting 24-hour format
-            return start_time_from_app <= slot_time <= end_time_from_app
-        except ValueError as e:
-            print(f"Error parsing time: {time_str} - {e}")
-            return False
-
+    
     slot_clicked = False
     ######## How many times to try to reload page ########
     max_retries = 20
     ######## How many times to try to reload page ########
-    attempts = 0
+    trial = 0
 
-    while not slot_clicked and attempts < max_retries:
+    while not slot_clicked and trial < max_retries:
         try:
-            attempts += 1
+            trial += 1
             
-            session['attempts'] = attempts
+            session['attempts'] = trial
 
-            print(f"{attempts} of {max_retries}")
+            print(f"{trial} of {max_retries}")
             
             available_slots_today = []                      
             xpath = f".//tr/td[{current_day + 2}]//div[contains(@class, 'fc-time')]"
@@ -245,14 +239,12 @@ def handle_form():
                     available_slots_today.append(slot)
 
             for slot in available_slots_today:
-                # WebDriverWait(driver, 1).until(EC.element_to_be_clickable(slot))
                 slot.click()
                 print("(4)Clicked on an available slot.")
                 slot_clicked = True
                 try:
                     nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
                     if nextok.text == "OK":
-                        # WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary")))
                         #nextok.click()
                         print("Clicked 'OK' button.")
                              
@@ -277,13 +269,8 @@ def handle_form():
             print(f"An unexpected error occurred: {e}")
             break
 
-    # if attempts >= max_retries:
-    #     print("Reached the maximum number of retries. Exiting.")
-
     driver.quit()
     return render_template('index.html')
-
-
 
 
 
