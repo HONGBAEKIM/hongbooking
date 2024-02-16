@@ -45,8 +45,13 @@ firefox_binary_location = '/usr/bin/firefox'
 firefox_options = FirefoxOptions()
 
 app = Flask(__name__)
+
+# Configure session to use filesystem
+app.config['SESSION_TYPE'] = 'filesystem'
 #app.secret_key = os.getenv('MY_SECRET_KEY')
 app.secret_key = SECRET_KEY
+# Initialize the session extension with your Flask application
+Session(app)
 
 # Set logging level to DEBUG for more detailed logs
 logging.basicConfig(level=logging.DEBUG)
