@@ -129,6 +129,7 @@ def get_current_attempts():
 @app.route('/hongbooking/status')
 def status():
     trial = get_current_attempts()
+    print("trial", trial)
     #print("attempts(from app.route def status) :", trial)
     max_retries = 20  # Define or retrieve max_retries here
     return jsonify({'attempts': trial, 'maxRetries': max_retries})
