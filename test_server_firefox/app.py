@@ -84,13 +84,21 @@ def attempt_login(driver, username, password):
         return False  # Return False to indicate login failure
 
 
+
 @app.route('/hongbooking')
 def index():
     return render_template('index.html')
 
-
 def get_current_attempts():
     return session.get('attempts', 0)
+
+@app.route('/hongbooking/status')
+def status():
+    # attempts = 0  # Define or retrieve attempts here
+    attempts = get_current_attempts()
+    print("attempts(from app.route def status) :", attempts)
+    max_retries = 20  # Define or retrieve max_retries here
+    return jsonify({'attempts': attempts, 'maxRetries': max_retries})
 
 
 @app.route('/hongbooking', methods=['POST'])
@@ -268,20 +276,14 @@ def handle_form():
             print(f"An unexpected error occurred: {e}")
             break
 
-    if attempts >= max_retries:
-        print("Reached the maximum number of retries. Exiting.")
+    # if attempts >= max_retries:
+    #     print("Reached the maximum number of retries. Exiting.")
 
     driver.quit()
     return render_template('index.html')
 
 
 
-@app.route('/hongbooking/status')
-def status():
-    # attempts = 0  # Define or retrieve attempts here
-    attempts = get_current_attempts()
-    max_retries = 20  # Define or retrieve max_retries here
-    return jsonify({'attempts': attempts, 'maxRetries': max_retries})
 
 
 if __name__ == '__main__':  
