@@ -212,7 +212,7 @@ def handle_form():
         try:
             attempts += 1
             
-            session['attempts'] = session.get('attempts', 0) + 1
+            session['attempts'] = attempts
 
             print(f"{attempts} of {max_retries}")
             

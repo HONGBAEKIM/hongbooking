@@ -11,12 +11,11 @@ const serverTimeout = 120000; // 2 minutes in milliseconds
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Define a global variable to store the value of attempts
-let attempts = 0;
+
 
 // Endpoint to handle POST requests from the client
 app.post('/hongbooking', (req, res) => {
-    attempts++;
+    
     const formData = req.body;
 
     // Process the form data here (e.g., save to database)
@@ -38,10 +37,13 @@ app.post('/hongbooking', (req, res) => {
 });
 
 
+// Define a global variable to store the value of attempts
+let attempts = 0;
+
 // Endpoint to provide status information to the client
 app.get('/hongbooking/status', (req, res) => {
     // Assuming attempts is defined or retrieved elsewhere in your application
-    
+    attempts++;
     const maxRetries = 20; // Example value for maxRetries
     
     // Send the status information to the client
