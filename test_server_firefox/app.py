@@ -33,6 +33,7 @@ import logging
 from flask import Flask, render_template, request, url_for, redirect, jsonify, session
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
+from flask_session import Session
 
 
 # Define the default GeckoDriver path
@@ -128,6 +129,8 @@ def is_time_within_range(time_str, start_time_from_app, end_time_from_app):
 def index():
     return render_template('index.html')
 
+
+
 def get_current_attempts():
     return session.get('attempts', 0)
 
@@ -138,6 +141,7 @@ def status():
     #print("attempts(from app.route def status) :", trial)
     max_retries = 20  # Define or retrieve max_retries here
     return jsonify({'attempts': trial, 'maxRetries': max_retries})
+
 
 
 @app.route('/hongbooking', methods=['POST'])
