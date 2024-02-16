@@ -84,6 +84,22 @@ def attempt_login(driver, username, password):
         return False  # Return False to indicate login failure
 
 
+# Select time 
+def is_valid_time(time_str):
+    try:
+        datetime.strptime(time_str, "%H:%M")
+        return True
+    except ValueError:
+        return False
+
+def attempt_time(start_time, end_time):
+    if is_valid_time(start_time) and is_valid_time(end_time):
+        print("Successfully typed desired_eval_time")
+        return True
+    else:
+        print("Invalid time format. Please use HH:MM format.")
+        return False
+
 
 @app.route('/hongbooking')
 def index():
@@ -162,21 +178,6 @@ def handle_form():
 
     current_day = datetime.now().weekday()
 
-    # Select time 
-    def is_valid_time(time_str):
-        try:
-            datetime.strptime(time_str, "%H:%M")
-            return True
-        except ValueError:
-            return False
-
-    def attempt_time(start_time, end_time):
-        if is_valid_time(start_time) and is_valid_time(end_time):
-            print("Successfully typed desired_eval_time")
-            return True
-        else:
-            print("Invalid time format. Please use HH:MM format.")
-            return False
 
 
     time_in = False
