@@ -173,9 +173,10 @@
                         return response.json();
                     } else if (response.status === 405) {
                         throw new Error('Method Not Allowed');
-                    } else {
-                        throw new Error('Network response was not ok.');
-                    }
+                    } 
+                    // else {
+                    //     throw new Error('Network response was not ok.');
+                    // }
                 })
                 
                 // .then(data => {
