@@ -216,6 +216,7 @@ def handle_form():
             trial += 1
             
             session['attempts'] = trial
+            print("session", session['attempts'])
 
             print(f"{trial} of {max_retries}")
             
