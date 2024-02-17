@@ -129,30 +129,49 @@ def is_time_within_range(time_str, start_time_from_app, end_time_from_app):
 def index():
     return render_template('index.html')
 
-def get_current_attempts():
-    return session.get('attempts', 0)
+# def get_current_attempts():
+#     return session.get('attempts', 0)
 
-# Adjust the status function to return the current attempt count
-def status():
-    return get_current_attempts()
+# # Adjust the status function to return the current attempt count
+# def status():
+#     return get_current_attempts()
 
-# Define the status route handler without the route decorator
-def status_handler():
-    # Call status function to get the current attempts
-    trial = status()
-    max_retries = 3  # Define or retrieve max_retries here
-    # Update the session with the current attempt count
-    update_attempt_count(trial)
-    return jsonify({'attempts': trial, 'maxRetries': max_retries})
+# # Define the status route handler without the route decorator
+# def status_handler():
+#     # Call status function to get the current attempts
+#     trial = status()
+#     max_retries = 3  # Define or retrieve max_retries here
+#     # Update the session with the current attempt count
+#     update_attempt_count(trial)
+#     return jsonify({'attempts': trial, 'maxRetries': max_retries})
+
+# # Define a function to update the session with the current attempt count
+# def update_attempt_count(trial):
+#     session['attempts'] = trial 
+
+# # Route for checking status
+# @app.route('/hongbooking/status')
+# def check_status():
+#     return status_handler()
+
 
 # Define a function to update the session with the current attempt count
 def update_attempt_count(trial):
     session['attempts'] = trial 
 
-# Route for checking status
+# Define the status route handler to fetch the current status
 @app.route('/hongbooking/status')
 def check_status():
-    return status_handler()
+    # Get the current attempts from the session
+    trial = get_current_attempts()
+    # Define or retrieve max_retries here
+    max_retries = 3  
+    # Return the current attempts and max retries as JSON
+    return jsonify({'attempts': trial, 'maxRetries': max_retries})
+
+# Define a function to get the current attempts from the session
+def get_current_attempts():
+    return session.get('attempts', 0)
 
 
 @app.route('/hongbooking', methods=['POST'])
