@@ -141,7 +141,13 @@ def status_handler():
     # Call status function to get the current attempts
     trial = status()
     max_retries = 3  # Define or retrieve max_retries here
+    # Update the session with the current attempt count
+    update_attempt_count(trial)
     return jsonify({'attempts': trial, 'maxRetries': max_retries})
+
+# Define a function to update the session with the current attempt count
+def update_attempt_count(trial):
+    session['attempts'] = trial 
 
 # Route for checking status
 @app.route('/hongbooking/status')
