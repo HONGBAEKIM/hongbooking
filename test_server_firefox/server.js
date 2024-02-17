@@ -36,22 +36,26 @@ app.post('/hongbooking', (req, res) => {
     }
 });
 
-
-// Define a global variable to store the value of attempts
-let attempts = 0;
-
 // Endpoint to provide status information to the client
 app.get('/hongbooking/status', (req, res) => {
-    // Assuming attempts is defined or retrieved elsewhere in your application
-    attempts++;
-    const maxRetries = 3; // Example value for maxRetries
-    
-    // Send the status information to the client
-    res.json({ attempts, maxRetries });
-
-    // Note: req is intentionally not used in this handler
+    // Assuming attempts is defined or retrieved from your Flask application
+    // You need to modify this part to fetch the attempt count from your Flask application
+    // For example, if your Flask application exposes an endpoint to provide the attempt count,
+    // you would make a request to that endpoint to get the attempt count
+    fetch('/hongbooking/status')
+        .then(response => response.json())
+        .then(data => {
+            // Extract the attempt count and max retries from the response
+            const { attempts, maxRetries } = data;
+            // Send the status information to the client
+            res.json({ attempts, maxRetries });
+        })
+        .catch(error => {
+            console.error('Error fetching status:', error);
+            // In case of an error, send a response indicating the error
+            res.status(500).json({ error: 'Failed to fetch status' });
+        });
 });
-
 
 // Start the server
 app.listen(PORT, () => {
