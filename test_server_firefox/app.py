@@ -167,6 +167,8 @@ def check_status():
     # Define or retrieve max_retries here
     max_retries = 3  
     # Return the current attempts and max retries as JSON
+    # Update the session with the current attempt count
+    update_attempt_count(trial)
     return jsonify({'attempts': trial, 'maxRetries': max_retries})
 
 # Define a function to get the current attempts from the session
