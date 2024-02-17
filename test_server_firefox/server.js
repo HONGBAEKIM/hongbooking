@@ -44,7 +44,7 @@ let attempts = 0;
 app.get('/hongbooking/status', (req, res) => {
     // Assuming attempts is defined or retrieved elsewhere in your application
     attempts++;
-    const maxRetries = 20; // Example value for maxRetries
+    const maxRetries = 3; // Example value for maxRetries
     
     // Send the status information to the client
     res.json({ attempts, maxRetries });

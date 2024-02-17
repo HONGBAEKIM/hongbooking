@@ -129,17 +129,15 @@ def is_time_within_range(time_str, start_time_from_app, end_time_from_app):
 def index():
     return render_template('index.html')
 
-
-
 def get_current_attempts():
     return session.get('attempts', 0)
 
 @app.route('/hongbooking/status')
 def status():
     trial = get_current_attempts()
-    print("trial", trial)
+    print("trial : ", trial)
     #print("attempts(from app.route def status) :", trial)
-    max_retries = 20  # Define or retrieve max_retries here
+    max_retries = 3  # Define or retrieve max_retries here
     return jsonify({'attempts': trial, 'maxRetries': max_retries})
 
 
@@ -217,7 +215,7 @@ def handle_form():
     
     slot_clicked = False
     ######## How many times to try to reload page ########
-    max_retries = 20
+    max_retries = 3
     ######## How many times to try to reload page ########
     trial = 0
 
@@ -236,7 +234,7 @@ def handle_form():
             
             if (len(slots) == 0):
                 ######## reload time setting ########
-                time.sleep(10)
+                time.sleep(3)
                 ######## reload time setting ########
                 driver.refresh()
 
