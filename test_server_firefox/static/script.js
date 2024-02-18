@@ -30,9 +30,26 @@
 // setInterval(getStatus, 5000); // Update every 5 seconds (adjust as needed)
 
 
-// Listen for status updates from the server
-socket.on('status_update', function(data) {
-    console.log('Status update:', data);
-    // Update the UI with the status data
-    // For example, you can display it in a div or update a progress bar
+// document.addEventListener('DOMContentLoaded', function() {
+//     // Request attempt count from the server
+//     socket.emit('attempt_count_request');
+
+//     // Listen for the response from the server
+//     socket.on('attempt_count', function(data) {
+//         console.log('Attempt count:', data.attempt);
+//         // Update the UI with the attempt count
+//     });
+// });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    var socket = io();
+    // Listen for the status update from the server
+    socket.on('status_update', function(data) {
+        console.log('Status update received:', data);
+        // Update the UI with the attempt count and max retries
+        document.getElementById('attemptCount').innerText = data.attempts;
+        document.getElementById('maxRetries').innerText = data.maxRetries;
+    });
 });
+
