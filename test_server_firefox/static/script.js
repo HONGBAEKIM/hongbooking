@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Attempt count:', data.attempt);
         // Update the UI with the attempt count
         var progressDiv = document.getElementById('progress');
-        progressDiv.innerHTML = '<p>' + data.attempt + ' / 3</p>';
+        progressDiv.innerHTML += '<p>' + data.attempt + ' / 3</p>'; // Append attempt count to existing content
     });
 });
 
