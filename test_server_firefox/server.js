@@ -40,7 +40,7 @@ app.post('/hongbooking', (req, res) => {
         // You can perform additional processing or validation here
         
         // Emit the attempt count to the client
-        io.emit('attempt_count', { attempt: /* logic to get the current attempt count */ });
+        io.emit('attempt_count', { attempt: session.get('attempts', 0) });
 
         // Send a success response to the client
         res.status(200).json({ message: 'Form data received successfully', success: true });
