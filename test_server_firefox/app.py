@@ -156,24 +156,24 @@ def index():
 
 
 # Define a function to update the session with the current attempt count
-def update_attempt_count(trial):
-    session['attempts'] = trial 
+# def update_attempt_count(trial):
+#     session['attempts'] = trial 
 
-# Define the status route handler to fetch the current status
-@app.route('/hongbooking/status')
-def check_status():
-    # Get the current attempts from the session
-    trial = get_current_attempts()
-    # Define or retrieve max_retries here
-    max_retries = 3  
-    # Return the current attempts and max retries as JSON
-    # Update the session with the current attempt count
-    update_attempt_count(trial)
-    return jsonify({'attempts': trial, 'maxRetries': max_retries})
+# # Define the status route handler to fetch the current status
+# @app.route('/hongbooking/status')
+# def check_status():
+#     # Get the current attempts from the session
+#     trial = get_current_attempts()
+#     # Define or retrieve max_retries here
+#     max_retries = 3  
+#     # Return the current attempts and max retries as JSON
+#     # Update the session with the current attempt count
+#     update_attempt_count(trial)
+#     return jsonify({'attempts': trial, 'maxRetries': max_retries})
 
-# Define a function to get the current attempts from the session
-def get_current_attempts():
-    return session.get('attempts', 0)
+# # Define a function to get the current attempts from the session
+# def get_current_attempts():
+#     return session.get('attempts', 0)
 
 
 @app.route('/hongbooking', methods=['POST'])
@@ -260,6 +260,18 @@ def handle_form():
             session['attempts'] = trial
             print("session", session['attempts'])
 
+
+
+
+
+            # Emit the attempt count to the client
+            socketio.emit('attempt_count', {'attempt': trial})
+
+
+
+
+
+
             print(f"{trial} of {max_retries}")
             
             available_slots_today = []                      
@@ -315,7 +327,16 @@ def handle_form():
     driver.quit()
     return render_template('index.html')
 
+# SocketIO event to handle the attempt count
+@socketio.on('attempt_count_request')
+def handle_attempt_count_request():
+    emit('attempt_count', {'attempt': session.get('attempts', 0)})
 
+# @socketio.on('progress_update')
+# def handle_progress_update():
+#     for attempt in range(3):
+#         time.sleep(1)  # Simulate some processing time
+#         emit('progress', {'attempt': attempt})
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
