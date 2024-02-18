@@ -327,16 +327,16 @@ def handle_form():
     driver.quit()
     return render_template('index.html')
 
-# SocketIO event to handle the attempt count
-@socketio.on('attempt_count_request')
-def handle_attempt_count_request():
-    emit('attempt_count', {'attempt': session.get('attempts', 0)})
+# # SocketIO event to handle the attempt count
+# @socketio.on('attempt_count_request')
+# def handle_attempt_count_request():
+#     emit('attempt_count', {'attempt': session.get('attempts', 0)})
 
-# @socketio.on('progress_update')
-# def handle_progress_update():
-#     for attempt in range(3):
-#         time.sleep(1)  # Simulate some processing time
-#         emit('progress', {'attempt': attempt})
+@socketio.on('progress_update')
+def handle_progress_update():
+    for attempt in range(3):
+        time.sleep(1)  # Simulate some processing time
+        emit('progress', {'attempt': attempt})
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
