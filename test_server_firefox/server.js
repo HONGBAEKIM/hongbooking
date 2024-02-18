@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const http = require('http');
+const socketIo = require('socket.io');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,6 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Create HTTP server
+
 const server = http.createServer(app);
 const io = socketIo(server);
 
@@ -37,7 +40,9 @@ app.post('/hongbooking', (req, res) => {
     if (formData && formData.username && formData.password) {
         // Form data is valid
         // You can perform additional processing or validation here
-        
+        // Emit the attempt count to the client
+        emit('attempt_count', {'attempt': session.get('attempts', 0)})
+
         // Send a success response to the client
         res.status(200).json({ message: 'Form data received successfully', success: true });
     } else {
