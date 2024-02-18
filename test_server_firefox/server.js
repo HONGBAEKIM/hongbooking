@@ -13,6 +13,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
+// Create HTTP server
+const server = http.createServer(app);
+const io = socketIo(server);
+
+// Socket.IO event handlers
+io.on('connection', (socket) => {
+    console.log('A client connected');
+
+    socket.on('disconnect', () => {
+        console.log('A client disconnected');
+    });
+});
+
+
+
 // Endpoint to handle POST requests from the client
 app.post('/hongbooking', (req, res) => {
     
