@@ -79,4 +79,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Request the initial attempt count from the server upon page load
     socket.emit('request_attempt_count');
+
+    // Print out every 3 seconds
+    setInterval(function() {
+        console.log('Printing every 3 seconds');
+    }, 3000); // 3000 milliseconds = 3 seconds
 });
