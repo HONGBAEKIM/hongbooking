@@ -62,9 +62,9 @@ Session(app)
 # Set logging level to DEBUG for more detailed logs
 logging.basicConfig(level=logging.DEBUG)
 
-CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com/hongbooking"}})
+CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
 
-socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com/hongbooking", async_mode='eventlet')
+socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
 
 #log-in 
 def attempt_login(driver, username, password):
@@ -262,18 +262,10 @@ def handle_form():
             trial += 1
             
             session['attempts'] = trial
-            print("session", session['attempts'])
+            # print("session", session['attempts'])
 
-
-
-
-
-            # # Emit the attempt count to the client
+            # Emit the attempt count to the client
             socketio.emit('attempt_count', {'attempt': trial})
-
-
-
-
 
 
             print(f"{trial} of {max_retries}")
@@ -336,27 +328,27 @@ def handle_form():
 def handle_attempt_count_request():
     emit('attempt_count', {'attempt': session.get('attempts', 0)})
 
-    # Define a function to update the session with the current attempt count
-def update_attempt_count(trial):
-    session['attempts'] = trial 
+# Define a function to update the session with the current attempt count
+# def update_attempt_count(trial):
+#     session['attempts'] = trial 
 
-@app.route('/hongbooking/status')
-def check_status():
-    # Get the current attempts from the session
-    trial = get_current_attempts()
-    # Define or retrieve max_retries here
-    max_retries = 3
-    # Emit the status data to the client
-    socketio.emit('status_update', {'attempts': trial, 'maxRetries': max_retries})
-    # Update the session with the current attempt count
-    update_attempt_count(trial)
-    # Return a response to indicate that the status data has been emitted
-    return 'Status data emitted'
+# @app.route('/hongbooking/status')
+# def check_status():
+#     # Get the current attempts from the session
+#     trial = get_current_attempts()
+#     # Define or retrieve max_retries here
+#     max_retries = 3
+#     # Emit the status data to the client
+#     socketio.emit('status_update', {'attempts': trial, 'maxRetries': max_retries})
+#     # Update the session with the current attempt count
+#     update_attempt_count(trial)
+#     # Return a response to indicate that the status data has been emitted
+#     return 'Status data emitted'
 
 
-# Define a function to get the current attempts from the session
-def get_current_attempts():
-    return session.get('attempts', 0)
+# # Define a function to get the current attempts from the session
+# def get_current_attempts():
+#     return session.get('attempts', 0)
 
 # @socketio.on('progress_update')
 # def handle_progress_update():

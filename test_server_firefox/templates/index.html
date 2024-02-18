@@ -116,8 +116,25 @@
                 <p id="Loading..."></p>
             </div>
             
+
+            <div id="progress"></div>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
+            <script>
+                // Ensure the socket object is properly defined and initialized
+                var socket = io();
+
+                // Listen for progress updates from the server
+                socket.on('progress', function(data) {
+                    var progressDiv = document.getElementById('progress');
+                    progressDiv.innerHTML += '<p>Attempt ' + data.attempt + ' of 3</p>';
+                });
+            </script>
+
+
+
             <!-- <p>Attempt <span id="attemptCount"></span> of <span id="maxRetries"></span></p> -->
-            <div id="status"></div>
+            <!-- <div id="status"></div>
 
             <script>
                 // Connect to the Socket.IO server
@@ -130,7 +147,7 @@
                     // For example, update the content of the status div
                     document.getElementById('status').innerText = 'Attempts: ' + data.attempts + ', Max Retries: ' + data.maxRetries;
                 });
-            </script>
+            </script> -->
 
             <!-- <div id="status"></div>
 
