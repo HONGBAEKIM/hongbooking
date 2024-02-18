@@ -32,21 +32,21 @@
 
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Ensure the socket object is properly defined and initialized
-    var socket = io();
+// document.addEventListener('DOMContentLoaded', function() {
+//     // Ensure the socket object is properly defined and initialized
+//     var socket = io();
     
-    // Request attempt count from the server
-    socket.emit('attempt_count_request');
+//     // Request attempt count from the server
+//     socket.emit('attempt_count_request');
     
-    // Listen for the response from the server
-    socket.on('attempt_count', function(data) {
-        console.log('Attempt count:', data.attempt);
-        // Update the UI with the attempt count
-        var progressDiv = document.getElementById('progress');
-        progressDiv.innerHTML = '<p>' + data.attempt + ' / 3</p>'; // Append attempt count to existing content
-    });
-});
+//     // Listen for the response from the server
+//     socket.on('attempt_count', function(data) {
+//         console.log('Attempt count:', data.attempt);
+//         // Update the UI with the attempt count
+//         var progressDiv = document.getElementById('progress');
+//         progressDiv.innerHTML = '<p>' + data.attempt + ' / 3</p>'; // Append attempt count to existing content
+//     });
+// });
 
 
 // document.addEventListener('DOMContentLoaded', function() {
@@ -60,3 +60,23 @@ document.addEventListener('DOMContentLoaded', function() {
 //     });
 // });
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the SocketIO connection
+    var socket = io();
+
+    // Function to update the UI with the attempt count
+    function updateUI(attempt) {
+        var progressDiv = document.getElementById('progress');
+        progressDiv.innerHTML = '<p>' + attempt + ' / 3</p>';
+    }
+
+    // Listen for the attempt_count event from the server
+    socket.on('attempt_count', function(data) {
+        console.log('Attempt count:', data.attempt);
+        // Update the UI with the received attempt count
+        updateUI(data.attempt);
+    });
+
+    // Request the initial attempt count from the server upon page load
+    socket.emit('request_attempt_count');
+});
