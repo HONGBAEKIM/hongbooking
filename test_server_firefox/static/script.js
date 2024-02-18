@@ -42,14 +42,14 @@
 // });
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    var socket = io();
-    // Listen for the status update from the server
-    socket.on('status_update', function(data) {
-        console.log('Status update received:', data);
-        // Update the UI with the attempt count and max retries
-        document.getElementById('attemptCount').innerText = data.attempts;
-        document.getElementById('maxRetries').innerText = data.maxRetries;
-    });
-});
+// document.addEventListener('DOMContentLoaded', function() {
+//     var socket = io();
+//     // Listen for the status update from the server
+//     socket.on('status_update', function(data) {
+//         console.log('Status update received:', data);
+//         // Update the UI with the attempt count and max retries
+//         document.getElementById('attemptCount').innerText = data.attempts;
+//         document.getElementById('maxRetries').innerText = data.maxRetries;
+//     });
+// });
 
