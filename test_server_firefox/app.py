@@ -180,17 +180,14 @@ def update_attempt_count(trial):
 
 @app.route('/hongbooking/status')
 def check_status():
-    # Loop three times to emit the status data
-    for _ in range(3):
-        # Get the current attempts from the session
-        trial = get_current_attempts()
-        # Define or retrieve max_retries here
-        max_retries = 3
-        # Emit the status data to the client
-        socketio.emit('status_update', {'attempts': trial, 'maxRetries': max_retries})
-        # Update the session with the current attempt count
-        update_attempt_count(trial)
-
+    # Get the current attempts from the session
+    trial = get_current_attempts()
+    # Define or retrieve max_retries here
+    max_retries = 3
+    # Emit the status data to the client
+    socketio.emit('status_update', {'attempts': trial, 'maxRetries': max_retries})
+    # Update the session with the current attempt count
+    update_attempt_count(trial)
     # Return a response to indicate that the status data has been emitted
     return 'Status data emitted'
 
