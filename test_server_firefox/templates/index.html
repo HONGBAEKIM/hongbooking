@@ -32,6 +32,22 @@
 
         <section>         
             
+            <div id="progress"></div>
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script> -->
+
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script> -->
+
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script> -->
+            <script>
+                var socket = io();
+
+                socket.on('progress', function(data) {
+                    var progressDiv = document.getElementById('progress');
+                    progressDiv.innerHTML += '<p>Attempt ' + data.attempt + ' of 3</p>';
+                });
+            </script>
+            
+            
             <h2>Input</h2>
             <form id="myForm" action="/hongbooking" method="POST" onsubmit="return validateTime()">
                 <label for="user_id" class="label-with-space">Username:</label>
@@ -143,20 +159,7 @@
 
 
             </script> -->
-            <div id="progress"></div>
-            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script> -->
 
-            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script> -->
-
-            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script> -->
-            <script>
-                var socket = io();
-
-                socket.on('progress', function(data) {
-                    var progressDiv = document.getElementById('progress');
-                    progressDiv.innerHTML += '<p>Attempt ' + data.attempt + ' of 3</p>';
-                });
-            </script>
 
 
             <script>
