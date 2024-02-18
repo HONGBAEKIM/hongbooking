@@ -128,7 +128,7 @@
                 // Listen for progress updates from the server
                 socket.on('progress', function(data) {
                     var progressDiv = document.getElementById('progress');
-                    progressDiv.innerHTML += '<p>Attempt ' + data.attempt + ' of 3</p>';
+                    progressDiv.innerHTML = '<p>Attempt ' + data.attempt + ' of 3</p>';
                 });
             </script>
 
