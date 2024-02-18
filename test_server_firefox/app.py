@@ -180,7 +180,7 @@ def index():
 
 # Define a function to emit the attempt count to the client
 def emit_attempt_count(trial):
-    socketio.emit('attempt_count', {'attempt': trial})
+    return socketio.emit('attempt_count', {'attempt': trial})
 
 @app.route('/hongbooking', methods=['POST'])
 def handle_form():
