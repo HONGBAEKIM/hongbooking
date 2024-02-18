@@ -14,7 +14,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Create HTTP server
-
 const server = http.createServer(app);
 const io = socketIo(server);
 
@@ -29,7 +28,6 @@ io.on('connection', (socket) => {
 
 // Endpoint to handle POST requests from the client
 app.post('/hongbooking', (req, res) => {
-    
     const formData = req.body;
 
     // Process the form data here (e.g., save to database)
@@ -40,8 +38,9 @@ app.post('/hongbooking', (req, res) => {
     if (formData && formData.username && formData.password) {
         // Form data is valid
         // You can perform additional processing or validation here
+        
         // Emit the attempt count to the client
-        emit('attempt_count', {'attempt': session.get('attempts', 0)})
+        io.emit('attempt_count', { attempt: /* logic to get the current attempt count */ });
 
         // Send a success response to the client
         res.status(200).json({ message: 'Form data received successfully', success: true });
@@ -74,6 +73,6 @@ app.get('/hongbooking/status', (req, res) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
 });
