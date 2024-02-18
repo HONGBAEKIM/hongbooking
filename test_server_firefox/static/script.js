@@ -36,6 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Ensure the socket object is properly defined and initialized
     var socket = io();
     
+    // Request attempt count from the server
+    socket.emit('attempt_count_request');
+    
     // Listen for the response from the server
     socket.on('attempt_count', function(data) {
         console.log('Attempt count:', data.attempt);
@@ -43,8 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var progressDiv = document.getElementById('progress');
         progressDiv.innerHTML = '<p>' + data.attempt + ' / 3</p>'; // Append attempt count to existing content
     });
-    // Request attempt count from the server
-    socket.emit('attempt_count_request');
 });
 
 
