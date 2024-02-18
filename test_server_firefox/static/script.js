@@ -30,13 +30,12 @@
 // setInterval(getStatus, 5000); // Update every 5 seconds (adjust as needed)
 
 
-// Ensure the socket object is properly defined and initialized
-var socket = io();
+
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Request attempt count from the server
-    socket.emit('attempt_count_request');
-
+    // Ensure the socket object is properly defined and initialized
+    var socket = io();
+    
     // Listen for the response from the server
     socket.on('attempt_count', function(data) {
         console.log('Attempt count:', data.attempt);
@@ -44,6 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var progressDiv = document.getElementById('progress');
         progressDiv.innerHTML += '<p>' + data.attempt + ' / 3</p>'; // Append attempt count to existing content
     });
+    // Request attempt count from the server
+    socket.emit('attempt_count_request');
 });
 
 

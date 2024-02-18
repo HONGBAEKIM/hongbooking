@@ -255,6 +255,7 @@ def handle_form():
     ######## How many times to try to reload page ########
     max_retries = 3
     ######## How many times to try to reload page ########
+    global trial
     trial = 0
 
     while not slot_clicked and trial < max_retries:
