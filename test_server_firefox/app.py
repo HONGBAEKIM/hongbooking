@@ -166,17 +166,38 @@ def index():
 def update_attempt_count(trial):
     session['attempts'] = trial 
 
-# Define the status route handler to fetch the current status
+# # Define the status route handler to fetch the current status
+# @app.route('/hongbooking/status')
+# def check_status():
+#     # Get the current attempts from the session
+#     trial = get_current_attempts()
+#     # Define or retrieve max_retries here
+#     max_retries = 3  
+#     # Return the current attempts and max retries as JSON
+#     # Update the session with the current attempt count
+#     update_attempt_count(trial)
+#     return jsonify({'attempts': trial, 'maxRetries': max_retries})
+
+
 @app.route('/hongbooking/status')
 def check_status():
-    # Get the current attempts from the session
-    trial = get_current_attempts()
+    # Initialize a list to store status data
+    status_data = []
+
     # Define or retrieve max_retries here
-    max_retries = 3  
-    # Return the current attempts and max retries as JSON
-    # Update the session with the current attempt count
-    update_attempt_count(trial)
-    return jsonify({'attempts': trial, 'maxRetries': max_retries})
+    max_retries = 3
+
+    # Loop three times to get the status data
+    for _ in range(3):
+        # Get the current attempts from the session
+        trial = get_current_attempts()
+        # Update the session with the current attempt count
+        update_attempt_count(trial)
+        # Append the current status data to the list
+        status_data.append({'attempts': trial, 'maxRetries': max_retries})
+
+    # Return the list of status data as JSON
+    return jsonify(status_data)
 
 # Define a function to get the current attempts from the session
 def get_current_attempts():
