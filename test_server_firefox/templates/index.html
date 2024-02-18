@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Simple Website</title>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
     
     <script src="/static/script.js"></script>
     
@@ -12,7 +13,6 @@
     
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script> -->
 
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script> -->
@@ -115,8 +115,22 @@
             <div id="loading-message" class="hidden">
                 <p id="Loading..."></p>
             </div>
-            <p>Attempt <span id="attemptCount"></span> of <span id="maxRetries"></span></p>
+            
+            <!-- <p>Attempt <span id="attemptCount"></span> of <span id="maxRetries"></span></p> -->
+            <div id="status"></div>
 
+            <script>
+                // Connect to the Socket.IO server
+                var socket = io();
+
+                // Listen for status updates from the server
+                socket.on('status_update', function(data) {
+                    console.log('Status update:', data);
+                    // Update the UI with the status data
+                    // For example, update the content of the status div
+                    document.getElementById('status').innerText = 'Attempts: ' + data.attempts + ', Max Retries: ' + data.maxRetries;
+                });
+            </script>
 
             <!-- <div id="status"></div>
 
@@ -245,11 +259,11 @@
 
 
 
-            <style>
+            <!-- <style>
                 .hidden {
                     display: none;
                 }
-            </style>
+            </style> -->
 
             <footer>
                 <p>&copy; 2024 Your Simple Website</p>
