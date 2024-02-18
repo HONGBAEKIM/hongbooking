@@ -46,7 +46,7 @@ firefox_binary_location = '/usr/bin/firefox'
 firefox_options = FirefoxOptions()
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+
 
 # Configure session to use filesystem
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -62,9 +62,9 @@ Session(app)
 # Set logging level to DEBUG for more detailed logs
 logging.basicConfig(level=logging.DEBUG)
 
-CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
+CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com/hongbooking"}})
 
-socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
+socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com/hongbooking", async_mode='eventlet')
 
 #log-in 
 def attempt_login(driver, username, password):
