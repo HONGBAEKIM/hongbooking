@@ -46,6 +46,7 @@ firefox_binary_location = '/usr/bin/firefox'
 firefox_options = FirefoxOptions()
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 # Configure session to use filesystem
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -162,9 +163,7 @@ def index():
 
 
 
-# Define a function to update the session with the current attempt count
-def update_attempt_count(trial):
-    session['attempts'] = trial 
+
 
 # Define the status route handler to fetch the current status
 # @app.route('/hongbooking/status')
@@ -178,23 +177,7 @@ def update_attempt_count(trial):
 #     update_attempt_count(trial)
 #     return jsonify({'attempts': trial, 'maxRetries': max_retries})
 
-@app.route('/hongbooking/status')
-def check_status():
-    # Get the current attempts from the session
-    trial = get_current_attempts()
-    # Define or retrieve max_retries here
-    max_retries = 3
-    # Emit the status data to the client
-    socketio.emit('status_update', {'attempts': trial, 'maxRetries': max_retries})
-    # Update the session with the current attempt count
-    update_attempt_count(trial)
-    # Return a response to indicate that the status data has been emitted
-    return 'Status data emitted'
 
-
-# Define a function to get the current attempts from the session
-def get_current_attempts():
-    return session.get('attempts', 0)
 
 
 @app.route('/hongbooking', methods=['POST'])
@@ -353,11 +336,33 @@ def handle_form():
 def handle_attempt_count_request():
     emit('attempt_count', {'attempt': session.get('attempts', 0)})
 
-@socketio.on('progress_update')
-def handle_progress_update():
-    for attempt in range(3):
-        time.sleep(1)  # Simulate some processing time
-        emit('progress', {'attempt': attempt})
+    # Define a function to update the session with the current attempt count
+def update_attempt_count(trial):
+    session['attempts'] = trial 
+
+@app.route('/hongbooking/status')
+def check_status():
+    # Get the current attempts from the session
+    trial = get_current_attempts()
+    # Define or retrieve max_retries here
+    max_retries = 3
+    # Emit the status data to the client
+    socketio.emit('status_update', {'attempts': trial, 'maxRetries': max_retries})
+    # Update the session with the current attempt count
+    update_attempt_count(trial)
+    # Return a response to indicate that the status data has been emitted
+    return 'Status data emitted'
+
+
+# Define a function to get the current attempts from the session
+def get_current_attempts():
+    return session.get('attempts', 0)
+
+# @socketio.on('progress_update')
+# def handle_progress_update():
+#     for attempt in range(3):
+#         time.sleep(1)  # Simulate some processing time
+#         emit('progress', {'attempt': attempt})
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
