@@ -37,5 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     socket.on('attempt_count', function(data) {
         console.log('Attempt count:', data.attempt);
         // Update the UI with the attempt count
+        var progressDiv = document.getElementById('progress');
+        progressDiv.innerHTML = '<p>' + data.attempt + ' / 3</p>';
     });
 });
