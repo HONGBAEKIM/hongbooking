@@ -178,7 +178,9 @@ def index():
 #     return jsonify({'attempts': trial, 'maxRetries': max_retries})
 
 
-
+# Define a function to emit the attempt count to the client
+def emit_attempt_count(trial):
+    socketio.emit('attempt_count', {'attempt': trial})
 
 @app.route('/hongbooking', methods=['POST'])
 def handle_form():
@@ -264,9 +266,9 @@ def handle_form():
             
             session['attempts'] = trial
             # print("session", session['attempts'])
-
             # Emit the attempt count to the client
-            socketio.emit('attempt_count', {'attempt': trial})
+            emit_attempt_count(trial) 
+            # socketio.emit('attempt_count', {'attempt': trial})
 
 
             print(f"{trial} of {max_retries}")
@@ -324,10 +326,10 @@ def handle_form():
     driver.quit()
     return render_template('index.html')
 
-# SocketIO event to handle the attempt count
-@socketio.on('attempt_count_request')
-def handle_attempt_count_request():
-    emit('attempt_count', {'attempt': session.get('attempts', 0)})
+# # SocketIO event to handle the attempt count
+# @socketio.on('attempt_count_request')
+# def handle_attempt_count_request():
+#     emit('attempt_count', {'attempt': session.get('attempts', 0)})
 
 # Define a function to update the session with the current attempt count
 # def update_attempt_count(trial):
