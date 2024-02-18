@@ -29,11 +29,13 @@
 // // Example of how you might call getStatus periodically to update the attempt count
 // setInterval(getStatus, 5000); // Update every 5 seconds (adjust as needed)
 
-// Request attempt count from the server
-socket.emit('attempt_count_request');
+document.addEventListener('DOMContentLoaded', function() {
+    // Request attempt count from the server
+    socket.emit('attempt_count_request');
 
-// Listen for the response from the server
-socket.on('attempt_count', function(data) {
-    console.log('Attempt count:', data.attempt);
-    // Update the UI with the attempt count
+    // Listen for the response from the server
+    socket.on('attempt_count', function(data) {
+        console.log('Attempt count:', data.attempt);
+        // Update the UI with the attempt count
+    });
 });
