@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Set the server response timeout to 2 minutes (120,000 milliseconds)
-const serverTimeout = 120000; // 2 minutes in milliseconds
+const serverTimeout = 1200000; // 20 minutes in milliseconds
 
 // Middleware to parse JSON and URL-encoded bodies
 app.use(bodyParser.json());
@@ -15,7 +15,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Create HTTP server
 const server = http.createServer(app);
-const io = socketIo(server);
+
+const io = socketIo(server, {
+    pingInterval: 25000, // Check client connectivity every 25 seconds
+    pingTimeout: 60000,  // Consider the connection disconnected if no response after 60 seconds
+  });
 
 // Socket.IO event handlers
 io.on('connection', (socket) => {
