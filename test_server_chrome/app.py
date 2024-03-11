@@ -32,9 +32,9 @@ import sys
 
 import logging
 from flask import Flask, render_template, request, url_for, redirect, jsonify, session
-from flask_cors import CORS
-from flask_socketio import SocketIO, emit, send
-from flask_session import Session
+# from flask_cors import CORS
+# from flask_socketio import SocketIO, emit, send
+# from flask_session import Session
 
 
 app = Flask(__name__)
@@ -78,11 +78,11 @@ driver = uc.Chrome(options=options)
 # Session(app)
 
 # Set logging level to DEBUG for more detailed logs
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 
-CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
+# CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
 
-socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
+# socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
 
 #log-in 
 def attempt_login(driver, username, password):
@@ -197,8 +197,8 @@ def index():
 
 
 # Define a function to emit the attempt count to the client
-def emit_attempt_count(trial):
-    socketio.emit('attempt_count', {'attempt': trial})
+# def emit_attempt_count(trial):
+#     socketio.emit('attempt_count', {'attempt': trial})
 
 @app.route('/hongbooking', methods=['POST'])
 def handle_form():
@@ -230,7 +230,7 @@ def handle_form():
         
     except Exception as e:
         print(f"Error initializing WebDriver: {e}")
-        return jsonify({"error": "Error initializing WebDriver"})
+        # return jsonify({"error": "Error initializing WebDriver"})
 
     # Continue with the rest of your script after a successful login
     logged_in = False
@@ -242,15 +242,17 @@ def handle_form():
         if logged_in:
             print("loged_in")
         else:
-            login_response = {
-            'message': 'Login failed. Please try again.',
-            'step': 'login',
-            'success': False
-            }
+            print("Login failed. Please try again.")
+            
+            # login_response = {
+            # 'message': 'Login failed. Please try again.',
+            # 'step': 'login',
+            # 'success': False
+            # }
 
-            return jsonify({
-                'login_response': login_response,
-            })       
+            # return jsonify({
+            #     'login_response': login_response,
+            # })       
 
     # Dynamically build the URL
     base_url = "https://projects.intra.42.fr/projects"
@@ -285,10 +287,10 @@ def handle_form():
         try:
             trial += 1
             
-            session['attempts'] = trial
+            # session['attempts'] = trial
             # print("session", session['attempts'])
             # Emit the attempt count to the client
-            emit_attempt_count(trial) 
+            # emit_attempt_count(trial) 
             # socketio.emit('attempt_count', {'attempt': trial})
 
 
@@ -323,14 +325,14 @@ def handle_form():
                         #nextok.click()
                         print("Clicked 'OK' button.")
                              
-                        slot_booking_response = {
-                            'message': 'Slot booked successfully.',
-                            'step': 'slot_booking',
-                            'success': True
-                        }
-                        return jsonify({
-                            'slot_booking_response': slot_booking_response
-                        })
+                        # slot_booking_response = {
+                        #     'message': 'Slot booked successfully.',
+                        #     'step': 'slot_booking',
+                        #     'success': True
+                        # }
+                        # return jsonify({
+                        #     'slot_booking_response': slot_booking_response
+                        # })
                 
                 except NoSuchElementException:
                     print("OK button not found.")
@@ -381,5 +383,5 @@ def handle_form():
 #         emit('progress', {'attempt': attempt})
 
 if __name__ == '__main__':  
-    # app.run(host='0.0.0.0', port=5000)
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
+    # socketio.run(app, host='0.0.0.0', port=5000, debug=True)
