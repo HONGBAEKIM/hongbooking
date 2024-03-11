@@ -36,6 +36,9 @@ from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
 from flask_session import Session
 
+
+app = Flask(__name__)
+
 options = uc.ChromeOptions()
 # chrome_options = Options()
 
@@ -61,9 +64,6 @@ driver = uc.Chrome(options=options)
 #firefox_options = FirefoxOptions()
 
 
-
-
-app = Flask(__name__)
 
 
 # Configure session to use filesystem
