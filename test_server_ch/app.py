@@ -7,10 +7,9 @@ import getpass
 import subprocess
 from selenium import webdriver
 
-from selenium.webdriver.chrome.options import Options
-import undetected_chromedriver as uc 
-#from selenium.webdriver import Firefox
-#from selenium.webdriver.firefox.options import Options as FirefoxOptions
+# from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import Firefox
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -19,7 +18,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from datetime import datetime
 import time
-# from config import SECRET_KEY
+from config import SECRET_KEY
 
 
 # from pyvirtualdisplay import Display
@@ -32,57 +31,40 @@ import sys
 
 import logging
 from flask import Flask, render_template, request, url_for, redirect, jsonify, session
-# from flask_cors import CORS
-# from flask_socketio import SocketIO, emit, send
-# from flask_session import Session
-
-
-app = Flask(__name__)
-
-options = uc.ChromeOptions()
-# chrome_options = Options()
-
-localhost_number = random.randint(65536, 65999)
-# chrome_options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
-options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
-
-#This option runs Chrome in headless mode, 
-#it will not display a UI or open a browser window.
-########################################################################
-#options.add_argument("--headless")  # Run in headless mode, without a UI.
-########################################################################
-driver = uc.Chrome(options=options)
+from flask_cors import CORS
+from flask_socketio import SocketIO, emit, send
+from flask_session import Session
 
 
 # Define the default GeckoDriver path
-#geckodriver_path = "/usr/local/bin/geckodriver"
+geckodriver_path = "/usr/local/bin/geckodriver"
 
 # Specify the default path to the Firefox binary
-#firefox_binary_location = '/usr/bin/firefox'
+firefox_binary_location = '/usr/bin/firefox'
 
 # Move the definition of firefox_options outside of the function
-#firefox_options = FirefoxOptions()
+firefox_options = FirefoxOptions()
 
-
+app = Flask(__name__)
 
 
 # Configure session to use filesystem
-# app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_TYPE'] = 'filesystem'
 #app.secret_key = os.getenv('MY_SECRET_KEY')
-# app.secret_key = SECRET_KEY
+app.secret_key = SECRET_KEY
 # Set the session cookie settings
-# app.config['SESSION_COOKIE_SECURE'] = True  # Ensures that the cookie is only sent over HTTPS
-# app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # Specifies that the cookie can be sent in cross-site requests
+app.config['SESSION_COOKIE_SECURE'] = True  # Ensures that the cookie is only sent over HTTPS
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # Specifies that the cookie can be sent in cross-site requests
 
 # Initialize the session extension with your Flask application
-# Session(app)
+Session(app)
 
 # Set logging level to DEBUG for more detailed logs
-# logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
-# CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
+CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
 
-# socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
+socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
 
 #log-in 
 def attempt_login(driver, username, password):
@@ -197,8 +179,8 @@ def index():
 
 
 # Define a function to emit the attempt count to the client
-# def emit_attempt_count(trial):
-#     socketio.emit('attempt_count', {'attempt': trial})
+def emit_attempt_count(trial):
+    socketio.emit('attempt_count', {'attempt': trial})
 
 @app.route('/hongbooking', methods=['POST'])
 def handle_form():
@@ -208,29 +190,26 @@ def handle_form():
     start_time_from_app = request.form.get('start_time')
     end_time_from_app = request.form.get('end_time')
 
-    options.add_argument("--headless")
-    
     #This option runs Chrome in headless mode, 
     #it will not display a UI or open a browser window.
-    #firefox_options.add_argument('--headless')
+    firefox_options.add_argument('--headless')
 
     # Set the path to the Firefox binary
-    #firefox_options.binary_location = firefox_binary_location
+    firefox_options.binary_location = firefox_binary_location
     
     # Specify the path to the GeckoDriver executable using the executable_path property
-    #firefox_options.executable_path = geckodriver_path
+    firefox_options.executable_path = geckodriver_path
 
     try:
         # Instantiate Firefox WebDriver using FirefoxOptions
-        #driver = uc.Chrome(options=options)
-        #driver = webdriver.Firefox(options=firefox_options)
+        driver = webdriver.Firefox(options=firefox_options)
         login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
         # Open the login URL
         driver.get(login_url)
         
     except Exception as e:
         print(f"Error initializing WebDriver: {e}")
-        # return jsonify({"error": "Error initializing WebDriver"})
+        return jsonify({"error": "Error initializing WebDriver"})
 
     # Continue with the rest of your script after a successful login
     logged_in = False
@@ -242,17 +221,15 @@ def handle_form():
         if logged_in:
             print("loged_in")
         else:
-            print("Login failed. Please try again.")
-            
-            # login_response = {
-            # 'message': 'Login failed. Please try again.',
-            # 'step': 'login',
-            # 'success': False
-            # }
+            login_response = {
+            'message': 'Login failed. Please try again.',
+            'step': 'login',
+            'success': False
+            }
 
-            # return jsonify({
-            #     'login_response': login_response,
-            # })       
+            return jsonify({
+                'login_response': login_response,
+            })       
 
     # Dynamically build the URL
     base_url = "https://projects.intra.42.fr/projects"
@@ -287,10 +264,10 @@ def handle_form():
         try:
             trial += 1
             
-            # session['attempts'] = trial
+            session['attempts'] = trial
             # print("session", session['attempts'])
             # Emit the attempt count to the client
-            # emit_attempt_count(trial) 
+            emit_attempt_count(trial) 
             # socketio.emit('attempt_count', {'attempt': trial})
 
 
@@ -325,14 +302,14 @@ def handle_form():
                         #nextok.click()
                         print("Clicked 'OK' button.")
                              
-                        # slot_booking_response = {
-                        #     'message': 'Slot booked successfully.',
-                        #     'step': 'slot_booking',
-                        #     'success': True
-                        # }
-                        # return jsonify({
-                        #     'slot_booking_response': slot_booking_response
-                        # })
+                        slot_booking_response = {
+                            'message': 'Slot booked successfully.',
+                            'step': 'slot_booking',
+                            'success': True
+                        }
+                        return jsonify({
+                            'slot_booking_response': slot_booking_response
+                        })
                 
                 except NoSuchElementException:
                     print("OK button not found.")
@@ -383,5 +360,5 @@ def handle_form():
 #         emit('progress', {'attempt': attempt})
 
 if __name__ == '__main__':  
-    app.run(host='0.0.0.0', port=5000)
-    # socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+    # app.run(host='0.0.0.0', port=5000)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
