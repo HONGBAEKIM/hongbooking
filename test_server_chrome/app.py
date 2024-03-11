@@ -19,7 +19,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from datetime import datetime
 import time
-from config import SECRET_KEY
+# from config import SECRET_KEY
 
 
 # from pyvirtualdisplay import Display
@@ -67,15 +67,15 @@ app = Flask(__name__)
 
 
 # Configure session to use filesystem
-app.config['SESSION_TYPE'] = 'filesystem'
+# app.config['SESSION_TYPE'] = 'filesystem'
 #app.secret_key = os.getenv('MY_SECRET_KEY')
-app.secret_key = SECRET_KEY
+# app.secret_key = SECRET_KEY
 # Set the session cookie settings
-app.config['SESSION_COOKIE_SECURE'] = True  # Ensures that the cookie is only sent over HTTPS
-app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # Specifies that the cookie can be sent in cross-site requests
+# app.config['SESSION_COOKIE_SECURE'] = True  # Ensures that the cookie is only sent over HTTPS
+# app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # Specifies that the cookie can be sent in cross-site requests
 
 # Initialize the session extension with your Flask application
-Session(app)
+# Session(app)
 
 # Set logging level to DEBUG for more detailed logs
 logging.basicConfig(level=logging.DEBUG)
