@@ -38,8 +38,8 @@ from flask_session import Session
 import undetected_chromedriver as uc 
 
 options = uc.ChromeOptions()
-localhost_number = random.randint(65536, 65999)
-options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
+# localhost_number = random.randint(65536, 65999)
+# options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
 options.add_argument("--headless")
 driver = uc.Chrome(options=options)
 
