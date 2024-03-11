@@ -40,6 +40,7 @@ import undetected_chromedriver as uc
 options = uc.ChromeOptions()
 localhost_number = random.randint(65536, 65999)
 options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
+options.add_argument("--headless")
 driver = uc.Chrome(options=options)
 
 # Define the default GeckoDriver path
@@ -202,7 +203,7 @@ def handle_form():
     #This option runs Chrome in headless mode, 
     #it will not display a UI or open a browser window.
     #firefox_options.add_argument('--headless')
-    options.add_argument("--headless")
+    #options.add_argument("--headless")
 
     # Set the path to the Firefox binary
     #firefox_options.binary_location = firefox_binary_location
