@@ -289,7 +289,7 @@ def handle_form():
             
             if (len(slots) == 0):
                 ######## reload time setting ########
-                time.sleep(3)
+                time.sleep(15)
                 ######## reload time setting ########
                 driver.refresh()
 
