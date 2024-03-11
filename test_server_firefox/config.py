@@ -1,1 +1,0 @@
-SECRET_KEY = 'bQHbgRtIv5PtkwRgMMwVQd4JzFeDFJqempwh48dUqHObo'

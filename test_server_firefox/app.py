@@ -18,7 +18,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from datetime import datetime
 import time
-from config import SECRET_KEY
+from test_server_ch.config import SECRET_KEY
 
 
 # from pyvirtualdisplay import Display
