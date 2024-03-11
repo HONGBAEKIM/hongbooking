@@ -231,15 +231,15 @@ def handle_form():
         password = password_from_app
 
         logged_in = attempt_login(driver, username, password)
-    if logged_in:
-        print("loged_in")
-    else:
-        login_response = {
-            'message': 'Login failed. Please try again.',
-            'step': 'login',
-            'success': False
-        }
-        return jsonify({'login_response': login_response})       
+        if logged_in:
+            print("loged_in")
+        else:
+            login_response = {
+                'message': 'Login failed. Please try again.',
+                'step': 'login',
+                'success': False
+            }
+            return jsonify({'login_response': login_response})       
 
     # Dynamically build the URL
     base_url = "https://projects.intra.42.fr/projects"
