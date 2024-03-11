@@ -17,8 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const server = http.createServer(app);
 
 const io = socketIo(server, {
-    pingInterval: 25000, // Check client connectivity every 25 seconds
-    pingTimeout: 60000,  // Consider the connection disconnected if no response after 60 seconds
+    pingInterval: 1200000, // Check client connectivity every 20 minutes
+    pingTimeout: 1200000,  // Consider the connection disconnected if no response after 20 minutes
   });
 
 // Socket.IO event handlers
