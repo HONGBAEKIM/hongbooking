@@ -35,13 +35,34 @@ from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
 from flask_session import Session
 
-import undetected_chromedriver as uc 
+#import undetected_chromedriver as uc 
+from selenium_stealth import stealth
 
 options = webdriver.ChromeOptions()
 # localhost_number = random.randint(65536, 65999)
 # options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
 options.add_argument("--headless")
-driver = uc.Chrome(options=options)
+options.add_experimental_option("excludeSwitshes", ["enable-automation"])
+options.add_experimental_option("useAutomationExtension", False)
+
+if use_chrome:
+    self.browser = webdriver.Chrome(options=options)
+
+else:
+    self.browser = webdriver.Firefox(options=options)
+
+
+stealth(self.browser,
+        languages=["en-US", "en"],
+        vendor="Google Inc.",
+        platform="Win32",
+        webgl_vendor="Intel Inc.",
+        renderer="Intel Iris OpenGL Engine",
+        fix_hairline=True,
+)
+
+#driver = uc.Chrome(options=options)
+
 
 #login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
 # Open the login URL
