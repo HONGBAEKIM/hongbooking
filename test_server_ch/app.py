@@ -45,11 +45,11 @@ options.add_argument("--headless")
 options.add_experimental_option("excludeSwitshes", ["enable-automation"])
 options.add_experimental_option("useAutomationExtension", False)
 
-if use_chrome:
-    self.browser = webdriver.Chrome(options=options)
+# if use_chrome:
+self.browser = webdriver.Chrome(options=options)
 
-else:
-    self.browser = webdriver.Firefox(options=options)
+# else:
+#     self.browser = webdriver.Firefox(options=options)
 
 
 stealth(self.browser,
