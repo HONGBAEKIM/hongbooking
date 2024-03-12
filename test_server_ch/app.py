@@ -151,6 +151,10 @@ def is_time_within_range(time_str, start_time_from_app, end_time_from_app):
 def emit_attempt_count(trial):
     socketio.emit('attempt_count', {'attempt': trial})
 
+@app.route('/hongbooking_html')
+def hongbooking_html():
+    return render_template('hongbooking.html')
+
 @app.route('/hongbooking', methods=['GET', 'POST'])
 def handle_form():
     user_id_from_app = request.form.get('user_id')
@@ -180,12 +184,14 @@ def handle_form():
         if logged_in:
             print("loged_in")
         else:
-            login_response = {
-                'message': 'Login failed. Please try again.',
-                'step': 'login',
-                'success': False
-            }
-            return jsonify({'login_response': login_response})       
+            # login_response = {
+            #     'message': 'Login failed. Please try again.',
+            #     'step': 'login',
+            #     'success': False
+            # }
+            # return jsonify({'login_response': login_response})       
+            # Redirect to hongbooking.html if login fails
+            return redirect(url_for('hongbooking_html'))
 
     # Dynamically build the URL
     base_url = "https://projects.intra.42.fr/projects"
