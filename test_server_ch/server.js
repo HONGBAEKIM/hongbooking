@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
 const socketIo = require('socket.io');
+const fetch = require('node-fetch'); // Import fetch module
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -58,29 +59,29 @@ app.post('/hongbooking', (req, res) => {
     }
 });
 
-// // Endpoint to provide status information to the client
-// // app.get('/hongbooking/status', (req, res) => {
-// app.get('/hongbooking', (req, res) => {
+// Endpoint to provide status information to the client
+// app.get('/hongbooking/status', (req, res) => {
+app.get('/hongbooking', (req, res) => {
 
-//     // Assuming attempts is defined or retrieved from your Flask application
-//     // You need to modify this part to fetch the attempt count from your Flask application
-//     // For example, if your Flask application exposes an endpoint to provide the attempt count,
-//     // you would make a request to that endpoint to get the attempt count
-//     // fetch('/hongbooking/status')
-//     fetch('/hongbooking')
-//         .then(response => response.json())
-//         .then(data => {
-//             // Extract the attempt count and max retries from the response
-//             const { attempts, maxRetries } = data;
-//             // Send the status information to the client
-//             res.json({ attempts, maxRetries });
-//         })
-//         .catch(error => {
-//             console.error('Error fetching status:', error);
-//             // In case of an error, send a response indicating the error
-//             res.status(500).json({ error: 'Failed to fetch status' });
-//         });
-// });
+    // Assuming attempts is defined or retrieved from your Flask application
+    // You need to modify this part to fetch the attempt count from your Flask application
+    // For example, if your Flask application exposes an endpoint to provide the attempt count,
+    // you would make a request to that endpoint to get the attempt count
+    // fetch('/hongbooking/status')
+    fetch('/hongbooking/status')
+        .then(response => response.json())
+        .then(data => {
+            // Extract the attempt count and max retries from the response
+            const { attempts, maxRetries } = data;
+            // Send the status information to the client
+            res.json({ attempts, maxRetries });
+        })
+        .catch(error => {
+            console.error('Error fetching status:', error);
+            // In case of an error, send a response indicating the error
+            res.status(500).json({ error: 'Failed to fetch status' });
+        });
+});
 
 // Start the server
 server.listen(PORT, () => {
