@@ -144,7 +144,10 @@ def is_time_within_range(time_str, start_time_from_app, end_time_from_app):
 
 
 
-@app.route('/hongbooking')
+# @app.route('/hongbooking')
+# def index():
+#     return render_template('index.html')
+@app.route('/')
 def index():
     return render_template('index.html')
 
@@ -338,7 +341,7 @@ def handle_form():
             break
 
     driver.quit()
-    return render_template('index.html')
+    return render_template('hongbooking.html')
 
 # # SocketIO event to handle the attempt count
 # @socketio.on('attempt_count_request')
