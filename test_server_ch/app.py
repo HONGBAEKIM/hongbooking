@@ -42,11 +42,13 @@ options = webdriver.ChromeOptions()
 # localhost_number = random.randint(65536, 65999)
 # options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
 options.add_argument("--headless")
-options.add_experimental_option("excludeSwitshes", ["enable-automation"])
+options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option("useAutomationExtension", False)
 
 # if use_chrome:
-self.browser = webdriver.Chrome(options=options)
+#self.browser = webdriver.Chrome(options=options)
+driver = webdriver.Chrome(options=options)
+
 
 # else:
 #     self.browser = webdriver.Firefox(options=options)
