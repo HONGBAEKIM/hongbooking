@@ -59,12 +59,15 @@ app.post('/hongbooking', (req, res) => {
 });
 
 // Endpoint to provide status information to the client
-app.get('/hongbooking/status', (req, res) => {
+// app.get('/hongbooking/status', (req, res) => {
+app.get('/hongbooking', (req, res) => {
+
     // Assuming attempts is defined or retrieved from your Flask application
     // You need to modify this part to fetch the attempt count from your Flask application
     // For example, if your Flask application exposes an endpoint to provide the attempt count,
     // you would make a request to that endpoint to get the attempt count
-    fetch('/hongbooking/status')
+    // fetch('/hongbooking/status')
+    fetch('/hongbooking')
         .then(response => response.json())
         .then(data => {
             // Extract the attempt count and max retries from the response
