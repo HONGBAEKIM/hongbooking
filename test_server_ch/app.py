@@ -309,7 +309,7 @@ def handle_form():
             print(f"An unexpected error occurred: {e}")
             break
 
-    self.driver.quit()
+    driver.quit()
     return render_template('hongbooking.html')
 
 
