@@ -184,14 +184,14 @@ def handle_form():
         if logged_in:
             print("loged_in")
         else:
-            # login_response = {
-            #     'message': 'Login failed. Please try again.',
-            #     'step': 'login',
-            #     'success': False
-            # }
-            # return jsonify({'login_response': login_response})       
+            login_response = {
+                'message': 'Login failed. Please try again.',
+                'step': 'login',
+                'success': False
+            }
+            return jsonify({'login_response': login_response})       
             # Redirect to hongbooking.html if login fails
-            return redirect(url_for('hongbooking_html'))
+            #return redirect(url_for('hongbooking.html'))
 
     # Dynamically build the URL
     base_url = "https://projects.intra.42.fr/projects"
