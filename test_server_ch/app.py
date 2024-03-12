@@ -61,6 +61,9 @@ driver.get(login_url)
 
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 # Configure session to use filesystem
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -144,57 +147,6 @@ def is_time_within_range(time_str, start_time_from_app, end_time_from_app):
 
 
 
-# @app.route('/hongbooking')
-# def index():
-#     return render_template('index.html')
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-# def get_current_attempts():
-#     return session.get('attempts', 0)
-
-# # Adjust the status function to return the current attempt count
-# def status():
-#     return get_current_attempts()
-
-# # Define the status route handler without the route decorator
-# def status_handler():
-#     # Call status function to get the current attempts
-#     trial = status()
-#     max_retries = 3  # Define or retrieve max_retries here
-#     # Update the session with the current attempt count
-#     update_attempt_count(trial)
-#     return jsonify({'attempts': trial, 'maxRetries': max_retries})
-
-# # Define a function to update the session with the current attempt count
-# def update_attempt_count(trial):
-#     session['attempts'] = trial 
-
-# # Route for checking status
-# @app.route('/hongbooking/status')
-# def check_status():
-#     return status_handler()
-
-
-
-
-
-
-
-# Define the status route handler to fetch the current status
-# @app.route('/hongbooking/status')
-# def check_status():
-#     # Get the current attempts from the session
-#     trial = get_current_attempts()
-#     # Define or retrieve max_retries here
-#     max_retries = 3  
-#     # Return the current attempts and max retries as JSON
-#     # Update the session with the current attempt count
-#     update_attempt_count(trial)
-#     return jsonify({'attempts': trial, 'maxRetries': max_retries})
-
-
 # Define a function to emit the attempt count to the client
 def emit_attempt_count(trial):
     socketio.emit('attempt_count', {'attempt': trial})
@@ -207,21 +159,8 @@ def handle_form():
     start_time_from_app = request.form.get('start_time')
     end_time_from_app = request.form.get('end_time')
 
-    #This option runs Chrome in headless mode, 
-    #it will not display a UI or open a browser window.
-    #firefox_options.add_argument('--headless')
-    #options.add_argument("--headless")
-
-    # Set the path to the Firefox binary
-    #firefox_options.binary_location = firefox_binary_location
-    
-    # Specify the path to the GeckoDriver executable using the executable_path property
-    #firefox_options.executable_path = geckodriver_path
 
     try:
-        # Instantiate Firefox WebDriver using FirefoxOptions
-        #driver = webdriver.Firefox(options=firefox_options)
-
         
         login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
         # Open the login URL
@@ -343,38 +282,6 @@ def handle_form():
     driver.quit()
     return render_template('hongbooking.html')
 
-# # SocketIO event to handle the attempt count
-# @socketio.on('attempt_count_request')
-# def handle_attempt_count_request():
-#     emit('attempt_count', {'attempt': session.get('attempts', 0)})
-
-# Define a function to update the session with the current attempt count
-# def update_attempt_count(trial):
-#     session['attempts'] = trial 
-
-# @app.route('/hongbooking/status')
-# def check_status():
-#     # Get the current attempts from the session
-#     trial = get_current_attempts()
-#     # Define or retrieve max_retries here
-#     max_retries = 3
-#     # Emit the status data to the client
-#     socketio.emit('status_update', {'attempts': trial, 'maxRetries': max_retries})
-#     # Update the session with the current attempt count
-#     update_attempt_count(trial)
-#     # Return a response to indicate that the status data has been emitted
-#     return 'Status data emitted'
-
-
-# # Define a function to get the current attempts from the session
-# def get_current_attempts():
-#     return session.get('attempts', 0)
-
-# @socketio.on('progress_update')
-# def handle_progress_update():
-#     for attempt in range(3):
-#         time.sleep(1)  # Simulate some processing time
-#         emit('progress', {'attempt': attempt})
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)

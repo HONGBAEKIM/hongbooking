@@ -8,22 +8,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
     
     
-    
     <link rel="stylesheet" href="/static/style.css">
     
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
     <script src="/static/script.js"></script>
-    
-    
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script> -->
 
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script> -->
     
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script> -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+
     
     <title>Progress Updates</title>
 
@@ -37,21 +30,7 @@
 
         <section>         
             
-            <!-- <div id="progress"></div> -->
-            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script> -->
-
-            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script> -->
-
-            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script> -->
-            <!-- <script>
-                var socket = io();
-
-                socket.on('progress', function(data) {
-                    var progressDiv = document.getElementById('progress');
-                    progressDiv.innerHTML += '<p>Attempt ' + data.attempt + ' of 3</p>';
-                });
-            </script> -->
-            
+           
             
             <h2>Input</h2>
             <form id="myForm" action="/hongbooking" method="POST" onsubmit="return validateTime()">
@@ -123,76 +102,6 @@
             
 
             <div id="progress"></div>
-            <!-- <script>
-                // Ensure the socket object is properly defined and initialized
-                var socket = io();
-
-                // Listen for progress updates from the server
-                socket.on('progress', function(data) {
-                    var progressDiv = document.getElementById('progress');
-                    progressDiv.innerHTML = '<p>Attempt ' + data.attempt + ' of 3</p>';
-                });
-            </script> -->
-
-
-
-            <!-- <p>Attempt <span id="attemptCount"></span> of <span id="maxRetries"></span></p> -->
-            <!-- <div id="status"></div>
-
-            <script>
-                // Connect to the Socket.IO server
-                var socket = io();
-
-                // Listen for status updates from the server
-                socket.on('status_update', function(data) {
-                    console.log('Status update:', data);
-                    // Update the UI with the status data
-                    // For example, update the content of the status div
-                    document.getElementById('status').innerText = 'Attempts: ' + data.attempts + ', Max Retries: ' + data.maxRetries;
-                });
-            </script> -->
-
-            <!-- <div id="status"></div>
-
-            
-
-            <script>
-                // Function to update the status display
-                function updateStatus(attempts, maxRetries) {
-                    document.getElementById('status').textContent = `Attempt ${attempts} of ${maxRetries}`;
-                }
-
-                // Function to fetch the status from the server and update the display
-                function fetchStatus() {
-                    fetch('/hongbooking/status')
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log('Received data: (from fetchstatus)', data);
-                            updateStatus(data.attempts, data.maxRetries);
-                        })
-                        .catch(error => {
-                            console.error('Error fetching status:', error);
-                        });
-                }
-
-                function fetchInitialAttempts() {
-                    fetch('/hongbooking/status')
-                        .then(response => response.json())
-                        .then(data => {
-                            // Once we have the initial value, start updating the status display
-                            updateStatus(data.attempts, data.maxRetries);
-                            setInterval(fetchStatus, 10000); // Start fetching the status regularly
-                        })
-                        .catch(error => {
-                            console.error('Error fetching initial attempts:', error);
-                        });
-                }
-
-                // Update the status display initially
-                fetchInitialAttempts();
-
-
-            </script> -->
 
 
 
