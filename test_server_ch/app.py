@@ -112,15 +112,15 @@ def attempt_login(driver, username, password):
     password_field_id = "password"  # Replace with the actual ID of the password field
 
     try:
-        # WebDriverWait(driver, 1).until(
-        #     EC.element_to_be_clickable((By.ID, username_field_id))
-        # )
+        WebDriverWait(driver, 1).until(
+            EC.element_to_be_clickable((By.ID, username_field_id))
+        )
         username_field = driver.find_element(By.ID, username_field_id)
         username_field.send_keys(username)
 
-        # WebDriverWait(driver, 1).until(
-        #     EC.element_to_be_clickable((By.ID, password_field_id))
-        # )
+        WebDriverWait(driver, 1).until(
+            EC.element_to_be_clickable((By.ID, password_field_id))
+        )
         password_field = driver.find_element(By.ID, password_field_id)
         password_field.send_keys(password)
 
