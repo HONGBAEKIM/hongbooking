@@ -104,8 +104,15 @@ def attempt_login(driver, username, password):
         password_field.send_keys(Keys.ENTER)
     
         # Wait for navigation and check if the login was successfuld
-        # WebDriverWait(driver, 5).until(EC.url_to_be("https://profile.intra.42.fr/"))
-        return True  # Return True to indicate successful login
+        #WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
+        
+        # Check if the URL changes to indicate successful login
+        if driver.current_url == "https://profile.intra.42.fr/":
+            return True  # Return True to indicate successful login
+        else:
+            return False  # Return False to indicate login failure
+        
+        #return True  # Return True to indicate successful login
 
     except Exception as e:
         print("An error occurred:", e)
