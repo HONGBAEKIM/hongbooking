@@ -43,9 +43,9 @@ options = uc.ChromeOptions()
 options.add_argument("--headless")
 driver = uc.Chrome(options=options)
 
-login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
+#login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
 # Open the login URL
-driver.get(login_url)
+#driver.get(login_url)
 
 # Define the default GeckoDriver path
 #geckodriver_path = "/usr/local/bin/geckodriver"
