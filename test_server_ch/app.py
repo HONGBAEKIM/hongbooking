@@ -46,15 +46,15 @@ options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option("useAutomationExtension", False)
 
 # if use_chrome:
-#self.browser = webdriver.Chrome(options=options)
-driver = webdriver.Chrome(options=options)
+browser = webdriver.Chrome(options=options)
+#driver = webdriver.Chrome(options=options)
 
 
 # else:
 #     self.browser = webdriver.Firefox(options=options)
 
 
-stealth(self.browser,
+stealth(browser,
         languages=["en-US", "en"],
         vendor="Google Inc.",
         platform="Win32",
