@@ -21,8 +21,10 @@ const server = http.createServer(app);
 server.setTimeout(serverTimeout);
 
 const io = socketIo(server, {
-    pingInterval: 1200000, // Check client connectivity every 20 minutes
-    pingTimeout: 1200000,  // Consider the connection disconnected if no response after 20 minutes
+    // pingInterval: 1200000, // Check client connectivity every 20 minutes
+    // pingTimeout: 1200000,  // Consider the connection disconnected if no response after 20 minutes
+    pingInterval: 10000, // Check client connectivity every 10 sec
+    pingTimeout: 10000,  // Consider the connection disconnected if no response after 10 sec
   });
 
 // Socket.IO event handlers
