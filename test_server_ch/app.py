@@ -46,7 +46,7 @@ options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option("useAutomationExtension", False)
 
 # if use_chrome:
-browser = webdriver.Chrome(options=options)
+driver = webdriver.Chrome(options=options)
 #driver = webdriver.Chrome(options=options)
 
 
@@ -54,7 +54,7 @@ browser = webdriver.Chrome(options=options)
 #     self.browser = webdriver.Firefox(options=options)
 
 
-stealth(browser,
+stealth(driver,
         languages=["en-US", "en"],
         vendor="Google Inc.",
         platform="Win32",
@@ -309,7 +309,7 @@ def handle_form():
             print(f"An unexpected error occurred: {e}")
             break
 
-    driver.quit()
+    self.browser.quit()
     return render_template('hongbooking.html')
 
 
