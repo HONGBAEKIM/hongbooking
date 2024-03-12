@@ -83,6 +83,12 @@ app.get('/hongbooking', (req, res) => {
         });
 });
 
+// Allow GET requests for /hongbooking/status
+app.get('/hongbooking/status', (req, res) => {
+    // Here you can provide the status directly or fetch from other sources
+    res.json({ attempts: 0, maxRetries: 5 }); // Example response, modify as needed
+});
+
 // Start the server
 server.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
