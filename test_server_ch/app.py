@@ -175,9 +175,9 @@ def is_time_within_range(time_str, start_time_from_app, end_time_from_app):
 def emit_attempt_count(trial):
     socketio.emit('attempt_count', {'attempt': trial})
 
-@app.route('/hongbooking')
-def hongbooking_html():
-    return render_template('hongbooking.html')
+# @app.route('/hongbooking')
+# def hongbooking_html():
+#     return render_template('hongbooking.html')
 
 @app.route('/hongbooking', methods=['GET', 'POST'])
 def handle_form():
