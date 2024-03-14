@@ -30,11 +30,19 @@ from selenium_stealth import stealth
 # import mysql.connector  # Add this line to import mysql.connector
 
 
+app = Flask(__name__)
+
 #options = uc.ChromeOptions()
 options = webdriver.ChromeOptions()
 # localhost_number = random.randint(65536, 65999)
 # options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
 options.add_argument("--headless")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-gpu")
+options.add_argument("--disable-extensions")
+options.add_argument("--disable-notifications")
+options.add_argument("--disable-popup-blocking")
 #options.add_experimental_option("excludeSwitches", ["enable-automation"])
 #options.add_experimental_option("useAutomationExtension", False)
 
@@ -73,9 +81,24 @@ stealth(driver,
 #firefox_options = FirefoxOptions()
 
 
+user_agents = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:97.0) Gecko/20100101 Firefox/97.0",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 YaBrowser/22.2.1 Yowser/2.5 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 YaBrowser/22.2.1 Yowser/2.5 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Iron/97.0.4900.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Iron/97.0.4900.0 Safari/537.36",
+    # Add more user agents as needed
+]
 
-
-app = Flask(__name__)
+def create_webdriver():
+    options.add_argument(f"user-agent={random.choice(user_agents)}")
+    driver = webdriver.Chrome(options=options)
+    return driver
 
 @app.route('/')
 def index():
@@ -247,6 +270,7 @@ def handle_form():
         
         login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
         # Open the login URL
+        driver = create_webdriver()
         driver.get(login_url)
         
     except Exception as e:
