@@ -204,7 +204,55 @@ def hongbooking():
 
 
 
+# @app.route('/save_user_input', methods=['POST'])
+# def save_user_input():
+#     # Retrieve user input from the request form
+#     user_id_from_app = request.form.get('user_id')
+#     password_from_app = request.form.get('password')
+#     project_name_from_app = request.form.get('project_name')
+#     start_time_from_app = request.form.get('start_time')
+#     end_time_from_app = request.form.get('end_time')
 
+#     # Connect to MySQL database
+#     conn = mysql.connector.connect(
+#         host="localhost",
+#         user="hongbook",
+#         password="Katelyn1!!!!!!",
+#         database="hongbooking"
+#     )
+
+#     # Create a cursor object to execute SQL commands
+#     cursor = conn.cursor()
+
+#     # Define SQL statement to insert user input into the table
+#     insert_data_query = """
+#     INSERT INTO user_input (user_id, password, project_name, start_time, end_time)
+#     VALUES (%s, %s, %s, %s, %s)
+#     """
+
+#     # Execute the SQL statement to insert user input into the table
+#     user_data = (user_id_from_app, password_from_app, project_name_from_app, start_time_from_app, end_time_from_app)
+#     cursor.execute(insert_data_query, user_data)
+
+#     # Commit the transaction to save changes
+#     conn.commit()
+
+#     # Close the cursor
+#     cursor.close()
+
+#     # Close the connection
+#     conn.close()
+
+#     # Return a response to the client
+#     return 'User input saved successfully!'
+
+
+#     # Sample user input
+#     username = "JohnDoe"
+#     password = "examplepassword"
+#     project_name = "example_project"
+#     start_time = "09:00"
+#     end_time = "17:00"
 
 
 @app.route('/hongbooking', methods=['GET', 'POST'])
@@ -214,6 +262,38 @@ def handle_form():
     project_name_from_app = request.form.get('project_name')
     start_time_from_app = request.form.get('start_time')
     end_time_from_app = request.form.get('end_time')
+
+
+    # Connect to MySQL database
+    conn = mysql.connector.connect(
+        host="localhost",
+        user="hongbook",
+        password="Katelyn1!!!!!!",
+        database="hongbooking"
+    )
+
+    # Create a cursor object to execute SQL commands
+    cursor = conn.cursor()
+
+    # Define SQL statement to insert user input into the table
+    insert_data_query = """
+    INSERT INTO user_input (user_id, password, project_name, start_time, end_time)
+    VALUES (%s, %s, %s, %s, %s)
+    """
+
+    # Execute the SQL statement to insert user input into the table
+    user_data = (user_id_from_app, password_from_app, project_name_from_app, start_time_from_app, end_time_from_app)
+    cursor.execute(insert_data_query, user_data)
+
+    # Commit the transaction to save changes
+    conn.commit()
+
+    # Close the cursor
+    cursor.close()
+
+    # Close the connection
+    conn.close()
+
 
 
     try:
@@ -368,55 +448,7 @@ def handle_connect():
 def handle_disconnect():
     print('Client disconnected')
 
-@app.route('/save_user_input', methods=['POST'])
-def save_user_input():
-    # Retrieve user input from the request form
-    user_id_from_app = request.form.get('user_id')
-    password_from_app = request.form.get('password')
-    project_name_from_app = request.form.get('project_name')
-    start_time_from_app = request.form.get('start_time')
-    end_time_from_app = request.form.get('end_time')
 
-    # Connect to MySQL database
-    conn = mysql.connector.connect(
-        host="localhost",
-        user="hongbook",
-        password="Katelyn1!!!!!!",
-        database="hongbooking"
-    )
-
-    # Create a cursor object to execute SQL commands
-    cursor = conn.cursor()
-
-    # Define SQL statement to insert user input into the table
-    insert_data_query = """
-    INSERT INTO user_input (user_id, password, project_name, start_time, end_time)
-    VALUES (%s, %s, %s, %s, %s)
-    """
-
-    # Execute the SQL statement to insert user input into the table
-    user_data = (user_id_from_app, password_from_app, project_name_from_app, start_time_from_app, end_time_from_app)
-    cursor.execute(insert_data_query, user_data)
-
-    # Commit the transaction to save changes
-    conn.commit()
-
-    # Close the cursor
-    cursor.close()
-
-    # Close the connection
-    conn.close()
-
-    # Return a response to the client
-    return 'User input saved successfully!'
-
-
-    # Sample user input
-    username = "JohnDoe"
-    password = "examplepassword"
-    project_name = "example_project"
-    start_time = "09:00"
-    end_time = "17:00"
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
