@@ -407,14 +407,14 @@ def handle_form():
     driver.quit()
     return render_template('hongbooking.html')
 
-# # SocketIO event handler
-# @socketio.on('connect')
-# def handle_connect():
-#     print('Client connected')
+# SocketIO event handler
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
 
-# @socketio.on('disconnect')
-# def handle_disconnect():
-#     print('Client disconnected')
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected')
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
