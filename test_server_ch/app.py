@@ -25,13 +25,13 @@ from flask import Flask, render_template, request, url_for, redirect, jsonify, s
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
 from flask_session import Session
-import undetected_chromedriver as uc 
-#from selenium_stealth import stealth
+#import undetected_chromedriver as uc 
+from selenium_stealth import stealth
 # import mysql.connector  # Add this line to import mysql.connector
 
 
-options = uc.ChromeOptions()
-#options = webdriver.ChromeOptions()
+#options = uc.ChromeOptions()
+options = webdriver.ChromeOptions()
 # localhost_number = random.randint(65536, 65999)
 # options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
 options.add_argument("--headless")
@@ -39,23 +39,23 @@ options.add_argument("--headless")
 #options.add_experimental_option("useAutomationExtension", False)
 
 # if use_chrome:
-driver = uc.Chrome(options=options)
-#driver = webdriver.Chrome(options=options)
-#driver = webdriver.Chrome(options=options)
+#driver = uc.Chrome(options=options)
+driver = webdriver.Chrome(options=options)
+
 
 
 # else:
 #     self.browser = webdriver.Firefox(options=options)
 
 
-# stealth(driver,
-#         languages=["en-US", "en"],
-#         vendor="Google Inc.",
-#         platform="Win32",
-#         webgl_vendor="Intel Inc.",
-#         renderer="Intel Iris OpenGL Engine",
-#         fix_hairline=True,
-# )
+stealth(driver,
+        languages=["en-US", "en"],
+        vendor="Google Inc.",
+        platform="Win32",
+        webgl_vendor="Intel Inc.",
+        renderer="Intel Iris OpenGL Engine",
+        fix_hairline=True,
+)
 
 #driver = uc.Chrome(options=options)
 
@@ -117,13 +117,15 @@ def attempt_login(driver, username, password):
         password_field = driver.find_element(By.ID, password_field_id)
         password_field.send_keys(password)
 
+        password_field.send_keys(Keys.ENTER)
         # Find the "Sign In" button by its ID
-        sign_in_button = driver.find_element(by="id", value="kc-login")
-        sign_in_button.click()
+        # sign_in_button = driver.find_element(by="id", value="kc-login")
+        # sign_in_button.click()
         #password_field.send_keys(Keys.ENTER)
     
         # Wait for navigation and check if the login was successfuld
         # WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
+        print("000000000!!!!!!!!!!!!!!!!!!!logged_in")
         
         return True  # Return True to indicate successful login
 
@@ -258,9 +260,12 @@ def handle_form():
         password = password_from_app
 
         logged_in = attempt_login(driver, username, password)
+        print("1111111111!!!!!!!!!!!!!!!!!!!logged_in")
         if logged_in:
             print("loged_in")
         else:
+            print("222222222!!!!!!!!!!!!!!!!!!!not logged_in")
+
             login_response = {
                 'message': 'Login failed. Please try again.',
                 'step': 'login',
