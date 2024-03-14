@@ -27,7 +27,7 @@ from flask_socketio import SocketIO, emit, send
 from flask_session import Session
 #import undetected_chromedriver as uc 
 from selenium_stealth import stealth
-import mysql.connector  # Add this line to import mysql.connector
+# import mysql.connector  # Add this line to import mysql.connector
 
 
 
@@ -268,35 +268,35 @@ def handle_form():
     end_time_from_app = request.form.get('end_time')
 
 
-    # Connect to MySQL database
-    conn = mysql.connector.connect(
-        host="localhost",
-        user="hongbook",
-        password="Katelyn1!!!!!!",
-        database="hongbooking"
-    )
+    # # Connect to MySQL database
+    # conn = mysql.connector.connect(
+    #     host="localhost",
+    #     user="hongbook",
+    #     password="Katelyn1!!!!!!",
+    #     database="hongbooking"
+    # )
 
-    # Create a cursor object to execute SQL commands
-    cursor = conn.cursor()
+    # # Create a cursor object to execute SQL commands
+    # cursor = conn.cursor()
 
-    # Define SQL statement to insert user input into the table
-    insert_data_query = """
-    INSERT INTO user_input (user_id, password, project_name, start_time, end_time)
-    VALUES (%s, %s, %s, %s, %s)
-    """
+    # # Define SQL statement to insert user input into the table
+    # insert_data_query = """
+    # INSERT INTO user_input (user_id, password, project_name, start_time, end_time)
+    # VALUES (%s, %s, %s, %s, %s)
+    # """
 
-    # Execute the SQL statement to insert user input into the table
-    user_data = (user_id_from_app, password_from_app, project_name_from_app, start_time_from_app, end_time_from_app)
-    cursor.execute(insert_data_query, user_data)
+    # # Execute the SQL statement to insert user input into the table
+    # user_data = (user_id_from_app, password_from_app, project_name_from_app, start_time_from_app, end_time_from_app)
+    # cursor.execute(insert_data_query, user_data)
 
-    # Commit the transaction to save changes
-    conn.commit()
+    # # Commit the transaction to save changes
+    # conn.commit()
 
-    # Close the cursor
-    cursor.close()
+    # # Close the cursor
+    # cursor.close()
 
-    # Close the connection
-    conn.close()
+    # # Close the connection
+    # conn.close()
 
 
 
