@@ -149,12 +149,16 @@ def attempt_project(full_url):
         driver.get(full_url)
         # Wait for navigation and check if the project is available
         # WebDriverWait(driver, 1).until(EC.url_to_be(full_url))
-        # WebDriverWait(driver, 1).until(EC.url_to_be(full_url))
+        WebDriverWait(driver, 5).until_not(EC.url_to_be("about:blank"))
         if (driver.current_url == "https://profile.intra.42.fr/"):
             return False
         else:
             return True
-    except ValueError:
+    except TimeoutException:
+        print("Page did not load within the specified time.")
+        return False
+    except Exception as e:
+        print(f"An error occurred: {e}")
         return False
 
 
