@@ -313,7 +313,7 @@ def handle_form():
     # Continue with the rest of your script after a successful login
     logged_in = False
     while not logged_in:
-        username = user_id_from_app    
+        username = user_id_from_app
         password = password_from_app
 
         logged_in = attempt_login(driver, username, password)
