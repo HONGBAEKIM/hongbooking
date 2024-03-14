@@ -1,0 +1,476 @@
+# # 1.Imports
+
+# import pkg_resources #to check for installed package
+
+# import getpass
+
+# import subprocess
+# from selenium import webdriver
+# from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
+# from selenium.common.exceptions import TimeoutException, NoSuchElementException
+# from datetime import datetime
+# import time
+# from config import SECRET_KEY
+# # from pyvirtualdisplay import Display
+# import random
+# import os
+# import sys
+# #from flask import jsonify
+# import logging
+# from flask import Flask, render_template, request, url_for, redirect, jsonify, session
+# from flask_cors import CORS
+# from flask_socketio import SocketIO, emit, send
+# from flask_session import Session
+# #import undetected_chromedriver as uc 
+# from selenium_stealth import stealth
+
+# # import mysql.connector  # Add this line to import mysql.connector
+# from flask_sqlalchemy import SQLAlchemy
+
+
+# options = webdriver.ChromeOptions()
+# # localhost_number = random.randint(65536, 65999)
+# # options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
+# options.add_argument("--headless")
+# options.add_experimental_option("excludeSwitches", ["enable-automation"])
+# options.add_experimental_option("useAutomationExtension", False)
+
+# # if use_chrome:
+# driver = webdriver.Chrome(options=options)
+# #driver = webdriver.Chrome(options=options)
+
+
+# # else:
+# #     self.browser = webdriver.Firefox(options=options)
+
+
+# stealth(driver,
+#         languages=["en-US", "en"],
+#         vendor="Google Inc.",
+#         platform="Win32",
+#         webgl_vendor="Intel Inc.",
+#         renderer="Intel Iris OpenGL Engine",
+#         fix_hairline=True,
+# )
+
+# #driver = uc.Chrome(options=options)
+
+# #login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
+# # Open the login URL
+# #driver.get(login_url)
+
+# # Define the default GeckoDriver path
+# #geckodriver_path = "/usr/local/bin/geckodriver"
+
+# # Specify the default path to the Firefox binary
+# #firefox_binary_location = '/usr/bin/firefox'
+
+# # Move the definition of firefox_options outside of the function
+# #firefox_options = FirefoxOptions()
+
+
+
+
+# app = Flask(__name__)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://hongbook:Katelyn1!!!!!!@localhost/hongbooking' # Change this to your database URI
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# db = SQLAlchemy(app)
+
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
+
+# # Configure session to use filesystem
+# app.config['SESSION_TYPE'] = 'filesystem'
+# #app.secret_key = os.getenv('MY_SECRET_KEY')
+# app.secret_key = SECRET_KEY
+# # Set the session cookie settings
+# app.config['SESSION_COOKIE_SECURE'] = True  # Ensures that the cookie is only sent over HTTPS
+# app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # Specifies that the cookie can be sent in cross-site requests
+
+# # Initialize the session extension with your Flask application
+# Session(app)
+
+# # Set logging level to DEBUG for more detailed logs
+# logging.basicConfig(level=logging.DEBUG)
+
+# CORS(app, resources={r"/socket.io/*": {"origins": "https://www.hongpage.com"}})
+
+# socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_mode='eventlet')
+
+
+# class UserInput(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     user_id = db.Column(db.String(100), nullable=False)
+#     password = db.Column(db.String(100), nullable=False)
+#     project_name = db.Column(db.String(100), nullable=False)
+#     start_time = db.Column(db.String(10), nullable=False)
+#     end_time = db.Column(db.String(10), nullable=False)
+
+#     def __repr__(self):
+#         return f"<UserInput {self.user_id}>"
+
+# @app.route('/save_user_input', methods=['POST'])
+# def save_user_input():
+#     user_id_from_app = request.form.get('user_id')
+#     password_from_app = request.form.get('password')
+#     project_name_from_app = request.form.get('project_name')
+#     start_time_from_app = request.form.get('start_time')
+#     end_time_from_app = request.form.get('end_time')
+
+#     new_user_input = UserInput(user_id=user_id_from_app, password=password_from_app, project_name=project_name_from_app, start_time=start_time_from_app, end_time=end_time_from_app)
+#     db.session.add(new_user_input)
+#     db.session.commit()
+
+#     return 'User input saved successfully!'
+
+
+
+
+
+# #log-in 
+# def attempt_login(driver, username, password):
+#     username_field_id = "username"  # Replace with the actual ID of the username field
+#     password_field_id = "password"  # Replace with the actual ID of the password field
+
+#     try:
+#         # WebDriverWait(driver, 1).until(
+#         #     EC.element_to_be_clickable((By.ID, username_field_id))
+#         # )
+#         username_field = driver.find_element(By.ID, username_field_id)
+#         username_field.send_keys(username)
+
+#         # WebDriverWait(driver, 1).until(
+#         #     EC.element_to_be_clickable((By.ID, password_field_id))
+#         # )
+#         password_field = driver.find_element(By.ID, password_field_id)
+#         password_field.send_keys(password)
+
+#         # Find the "Sign In" button by its ID
+#         sign_in_button = driver.find_element(by="id", value="kc-login")
+#         sign_in_button.click()
+#         #password_field.send_keys(Keys.ENTER)
+    
+#         # Wait for navigation and check if the login was successfuld
+#         WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
+        
+#         return True  # Return True to indicate successful login
+
+#     except Exception as e:
+#         print("An error occurred:", e)
+#         return False  # Return False to indicate login failure
+
+
+# # Check project is available to get eval
+# # def attempt_project(full_url):
+# #     try:
+# #         # Navigate to the specified slots page
+# #         driver.get(full_url)
+# #         # Wait for navigation and check if the project is available
+# #         # WebDriverWait(driver, 1).until(EC.url_to_be(full_url))
+# #         WebDriverWait(driver, 5).until_not(EC.url_to_be("about:blank"))
+# #         if (driver.current_url == "https://profile.intra.42.fr/"):
+# #             return False
+# #         else:
+# #             return True
+# #     except TimeoutException:
+# #         print("Page did not load within the specified time.")
+# #         return False
+# #     except Exception as e:
+# #         print(f"An error occurred: {e}")
+# #         return False
+
+
+# # Select time 
+# def is_valid_time(time_str):
+#     try:
+#         datetime.strptime(time_str, "%H:%M")
+#         return True
+#     except ValueError:
+#         return False
+
+# def attempt_time(start_time, end_time):
+#     if is_valid_time(start_time) and is_valid_time(end_time):
+#         print("Successfully typed desired_eval_time")
+#         return True
+#     else:
+#         print("Invalid time format. Please use HH:MM format.")
+#         return False
+
+# # Function to convert 12-hour format time to 24-hour format
+# def convert_to_24hr_format(time_str):
+#     try:
+#         return datetime.strptime(time_str, "%I:%M %p").strftime("%H:%M")
+#     except ValueError:
+#         print(f"Error converting time: {time_str}")
+#         return None
+
+# # Function to check if the slot time is within the desired range
+# def is_time_within_range(time_str, start_time_from_app, end_time_from_app):
+#     try:
+#         slot_time = datetime.strptime(time_str, "%H:%M").time()  # Expecting 24-hour format
+#         return start_time_from_app <= slot_time <= end_time_from_app
+#     except ValueError as e:
+#         print(f"Error parsing time: {time_str} - {e}")
+#         return False
+
+
+
+# # Define a function to emit the attempt count to the client
+# def emit_attempt_count(trial):
+#     socketio.emit('attempt_count', {'attempt': trial})
+
+# @app.route('/hongbooking')
+# def hongbooking():
+#     return render_template('hongbooking.html')
+
+
+
+# @app.route('/hongbooking', methods=['GET', 'POST'])
+# def handle_form():
+#     user_id_from_app = request.form.get('user_id')
+#     password_from_app = request.form.get('password')
+#     project_name_from_app = request.form.get('project_name')
+#     start_time_from_app = request.form.get('start_time')
+#     end_time_from_app = request.form.get('end_time')
+
+
+
+#     try:
+        
+#         login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
+#         # Open the login URL
+#         driver.get(login_url)
+        
+#     except Exception as e:
+#         print(f"Error initializing WebDriver: {e}")
+#         return jsonify({"error": "Error initializing WebDriver"})
+
+#     # Continue with the rest of your script after a successful login
+#     logged_in = False
+#     while not logged_in:
+#         username = user_id_from_app
+#         password = password_from_app
+
+#         logged_in = attempt_login(driver, username, password)
+#         if logged_in:
+#             print("loged_in")
+#         else:
+#             login_response = {
+#                 'message': 'Login failed. Please try again.',
+#                 'step': 'login',
+#                 'success': False
+#             }
+#             return jsonify({'login_response': login_response})       
+#             # Redirect to hongbooking.html if login fails
+#             #return redirect(url_for('hongbooking.html'))
+
+#     # Dynamically build the URL
+#     base_url = "https://projects.intra.42.fr/projects"
+#     # Project evaluation page where we should book the slots 
+#     full_url = f"{base_url}/{project_name_from_app}/slots?team_id=True"
+    
+#     driver.get(full_url)
+
+#     ## Continue with the rest of your script after a successful project in
+#     # project_in = False
+#     # while not project_in:
+
+#     #     project_in = attempt_project(full_url)
+#     #     if project_in:
+#     #         print("project_in")
+#     #     else:
+#     #         project_response = {
+#     #             'message': 'project failed. Please try again.',
+#     #             'step': 'project',
+#     #             'success': False
+#     #         }
+#     #         return jsonify({'project_response': project_response})       
+
+    
+    
+
+#     current_day = datetime.now().weekday()
+
+#     time_in = False
+#     while not time_in:
+#         start_time = start_time_from_app
+#         end_time = end_time_from_app
+#         time_in = attempt_time(start_time, end_time)
+#         if not time_in:
+#             print("time has not typed. Please try again.")
+
+#     # Set the desired time for the slot
+#     start_time_from_app = datetime.strptime(start_time, "%H:%M").time()  # 24-hour format
+#     end_time_from_app = datetime.strptime(end_time, "%H:%M").time()  # 24-hour format
+
+    
+#     slot_clicked = False
+#     ######## How many times to try to reload page ########
+#     max_retries = 2
+#     ######## How many times to try to reload page ########
+#     global trial
+#     trial = 0
+
+#     while not slot_clicked and trial < max_retries:
+#         try:
+#             trial += 1
+            
+#             session['attempts'] = trial
+#             # print("session", session['attempts'])
+#             # Emit the attempt count to the client
+#             emit_attempt_count(trial) 
+#             # socketio.emit('attempt_count', {'attempt': trial})
+
+
+#             print(f"{trial} of {max_retries}")
+            
+#             available_slots_today = []                      
+#             xpath = f".//tr/td[{current_day + 2}]//div[contains(@class, 'fc-time')]"
+#             slots = driver.find_elements(By.XPATH, xpath)
+            
+#             if (len(slots) == 0):
+#                 ######## reload time setting ########
+#                 time.sleep(15)
+#                 ######## reload time setting ########
+#                 driver.refresh()
+
+#             for slot in slots:
+                
+#                 print("(2)there is another available slot", slot.text)
+#                 time_str = slot.get_attribute("data-full").split(" - ")[0]
+                
+#                 if is_time_within_range(convert_to_24hr_format(time_str), start_time_from_app, end_time_from_app):
+#                     print("30 : check time range")
+#                     available_slots_today.append(slot)
+
+#             for slot in available_slots_today:
+#                 slot.click()
+#                 print("(4)Clicked on an available slot.")
+#                 slot_clicked = True
+#                 try:
+#                     nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
+#                     if nextok.text == "OK":
+#                         #nextok.click()
+#                         print("Clicked 'OK' button.")
+                             
+#                         slot_booking_response = {
+#                             'message': 'Slot booked successfully.',
+#                             'step': 'slot_booking',
+#                             'success': True
+#                         }
+#                         return jsonify({
+#                             'slot_booking_response': slot_booking_response
+#                         })
+                
+#                 except NoSuchElementException:
+#                     print("OK button not found.")
+#                     #break
+
+#         except TimeoutException:
+#             print("Timeout occurred while looking for slots. Refreshing and retrying...")
+#             driver.refresh()
+            
+#         except Exception as e:
+#             print(f"An unexpected error occurred: {e}")
+#             break
+
+#     driver.quit()
+#     return render_template('hongbooking.html')
+
+# # SocketIO event handler
+# @socketio.on('connect')
+# def handle_connect():
+#     print('Client connected')
+
+# @socketio.on('disconnect')
+# def handle_disconnect():
+#     print('Client disconnected')
+
+
+
+# if __name__ == '__main__':  
+#     # app.run(host='0.0.0.0', port=5000)
+#     socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+
+
+
+import tkinter as tk
+from tkinter import messagebox
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from datetime import datetime
+import time
+import random
+import logging
+
+def attempt_login():
+    username = username_entry.get()
+    password = password_entry.get()
+
+    try:
+        driver.get("https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c")
+
+        username_field = driver.find_element(By.ID, "username")
+        username_field.send_keys(username)
+
+        password_field = driver.find_element(By.ID, "password")
+        password_field.send_keys(password)
+
+        sign_in_button = driver.find_element(By.ID, "kc-login")
+        sign_in_button.click()
+
+        WebDriverWait(driver, 10).until(EC.url_to_be("https://profile.intra.42.fr/"))
+
+        messagebox.showinfo("Success", "Login successful!")
+    except Exception as e:
+        messagebox.showerror("Error", f"Login failed: {e}")
+
+def open_browser():
+    global driver
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option("useAutomationExtension", False)
+
+    driver = webdriver.Chrome(options=options)
+
+def close_browser():
+    driver.quit()
+
+def handle_login():
+    open_browser()
+    attempt_login()
+    close_browser()
+
+# Create the main application window
+root = tk.Tk()
+root.title("Login Page")
+
+# Create labels and entry fields for username and password
+username_label = tk.Label(root, text="Username:")
+username_label.grid(row=0, column=0, padx=5, pady=5, sticky="e")
+username_entry = tk.Entry(root)
+username_entry.grid(row=0, column=1, padx=5, pady=5)
+
+password_label = tk.Label(root, text="Password:")
+password_label.grid(row=1, column=0, padx=5, pady=5, sticky="e")
+password_entry = tk.Entry(root, show="*")
+password_entry.grid(row=1, column=1, padx=5, pady=5)
+
+# Create login button
+login_button = tk.Button(root, text="Login", command=handle_login)
+login_button.grid(row=2, columnspan=2, padx=5, pady=5)
+
+# Run the Tkinter event loop
+root.mainloop()

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hongpage</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /* Style to display links horizontally */
+        .horizontal-links pages {
+            display: inline-block;
+            margin-right: 20px; /* Adjust the spacing between links as needed */
+            text-decoration: none;
+            color: #000; /* Adjust link color as needed */
+        }
+
+        /* CSS to make the cursor pointer when hovering over <pages> element */
+        pages {
+            cursor: pointer;
+        }
+
+    </style>
+
+    
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9013171816437922"
+    crossorigin="anonymous"></script> -->
+
+
+
+</head>
+
+
+<body>
+    <!--github-->
+    
+
+   
+    <div style="text-align: center;">
+        <b><h2>Welcome to my hongpage!</h2></b>
+    </div>
+  	
+
+	
+    <br>
+    <br>
+
+	<br>
+    <div class="horizontal-links">    
+        <!--page2-->
+        <pages href="hongbooking" target="_self" title="Go to page 2">
+            <h1>Booking evaluation</h1>
+        </pages>
+        
+        <!-- Link to page 3 -->
+        <!-- <pages href="upload.html" target="_self" title="Go to page 3">
+            <h2>Upload</h2>
+        </pages>
+
+        Link to page 4
+        <pages href="page4.html" target="_self" title="Go to page 4">
+                <h2>Go to page 4</h2>
+        </pages> -->
+    </div>
+
+    <img src="cgi-bin/image.sh" alt="Image">
+    <!-- <a href="https://www.youtube.com/watch?v=8O_kNxnaEm0">
+        <img src="tmp/yo.png" height="200" alt="This is a picture of me" title="It is me">
+    </a> -->
+
+    
+    
+
+
+
+
+    <!-- <img src="https://www.hongpage.com/templates/tmp/yo.png" height="200" alt="This is a picture of me" title="It is me"> -->
+
+    <!-- JavaScript to handle click event and redirect -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all custom pages elements
+            var pagesElements = document.querySelectorAll('pages');
+
+            // Attach click event listener to each custom pages element
+            pagesElements.forEach(function(pagesElement) {
+                pagesElement.addEventListener('click', function() {
+                    // Get the href attribute value of the clicked element
+                    var href = this.getAttribute('href');
+
+                    // Redirect to the specified href
+                    window.open(href, '_blank');
+                });
+            });
+        });
+    </script>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="bottom-link" style="text-align: center;">
+    <a href="https://youtu.be/FClqKwgo5Bw?si=2FNA79uaEoGimBo3" target="_blank" title="Quick introduction to HTML">
+      Quick introduction my 42berlin experience
+    </a>
+</div>
+
+</body>
+</html>
