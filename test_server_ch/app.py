@@ -25,21 +25,22 @@ from flask import Flask, render_template, request, url_for, redirect, jsonify, s
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
 from flask_session import Session
-#import undetected_chromedriver as uc 
-from selenium_stealth import stealth
+import undetected_chromedriver as uc 
+#from selenium_stealth import stealth
 # import mysql.connector  # Add this line to import mysql.connector
 
 
-
-options = webdriver.ChromeOptions()
+options = uc.ChromeOptions()
+#options = webdriver.ChromeOptions()
 # localhost_number = random.randint(65536, 65999)
 # options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
 options.add_argument("--headless")
-options.add_experimental_option("excludeSwitches", ["enable-automation"])
-options.add_experimental_option("useAutomationExtension", False)
+#options.add_experimental_option("excludeSwitches", ["enable-automation"])
+#options.add_experimental_option("useAutomationExtension", False)
 
 # if use_chrome:
-driver = webdriver.Chrome(options=options)
+driver = uc.Chrome(options=options)
+#driver = webdriver.Chrome(options=options)
 #driver = webdriver.Chrome(options=options)
 
 
@@ -47,14 +48,14 @@ driver = webdriver.Chrome(options=options)
 #     self.browser = webdriver.Firefox(options=options)
 
 
-stealth(driver,
-        languages=["en-US", "en"],
-        vendor="Google Inc.",
-        platform="Win32",
-        webgl_vendor="Intel Inc.",
-        renderer="Intel Iris OpenGL Engine",
-        fix_hairline=True,
-)
+# stealth(driver,
+#         languages=["en-US", "en"],
+#         vendor="Google Inc.",
+#         platform="Win32",
+#         webgl_vendor="Intel Inc.",
+#         renderer="Intel Iris OpenGL Engine",
+#         fix_hairline=True,
+# )
 
 #driver = uc.Chrome(options=options)
 
@@ -197,55 +198,6 @@ def hongbooking():
 
 
 
-# @app.route('/save_user_input', methods=['POST'])
-# def save_user_input():
-#     # Retrieve user input from the request form
-#     user_id_from_app = request.form.get('user_id')
-#     password_from_app = request.form.get('password')
-#     project_name_from_app = request.form.get('project_name')
-#     start_time_from_app = request.form.get('start_time')
-#     end_time_from_app = request.form.get('end_time')
-
-#     # Connect to MySQL database
-#     conn = mysql.connector.connect(
-#         host="localhost",
-#         user="hongbook",
-#         password="Katelyn1!!!!!!",
-#         database="hongbooking"
-#     )
-
-#     # Create a cursor object to execute SQL commands
-#     cursor = conn.cursor()
-
-#     # Define SQL statement to insert user input into the table
-#     insert_data_query = """
-#     INSERT INTO user_input (user_id, password, project_name, start_time, end_time)
-#     VALUES (%s, %s, %s, %s, %s)
-#     """
-
-#     # Execute the SQL statement to insert user input into the table
-#     user_data = (user_id_from_app, password_from_app, project_name_from_app, start_time_from_app, end_time_from_app)
-#     cursor.execute(insert_data_query, user_data)
-
-#     # Commit the transaction to save changes
-#     conn.commit()
-
-#     # Close the cursor
-#     cursor.close()
-
-#     # Close the connection
-#     conn.close()
-
-#     # Return a response to the client
-#     return 'User input saved successfully!'
-
-
-#     # Sample user input
-#     username = "JohnDoe"
-#     password = "examplepassword"
-#     project_name = "example_project"
-#     start_time = "09:00"
-#     end_time = "17:00"
 
 
 @app.route('/hongbooking', methods=['GET', 'POST'])
@@ -445,3 +397,56 @@ def handle_disconnect():
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
     socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+
+
+
+# @app.route('/save_user_input', methods=['POST'])
+# def save_user_input():
+#     # Retrieve user input from the request form
+#     user_id_from_app = request.form.get('user_id')
+#     password_from_app = request.form.get('password')
+#     project_name_from_app = request.form.get('project_name')
+#     start_time_from_app = request.form.get('start_time')
+#     end_time_from_app = request.form.get('end_time')
+
+#     # Connect to MySQL database
+#     conn = mysql.connector.connect(
+#         host="localhost",
+#         user="hongbook",
+#         password="Katelyn1!!!!!!",
+#         database="hongbooking"
+#     )
+
+#     # Create a cursor object to execute SQL commands
+#     cursor = conn.cursor()
+
+#     # Define SQL statement to insert user input into the table
+#     insert_data_query = """
+#     INSERT INTO user_input (user_id, password, project_name, start_time, end_time)
+#     VALUES (%s, %s, %s, %s, %s)
+#     """
+
+#     # Execute the SQL statement to insert user input into the table
+#     user_data = (user_id_from_app, password_from_app, project_name_from_app, start_time_from_app, end_time_from_app)
+#     cursor.execute(insert_data_query, user_data)
+
+#     # Commit the transaction to save changes
+#     conn.commit()
+
+#     # Close the cursor
+#     cursor.close()
+
+#     # Close the connection
+#     conn.close()
+
+#     # Return a response to the client
+#     return 'User input saved successfully!'
+
+
+#     # Sample user input
+#     username = "JohnDoe"
+#     password = "examplepassword"
+#     project_name = "example_project"
+#     start_time = "09:00"
+#     end_time = "17:00"
+    
