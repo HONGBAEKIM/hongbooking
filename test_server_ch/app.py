@@ -31,19 +31,6 @@ from selenium_stealth import stealth
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 options = webdriver.ChromeOptions()
 # localhost_number = random.randint(65536, 65999)
 # options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
@@ -70,7 +57,6 @@ stealth(driver,
 )
 
 #driver = uc.Chrome(options=options)
-
 
 #login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
 # Open the login URL
@@ -133,7 +119,7 @@ def attempt_login(driver, username, password):
         password_field.send_keys(Keys.ENTER)
     
         # Wait for navigation and check if the login was successfuld
-        WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
+        #WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
         
         return True  # Return True to indicate successful login
 
