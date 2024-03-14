@@ -116,7 +116,8 @@ def attempt_login(driver, username, password):
         password_field = driver.find_element(By.ID, password_field_id)
         password_field.send_keys(password)
 
-        sign_in_button = driver.find_element_by_id("kc-login")
+        # Find the "Sign In" button by its ID
+        sign_in_button = driver.find_element(by="id", value="kc-login")
         sign_in_button.click()
         #password_field.send_keys(Keys.ENTER)
     
