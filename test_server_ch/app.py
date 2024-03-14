@@ -139,6 +139,7 @@ def attempt_project(full_url):
         driver.get(full_url)
         # Wait for navigation and check if the project is available
         # WebDriverWait(driver, 1).until(EC.url_to_be(full_url))
+        WebDriverWait(driver, 1).until(EC.url_to_be(full_url))
         if (driver.current_url == "https://profile.intra.42.fr/"):
             return False
         else:
