@@ -137,7 +137,7 @@ def attempt_project(full_url):
     try:
         # Wait for navigation and check if the login was successfuld
         # WebDriverWait(driver, 1).until(EC.url_to_be(full_url))
-        if (full_url == "https://profile.intra.42.fr/"):
+        if (WebDriverWait(driver, 1).until(EC.url_to_be(full_url)) == "https://profile.intra.42.fr/"):
             return False
         else:
             return True
