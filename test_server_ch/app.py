@@ -6,11 +6,7 @@ import getpass
 
 import subprocess
 from selenium import webdriver
-
 from selenium.webdriver.chrome.options import Options
-#from selenium.webdriver import Firefox
-#from selenium.webdriver.firefox.options import Options as FirefoxOptions
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -112,15 +108,15 @@ def attempt_login(driver, username, password):
     password_field_id = "password"  # Replace with the actual ID of the password field
 
     try:
-        WebDriverWait(driver, 1).until(
-            EC.element_to_be_clickable((By.ID, username_field_id))
-        )
+        # WebDriverWait(driver, 1).until(
+        #     EC.element_to_be_clickable((By.ID, username_field_id))
+        # )
         username_field = driver.find_element(By.ID, username_field_id)
         username_field.send_keys(username)
 
-        WebDriverWait(driver, 1).until(
-            EC.element_to_be_clickable((By.ID, password_field_id))
-        )
+        # WebDriverWait(driver, 1).until(
+        #     EC.element_to_be_clickable((By.ID, password_field_id))
+        # )
         password_field = driver.find_element(By.ID, password_field_id)
         password_field.send_keys(password)
 
@@ -134,6 +130,16 @@ def attempt_login(driver, username, password):
     except Exception as e:
         print("An error occurred:", e)
         return False  # Return False to indicate login failure
+
+
+# Check project is available to get eval
+def attempt_project(full_url):
+    try:
+        # Wait for navigation and check if the login was successfuld
+        WebDriverWait(driver, 1).until(EC.url_to_be(full_url))
+        return True
+    except ValueError:
+        return False
 
 
 # Select time 
@@ -224,6 +230,26 @@ def handle_form():
     # Navigate to the specified slots page
     driver.get(full_url)
 
+
+
+    # Continue with the rest of your script after a successful project in
+    project_in = False
+    while not project_in:
+
+        project_in = attempt_project(full_url)
+        if project_in:
+            print("project_in")
+        else:
+            project_response = {
+                'message': 'project failed. Please try again.',
+                'step': 'project',
+                'success': False
+            }
+            return jsonify({'project_response': project_response})       
+
+    
+    
+
     current_day = datetime.now().weekday()
 
     time_in = False
@@ -241,7 +267,7 @@ def handle_form():
     
     slot_clicked = False
     ######## How many times to try to reload page ########
-    max_retries = 3
+    max_retries = 2
     ######## How many times to try to reload page ########
     global trial
     trial = 0
@@ -312,6 +338,14 @@ def handle_form():
     driver.quit()
     return render_template('hongbooking.html')
 
+# SocketIO event handler
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected')
 
 if __name__ == '__main__':  
     # app.run(host='0.0.0.0', port=5000)
