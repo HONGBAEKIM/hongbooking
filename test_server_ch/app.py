@@ -135,7 +135,9 @@ def attempt_login(driver, username, password):
 # Check project is available to get eval
 def attempt_project(full_url):
     try:
-        # Wait for navigation and check if the login was successfuld
+        # Navigate to the specified slots page
+        driver.get(full_url)
+        # Wait for navigation and check if the project is available
         # WebDriverWait(driver, 1).until(EC.url_to_be(full_url))
         if (driver.current_url == "https://profile.intra.42.fr/"):
             return False
@@ -230,8 +232,7 @@ def handle_form():
     base_url = "https://projects.intra.42.fr/projects"
     # Project evaluation page where we should book the slots 
     full_url = f"{base_url}/{project_name_from_app}/slots?team_id=True"
-    # Navigate to the specified slots page
-    driver.get(full_url)
+    
 
 
 
