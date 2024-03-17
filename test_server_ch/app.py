@@ -412,7 +412,7 @@ def handle_form():
             
             print("xpath", xpath)
 
-            slots = driver.find_elements(By.XPATH, xpath)
+            slots = driver.find_elements(By.ID, xpath)
             print("XPATH", By.XPATH)
             
             print("slots", slots)
