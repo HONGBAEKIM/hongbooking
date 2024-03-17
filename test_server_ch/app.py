@@ -169,10 +169,10 @@ def attempt_project(full_url):
         
         #check the page has finished loading or redirecting
         #WebDriverWait(driver, 1).until_not(EC.url_to_be("about:blank"))
-        if (driver.current_url == "https://profile.intra.42.fr/"):
-            return False
-        else:
+        if (driver.current_url != "https://profile.intra.42.fr/"):
             return True
+    
+    
     except TimeoutException:
         print("Page did not load within the specified time.")
         return False
