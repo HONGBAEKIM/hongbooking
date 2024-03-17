@@ -25,7 +25,8 @@ from flask import Flask, render_template, request, url_for, redirect, jsonify, s
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
 from flask_session import Session
-
+# from selenium_stealth import stealth
+import undetected_chromedriver as uc 
 
 # import mysql.connector  # Add this line to import mysql.connector
 import time
@@ -34,7 +35,6 @@ app = Flask(__name__)
 
 
 #---------undetected_chromedriver---------
-import undetected_chromedriver as uc 
 
 options = uc.ChromeOptions()
 driver = uc.Chrome(options=options)
@@ -43,7 +43,6 @@ driver = uc.Chrome(options=options)
 
 #------stealth---------
 
-# from selenium_stealth import stealth
 # options = webdriver.ChromeOptions()
 # driver = webdriver.Chrome(options=options)
 
@@ -102,24 +101,24 @@ options.add_argument("--headless")
 #firefox_options = FirefoxOptions()
 
 
-user_agents = [
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:97.0) Gecko/20100101 Firefox/97.0",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 YaBrowser/22.2.1 Yowser/2.5 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 YaBrowser/22.2.1 Yowser/2.5 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Iron/97.0.4900.0 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Iron/97.0.4900.0 Safari/537.36",
-    # Add more user agents as needed
-]
+# user_agents = [
+#     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+#     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+#     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0",
+#     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:97.0) Gecko/20100101 Firefox/97.0",
+#     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36",
+#     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15",
+#     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 YaBrowser/22.2.1 Yowser/2.5 Safari/537.36",
+#     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 YaBrowser/22.2.1 Yowser/2.5 Safari/537.36",
+#     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Iron/97.0.4900.0 Safari/537.36",
+#     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Iron/97.0.4900.0 Safari/537.36",
+#     # Add more user agents as needed
+# ]
 
-def create_webdriver():
-    options.add_argument(f"user-agent={random.choice(user_agents)}")
-    driver = webdriver.Chrome(options=options)
-    return driver
+# def create_webdriver():
+#     options.add_argument(f"user-agent={random.choice(user_agents)}")
+#     driver = webdriver.Chrome(options=options)
+#     return driver
 
 @app.route('/')
 def index():
