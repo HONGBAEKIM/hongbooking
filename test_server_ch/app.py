@@ -147,7 +147,7 @@ def attempt_login(driver, username, password):
         #password_field.send_keys(Keys.ENTER)
     
         # Wait for navigation and check if the login was successfuld
-        # WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
+        WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
         print("000000000!!!!!!!!!!!!!!!!!!!logged_in")
         
         return True  # Return True to indicate successful login
