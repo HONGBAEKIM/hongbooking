@@ -162,10 +162,10 @@ def attempt_project(full_url):
         # Navigate to the specified slots page
         driver.get(full_url)
         # Wait for navigation and check if the project is available
-        #WebDriverWait(driver, 1).until(EC.url_to_be(full_url))
+        WebDriverWait(driver, 1).until(EC.url_to_be(full_url))
         
         #check the page has finished loading or redirecting
-        WebDriverWait(driver, 1).until_not(EC.url_to_be("about:blank"))
+        #WebDriverWait(driver, 1).until_not(EC.url_to_be("about:blank"))
         if (driver.current_url == "https://profile.intra.42.fr/"):
             return False
         else:
