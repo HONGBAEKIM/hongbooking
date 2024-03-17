@@ -408,7 +408,9 @@ def handle_form():
 
             available_slots_today = []                      
             xpath = f".//tr/td[{current_day + 2}]//div[contains(@class, 'fc-time')]"
+            print("xpath", xpath)
             slots = driver.find_elements(By.XPATH, xpath)
+            print("slots", slots)
             
             if (len(slots) == 0):
                 ######## reload time setting ########
