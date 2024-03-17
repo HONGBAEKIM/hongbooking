@@ -379,8 +379,8 @@ def handle_form():
     # ######## How many times to try to reload page ########
     # max_retries = 100
     # ######## How many times to try to reload page ########
-    # global trial
-    # trial = 0
+    global trial
+    trial = 0
 
 
     slot_clicked = False
@@ -393,7 +393,7 @@ def handle_form():
     
     while not slot_clicked and (time.time() - start_time) < max_duration:
         try:
-            # trial += 1
+            trial += 1
             
             # session['attempts'] = trial
             # print("session", session['attempts'])
@@ -403,7 +403,9 @@ def handle_form():
 
 
             # print(f"{trial} of {max_retries}")
+            print(f"{trial}")
             
+
             available_slots_today = []                      
             xpath = f".//tr/td[{current_day + 2}]//div[contains(@class, 'fc-time')]"
             slots = driver.find_elements(By.XPATH, xpath)
