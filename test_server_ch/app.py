@@ -27,7 +27,7 @@ from flask_socketio import SocketIO, emit, send
 from flask_session import Session
 # from selenium_stealth import stealth
 #import undetected_chromedriver as uc 
-import undetected_chromedriver.v2 as uc 
+import undetected_chromedriver as uc 
 
 
 # import mysql.connector  # Add this line to import mysql.connector
