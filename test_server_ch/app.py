@@ -191,6 +191,8 @@ def attempt_login(driver, username, password):
         # sign_in_button.click()
         #password_field.send_keys(Keys.ENTER)
         
+        #-------------------------------------------------------------------------
+        # why???? I dont know why webdriverwait does not work
         # Wait for navigation and check if the login was successfuld
         #WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
         print("10attempt_login")
@@ -372,7 +374,7 @@ def handle_form():
         print("03while not logged_in")
 
         if logged_in:
-            print("04while not logged_in")
+            print("04while not logged_in : log-in is successful")
 
         else:
             print("05 not not logged_in")
@@ -416,7 +418,11 @@ def handle_form():
     full_url = f"{base_url}/{project_name_from_app}/slots?team_id=True"
     driver.get(full_url)
 
-
+     # Wait until the URL is loaded completely (you can adjust the timeout as needed)
+    WebDriverWait(driver, 10).until(EC.url_to_be(full_url))
+    
+    # If the above line doesn't throw a TimeoutException, it means the URL was loaded successfully
+    print("The URL was loaded successfully.")
 
     current_day = datetime.now().weekday()
 
