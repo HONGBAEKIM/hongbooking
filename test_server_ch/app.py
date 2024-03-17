@@ -37,6 +37,7 @@ app = Flask(__name__)
 #---------undetected_chromedriver---------
 
 options = uc.ChromeOptions()
+options.add_argument("--headless")
 driver = uc.Chrome(options=options)
 #-------------------
 
@@ -44,6 +45,7 @@ driver = uc.Chrome(options=options)
 #------stealth---------
 
 # options = webdriver.ChromeOptions()
+# options.add_argument("--headless")
 # driver = webdriver.Chrome(options=options)
 
 # stealth(driver,
@@ -63,7 +65,7 @@ driver = uc.Chrome(options=options)
 
 # localhost_number = random.randint(65536, 65999)
 # options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
-options.add_argument("--headless")
+
 # options.add_argument("--disable-dev-shm-usage")
 # options.add_argument("--no-sandbox")
 # options.add_argument("--disable-gpu")
