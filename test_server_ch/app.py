@@ -385,7 +385,7 @@ def handle_form():
 
     slot_clicked = False
     ######## How many times to try to reload page ########
-    max_duration = 0.1 * 60     # 1 minutes in seconds
+    max_duration = 0.2 * 60     # 1 minutes in seconds
     ######## How many times to try to reload page ########
     start_time = time.time()
 
@@ -412,7 +412,7 @@ def handle_form():
             
             if (len(slots) == 0):
                 ######## reload time setting ########
-                time.sleep(15)
+                time.sleep(5)
                 ######## reload time setting ########
                 driver.refresh()
 
