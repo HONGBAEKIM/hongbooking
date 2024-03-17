@@ -166,13 +166,14 @@ def attempt_project(main_url, project_name_from_app, user_id_from_app):
     try:
         # Navigate to the specified slots page
         driver.get(check_project_url)
-
+        print("driver.get(check_project_url)")
         # Wait for navigation and check if the project is available
         WebDriverWait(driver, 1).until(EC.url_to_be(check_project_url))
+        print("WebDriverWait(driver, 1).until(EC.url_to_be(check_project_url))")
 
         # Check if the text "Subscribe to defense" is present in the page
         subscribe_button = driver.find_element_by_xpath("//a[contains(text(), 'Subscribe to defense')]")
-        
+        print("subscribe_button")
 
         # Wait for navigation and check if the project is available
         #WebDriverWait(driver, 20).until(EC.url_to_be(full_url))
@@ -185,13 +186,15 @@ def attempt_project(main_url, project_name_from_app, user_id_from_app):
 
         
 
-
         #https://projects.intra.42.fr/inception/hongbaki
 
 
         if subscribe_button.is_displayed():
+            print("subscribe_button.is_displayed")
             return True
         else:
+            print("subscribe_button.is_not displayed")
+
             return False
     
     
