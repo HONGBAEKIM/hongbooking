@@ -148,7 +148,6 @@ def attempt_login(driver, username, password):
     
         # Wait for navigation and check if the login was successfuld
         WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
-        print("000000000!!!!!!!!!!!!!!!!!!!logged_in")
         
         return True  # Return True to indicate successful login
 
@@ -158,23 +157,25 @@ def attempt_login(driver, username, password):
 
 
 # Check project is available to get eval
-# def attempt_project(full_url):
-#     try:
-#         # Navigate to the specified slots page
-#         driver.get(full_url)
-#         # Wait for navigation and check if the project is available
-#         # WebDriverWait(driver, 1).until(EC.url_to_be(full_url))
-#         WebDriverWait(driver, 5).until_not(EC.url_to_be("about:blank"))
-#         if (driver.current_url == "https://profile.intra.42.fr/"):
-#             return False
-#         else:
-#             return True
-#     except TimeoutException:
-#         print("Page did not load within the specified time.")
-#         return False
-#     except Exception as e:
-#         print(f"An error occurred: {e}")
-#         return False
+def attempt_project(full_url):
+    try:
+        # Navigate to the specified slots page
+        driver.get(full_url)
+        # Wait for navigation and check if the project is available
+        #WebDriverWait(driver, 1).until(EC.url_to_be(full_url))
+        
+        #check the page has finished loading or redirecting
+        WebDriverWait(driver, 1).until_not(EC.url_to_be("about:blank"))
+        if (driver.current_url == "https://profile.intra.42.fr/"):
+            return False
+        else:
+            return True
+    except TimeoutException:
+        print("Page did not load within the specified time.")
+        return False
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
 
 
 # Select time 
@@ -284,11 +285,11 @@ def handle_form():
         password = password_from_app
 
         logged_in = attempt_login(driver, username, password)
-        print("1111111111!!!!!!!!!!!!!!!!!!!logged_in")
+        # print("1111111111!!!!!!!!!!!!!!!!!!!logged_in")
         if logged_in:
             print("loged_in")
         else:
-            print("222222222!!!!!!!!!!!!!!!!!!!not logged_in")
+            # print("222222222!!!!!!!!!!!!!!!!!!!not logged_in")
 
             login_response = {
                 'message': 'Login failed. Please try again.',
@@ -304,22 +305,22 @@ def handle_form():
     # Project evaluation page where we should book the slots 
     full_url = f"{base_url}/{project_name_from_app}/slots?team_id=True"
     
-    driver.get(full_url)
+    # driver.get(full_url)
 
-    ## Continue with the rest of your script after a successful project in
-    # project_in = False
-    # while not project_in:
+    # Continue with the rest of your script after a successful project in
+    project_in = False
+    while not project_in:
 
-    #     project_in = attempt_project(full_url)
-    #     if project_in:
-    #         print("project_in")
-    #     else:
-    #         project_response = {
-    #             'message': 'project failed. Please try again.',
-    #             'step': 'project',
-    #             'success': False
-    #         }
-    #         return jsonify({'project_response': project_response})       
+        project_in = attempt_project(full_url)
+        if project_in:
+            print("project_in")
+        else:
+            project_response = {
+                'message': 'project failed. Please try again.',
+                'step': 'project',
+                'success': False
+            }
+            return jsonify({'project_response': project_response})       
 
     
     
