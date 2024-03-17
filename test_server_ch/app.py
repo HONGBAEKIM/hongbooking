@@ -385,7 +385,7 @@ def handle_form():
 
     slot_clicked = False
     ######## How many times to try to reload page ########
-    max_duration = 1 * 60     # 1 minutes in seconds
+    max_duration = 10 * 60     # 1 minutes in seconds
     ######## How many times to try to reload page ########
     start_time = time.time()
 
