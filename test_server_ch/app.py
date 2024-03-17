@@ -159,7 +159,7 @@ socketio = SocketIO(app, cors_allowed_origins="https://www.hongpage.com", async_
 
 #log-in 
 def attempt_login(driver, username, password):
-    print("just here def attempt_login(driver, username, password): ")
+    print("attempt_login")
     username_field_id = "username"  # Replace with the actual ID of the username field
     password_field_id = "password"  # Replace with the actual ID of the password field
 
@@ -339,7 +339,7 @@ def handle_form():
         # Open the login URL
         #driver = create_webdriver()
         driver.get(login_url)
-        print("got_login_url_page")
+        
         
     except Exception as e:
         print(f"Error initializing WebDriver: {e}")
@@ -350,7 +350,7 @@ def handle_form():
     while not logged_in:
         username = user_id_from_app
         password = password_from_app
-
+        print("while not logged_in")
         logged_in = attempt_login(driver, username, password)
         # print("1111111111!!!!!!!!!!!!!!!!!!!logged_in")
         if logged_in:
