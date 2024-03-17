@@ -157,53 +157,53 @@ def attempt_login(driver, username, password):
 
 
 # Check project is available to get eval
-def attempt_project(main_url, project_name_from_app, user_id_from_app):
+# def attempt_project(main_url, project_name_from_app, user_id_from_app):
 
     
-    check_project_url = f"{main_url}/{project_name_from_app}/{user_id_from_app}"
+#     check_project_url = f"{main_url}/{project_name_from_app}/{user_id_from_app}"
 
 
-    try:
-        # Navigate to the specified slots page
-        driver.get(check_project_url)
-        print("driver.get(check_project_url)")
-        # Wait for navigation and check if the project is available
-        WebDriverWait(driver, 1).until(EC.url_to_be(check_project_url))
-        print("WebDriverWait(driver, 1).until(EC.url_to_be(check_project_url))")
+#     try:
+#         # Navigate to the specified slots page
+#         driver.get(check_project_url)
+#         print("driver.get(check_project_url)")
+#         # Wait for navigation and check if the project is available
+#         WebDriverWait(driver, 1).until(EC.url_to_be(check_project_url))
+#         print("WebDriverWait(driver, 1).until(EC.url_to_be(check_project_url))")
 
-        # Check if the text "Subscribe to defense" is present in the page
-        subscribe_button = driver.find_element_by_xpath("//a[contains(text(), 'Subscribe to defense')]")
-        print("subscribe_button")
+#         # Check if the text "Subscribe to defense" is present in the page
+#         subscribe_button = driver.find_element_by_xpath("//a[contains(text(), 'Subscribe to defense')]")
+#         print("subscribe_button")
 
-        # Wait for navigation and check if the project is available
-        #WebDriverWait(driver, 20).until(EC.url_to_be(full_url))
+#         # Wait for navigation and check if the project is available
+#         #WebDriverWait(driver, 20).until(EC.url_to_be(full_url))
 
-        # Wait until the page is loaded
-        #WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+#         # Wait until the page is loaded
+#         #WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
         
-        #check the page has finished loading or redirecting
-        #WebDriverWait(driver, 1).until_not(EC.url_to_be("about:blank"))
+#         #check the page has finished loading or redirecting
+#         #WebDriverWait(driver, 1).until_not(EC.url_to_be("about:blank"))
 
         
 
-        #https://projects.intra.42.fr/inception/hongbaki
+#         #https://projects.intra.42.fr/inception/hongbaki
 
 
-        if subscribe_button.is_displayed():
-            print("subscribe_button.is_displayed")
-            return True
-        else:
-            print("subscribe_button.is_not displayed")
+#         if subscribe_button.is_displayed():
+#             print("subscribe_button.is_displayed")
+#             return True
+#         else:
+#             print("subscribe_button.is_not displayed")
 
-            return False
+#             return False
     
     
-    except TimeoutException:
-        print("Page did not load within the specified time.")
-        return False
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return False
+#     except TimeoutException:
+#         print("Page did not load within the specified time.")
+#         return False
+#     except Exception as e:
+#         print(f"An error occurred: {e}")
+#         return False
 
 
 # Select time 
@@ -340,19 +340,19 @@ def handle_form():
     # driver.get(full_url)
 
     # Continue with the rest of your script after a successful project in
-    project_in = False
-    while not project_in:
+    # project_in = False
+    # while not project_in:
 
-        project_in = attempt_project(main_url, project_name_from_app, user_id_from_app)
-        if project_in:
-            print("project_in")
-        else:
-            project_response = {
-                'message': 'project failed. Please try again.',
-                'step': 'project',
-                'success': False
-            }
-            return jsonify({'project_response': project_response})       
+    #     project_in = attempt_project(main_url, project_name_from_app, user_id_from_app)
+    #     if project_in:
+    #         print("project_in")
+    #     else:
+    #         project_response = {
+    #             'message': 'project failed. Please try again.',
+    #             'step': 'project',
+    #             'success': False
+    #         }
+    #         return jsonify({'project_response': project_response})       
 
     
     full_url = f"{base_url}/{project_name_from_app}/slots?team_id=True"
