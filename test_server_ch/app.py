@@ -469,56 +469,61 @@ def handle_form():
             # print(f"{trial} of {max_retries}")
             print(f"{trial}")
             
+            try:
+                available_slots_today = []                      
+                xpath = f".//tr/td[{current_day + 2}]//div[contains(@class, 'fc-time')]"
+                print("current_day", current_day)
+                
+                print("xpath", xpath)
 
-            available_slots_today = []                      
-            xpath = f".//tr/td[{current_day + 2}]//div[contains(@class, 'fc-time')]"
-            print("current_day", current_day)
-            
-            print("xpath", xpath)
+                slots = driver.find_elements(By.XPATH, xpath)
+                print("XPATH", By.XPATH)
+                
+                print("slots", slots)
+                
+                if (len(slots) == 0):
+                    ######## reload time setting ########
+                    time.sleep(5)
+                    ######## reload time setting ########
+                    driver.refresh()
 
-            slots = driver.find_elements(By.XPATH, xpath)
-            print("XPATH", By.XPATH)
+                for slot in slots:
+                    
+                    print("(2)there is another available slot", slot.text)
+                    time_str = slot.get_attribute("data-full").split(" - ")[0]
+                    
+                    if is_time_within_range(convert_to_24hr_format(time_str), start_time_from_app, end_time_from_app):
+                        print("30 : check time range")
+                        available_slots_today.append(slot)
+
+                for slot in available_slots_today:
+                    slot.click()
+                    print("(4)Clicked on an available slot.")
+                    slot_clicked = True
+                    try:
+                        nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
+                        if nextok.text == "OK":
+                            #nextok.click()
+                            print("Clicked 'OK' button.")
+                                
+                            slot_booking_response = {
+                                'message': 'Slot booked successfully.',
+                                'step': 'slot_booking',
+                                'success': True
+                            }
+                            return jsonify({
+                                'slot_booking_response': slot_booking_response
+                            })
+                    
+                    except NoSuchElementException:
+                        print("OK button not found.")
             
-            print("slots", slots)
-            
-            if (len(slots) == 0):
-                ######## reload time setting ########
-                time.sleep(5)
-                ######## reload time setting ########
+                        #break
+
+            except NoSuchElementException:
+                print("Today's column is not found or not highlighted.")
                 driver.refresh()
-
-            for slot in slots:
-                
-                print("(2)there is another available slot", slot.text)
-                time_str = slot.get_attribute("data-full").split(" - ")[0]
-                
-                if is_time_within_range(convert_to_24hr_format(time_str), start_time_from_app, end_time_from_app):
-                    print("30 : check time range")
-                    available_slots_today.append(slot)
-
-            for slot in available_slots_today:
-                slot.click()
-                print("(4)Clicked on an available slot.")
-                slot_clicked = True
-                try:
-                    nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
-                    if nextok.text == "OK":
-                        #nextok.click()
-                        print("Clicked 'OK' button.")
-                             
-                        slot_booking_response = {
-                            'message': 'Slot booked successfully.',
-                            'step': 'slot_booking',
-                            'success': True
-                        }
-                        return jsonify({
-                            'slot_booking_response': slot_booking_response
-                        })
-                
-                except NoSuchElementException:
-                    print("OK button not found.")
-                    #break
-
+                time.sleep(15)
         except TimeoutException:
             print("Timeout occurred while looking for slots. Refreshing and retrying...")
             driver.refresh()
