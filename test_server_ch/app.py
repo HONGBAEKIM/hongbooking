@@ -170,9 +170,12 @@ def attempt_login(driver, username, password):
         # WebDriverWait(driver, 1).until(
         #     EC.element_to_be_clickable((By.ID, username_field_id))
         # )
+        print("03attempt_login")
+        
         username_field = driver.find_element(By.ID, username_field_id)
+        print("04attempt_login")
         username_field.send_keys(username)
-
+        print("05attempt_login")
         # WebDriverWait(driver, 1).until(
         #     EC.element_to_be_clickable((By.ID, password_field_id))
         # )
@@ -184,10 +187,11 @@ def attempt_login(driver, username, password):
         # sign_in_button = driver.find_element(by="id", value="kc-login")
         # sign_in_button.click()
         #password_field.send_keys(Keys.ENTER)
-    
+        print("06attempt_login")
         # Wait for navigation and check if the login was successfuld
         WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
-        print("WebDriverWait(driver, 1).until(EC.url_to_be(""))")
+        print("07attempt_login")
+
 
         
         return True  # Return True to indicate successful login
