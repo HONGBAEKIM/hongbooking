@@ -157,10 +157,20 @@ def attempt_login(driver, username, password):
 
 
 # Check project is available to get eval
-def attempt_project(full_url):
+def attempt_project(main_url, project_name_from_app, user_id_from_app):
+
+    
+    check_project_url = f"{main_url}/{project_name_from_app}/{user_id_from_app}"
+
+
     try:
         # Navigate to the specified slots page
-        driver.get(full_url)
+        driver.get(check_project_url)
+
+        # Check if the text "Subscribe to defense" is present in the page
+        subscribe_button = driver.find_element_by_xpath("//a[contains(text(), 'Subscribe to defense')]")
+        
+
         # Wait for navigation and check if the project is available
         #WebDriverWait(driver, 20).until(EC.url_to_be(full_url))
 
@@ -169,7 +179,14 @@ def attempt_project(full_url):
         
         #check the page has finished loading or redirecting
         #WebDriverWait(driver, 1).until_not(EC.url_to_be("about:blank"))
-        if (driver.current_url != "https://profile.intra.42.fr/"):
+
+        
+        #full_url = f"{base_url}/{project_name_from_app}/slots?team_id=True"
+
+        #https://projects.intra.42.fr/inception/hongbaki
+
+
+        if subscribe_button.is_displayed():
             return True
         else:
             return False
@@ -305,10 +322,14 @@ def handle_form():
             # Redirect to hongbooking.html if login fails
             #return redirect(url_for('hongbooking.html'))
 
+    # Main URL
+    main_url = "https://projects.intra.42.fr"
+
     # Dynamically build the URL
-    base_url = "https://projects.intra.42.fr/projects"
-    # Project evaluation page where we should book the slots 
-    full_url = f"{base_url}/{project_name_from_app}/slots?team_id=True"
+    base_url = f"{main_url}/projects"
+
+    #base_url = "https://projects.intra.42.fr/projects"
+    
     
     # driver.get(full_url)
 
@@ -316,7 +337,7 @@ def handle_form():
     project_in = False
     while not project_in:
 
-        project_in = attempt_project(full_url)
+        project_in = attempt_project(main_url, project_name_from_app, user_id_from_app)
         if project_in:
             print("project_in")
         else:
@@ -328,7 +349,10 @@ def handle_form():
             return jsonify({'project_response': project_response})       
 
     
-    
+    full_url = f"{base_url}/{project_name_from_app}/slots?team_id=True"
+    driver.get(full_url)
+
+
 
     current_day = datetime.now().weekday()
 
