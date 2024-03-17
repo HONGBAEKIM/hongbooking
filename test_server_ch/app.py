@@ -26,7 +26,9 @@ from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
 from flask_session import Session
 # from selenium_stealth import stealth
-import undetected_chromedriver as uc 
+#import undetected_chromedriver as uc 
+import undetected_chromedriver.v2 as uc 
+
 
 # import mysql.connector  # Add this line to import mysql.connector
 import time
@@ -36,9 +38,15 @@ app = Flask(__name__)
 
 #---------undetected_chromedriver---------
 
-options = uc.ChromeOptions()
-options.add_argument("--headless")
-driver = uc.Chrome(options=options)
+def initialize_driver():
+    options = Options()
+    options.add_argument("--headless")
+    driver = uc.Chrome(options=options)
+    return driver
+
+# options = uc.ChromeOptions()
+# options.add_argument("--headless")
+# driver = uc.Chrome(options=options)
 #-------------------
 
 
@@ -284,6 +292,7 @@ def handle_form():
     start_time_from_app = request.form.get('start_time')
     end_time_from_app = request.form.get('end_time')
 
+    driver = initialize_driver()
 
     # # Connect to MySQL database
     # conn = mysql.connector.connect(
