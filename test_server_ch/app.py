@@ -28,7 +28,7 @@ from flask_session import Session
 #import undetected_chromedriver as uc 
 from selenium_stealth import stealth
 # import mysql.connector  # Add this line to import mysql.connector
-
+import time
 
 app = Flask(__name__)
 
@@ -375,25 +375,34 @@ def handle_form():
     end_time_from_app = datetime.strptime(end_time, "%H:%M").time()  # 24-hour format
 
     
+    # slot_clicked = False
+    # ######## How many times to try to reload page ########
+    # max_retries = 100
+    # ######## How many times to try to reload page ########
+    # global trial
+    # trial = 0
+
+
     slot_clicked = False
     ######## How many times to try to reload page ########
-    max_retries = 2
+    max_duration = 1 * 60     # 1 minutes in seconds
     ######## How many times to try to reload page ########
-    global trial
-    trial = 0
+    start_time = time.time()
 
-    while not slot_clicked and trial < max_retries:
+    #while not slot_clicked and trial < max_retries:
+    
+    while not slot_clicked and (time.time() - start_time) < max_duration:
         try:
-            trial += 1
+            # trial += 1
             
-            session['attempts'] = trial
+            # session['attempts'] = trial
             # print("session", session['attempts'])
             # Emit the attempt count to the client
-            emit_attempt_count(trial) 
+            # emit_attempt_count(trial) 
             # socketio.emit('attempt_count', {'attempt': trial})
 
 
-            print(f"{trial} of {max_retries}")
+            # print(f"{trial} of {max_retries}")
             
             available_slots_today = []                      
             xpath = f".//tr/td[{current_day + 2}]//div[contains(@class, 'fc-time')]"
