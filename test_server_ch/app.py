@@ -162,10 +162,10 @@ def attempt_project(full_url):
         # Navigate to the specified slots page
         driver.get(full_url)
         # Wait for navigation and check if the project is available
-        WebDriverWait(driver, 1).until(EC.url_to_be(full_url))
+        WebDriverWait(driver, 20).until(EC.url_to_be(full_url))
 
         # Wait until the page is loaded
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
         
         #check the page has finished loading or redirecting
         #WebDriverWait(driver, 1).until_not(EC.url_to_be("about:blank"))
