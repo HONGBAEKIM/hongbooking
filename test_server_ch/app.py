@@ -187,6 +187,8 @@ def attempt_login(driver, username, password):
     
         # Wait for navigation and check if the login was successfuld
         WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
+        print("WebDriverWait(driver, 1).until(EC.url_to_be(""))")
+
         
         return True  # Return True to indicate successful login
 
@@ -360,11 +362,13 @@ def handle_form():
         print("02while not logged_in")
 
         logged_in = attempt_login(driver, username, password)
-        # print("1111111111!!!!!!!!!!!!!!!!!!!logged_in")
+        print("03while not logged_in")
+
         if logged_in:
-            print("loged_in")
+            print("04while not logged_in")
+
         else:
-            # print("222222222!!!!!!!!!!!!!!!!!!!not logged_in")
+            print("05 not not logged_in")
 
             login_response = {
                 'message': 'Login failed. Please try again.',
