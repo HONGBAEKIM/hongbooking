@@ -109,8 +109,6 @@ from pyotp import TOTP
 #driver = webdriver.Chrome()  # Add options=chrome_options if needed
 
 
-
-
 #log-in 
 def attempt_login(driver, username, password):
     username_field_id = "username"  # Replace with the actual ID of the username field
@@ -372,7 +370,6 @@ def main():
     while not time_in:
         print("ex) 10:00 AM = 10:00")
         print("ex)  1:00 PM = 13:00")
-        print("ex)  8:00 PM = 20:00")
         start_time = input("Enter your desired start time (24-hour format): ")
         end_time = input("Enter your desired end time (24-hour format): ")
 
@@ -394,7 +391,7 @@ def main():
     time_min_is_60 = 60
     ###################################################
     #################################################
-    time_for_min = 5 #5min
+    time_for_min = 0.5 #30sec
     #################################################
     ###################################################
     setting_time = time_for_min * time_min_is_60 

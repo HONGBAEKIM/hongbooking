@@ -49,6 +49,13 @@ def initialize_driver():
     driver = uc.Chrome(options=options)
     return driver
 
+
+
+
+
+
+
+
 # options = uc.ChromeOptions()
 # options.add_argument("--headless")
 # driver = uc.Chrome(options=options)
