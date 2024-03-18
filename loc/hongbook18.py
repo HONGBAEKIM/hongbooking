@@ -16,9 +16,9 @@
 
 
 # 1.Imports
-import subprocess
-import pkg_resources #to check for installed package
-import sys  # Import the sys module
+#import subprocess
+#import pkg_resources #to check for installed package
+#import sys  # Import the sys module
 
 
 # def install(library_name):
@@ -93,7 +93,7 @@ options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number
 #This option runs Chrome in headless mode, 
 #it will not display a UI or open a browser window.
 ########################################################################
-#options.add_argument("--headless")  # Run in headless mode, without a UI.
+options.add_argument("--headless")  # Run in headless mode, without a UI.
 ########################################################################
 driver = uc.Chrome(options=options)
 #driver = webdriver.Chrome()  # Add options=chrome_options if needed
