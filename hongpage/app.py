@@ -7,7 +7,7 @@ def hello_world():
     return "<p>Hello, World!</p>"
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='172.31.31.55', debug=True)
 
 # from flask import Flask, render_template
 
