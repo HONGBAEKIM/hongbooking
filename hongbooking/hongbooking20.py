@@ -14,7 +14,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
-from datetime import datetime
+
 import undetected_chromedriver as uc 
 import time
 import random
@@ -27,7 +27,11 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import serialization
-import datetime
+from datetime import datetime, timedelta
+#import datetime
+
+
+
 
 
 def generate_license():
@@ -41,8 +45,12 @@ def generate_license():
 
     # Assume you retrieve the old license info and calculate a new expiry
     user_id = "123"
-    old_expiry_date = datetime.date(2024, 1, 1)
-    new_expiry_date = old_expiry_date + datetime.timedelta(days=365)  # Extend by one year
+    #old_expiry_date = datetime.date(2024, 1, 1)
+    old_expiry_date = datetime(2024, 1, 1)
+    
+    #new_expiry_date = old_expiry_date + datetime.timedelta(days=365)  # Extend by one year
+    new_expiry_date = old_expiry_date + timedelta(days=365)  # Extend by one year
+
 
     # Update license information with the new expiry date
     license_info = f"user_id:{user_id}|expiry:{new_expiry_date}".encode()
@@ -217,6 +225,8 @@ project_name_mapping = {
     "cpp09": "cpp-module-09",
     "fttran": "ft_transcendence"
 }
+
+
 
 def attempt_project_name(project_name):
     
