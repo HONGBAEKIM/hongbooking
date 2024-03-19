@@ -14,7 +14,8 @@ def index():
 def hongbooking():
     return render_template('hongbooking.html')
 
-@app.route('/submit_booking', methods=['GET', 'POST'])
+# @app.route('/submit_booking', methods=['GET', 'POST'])
+@app.route('/submit_booking', methods=['POST'])
 def submit_booking():
     # Handle form submission logic here
     # For example, you can access form data using request.form
