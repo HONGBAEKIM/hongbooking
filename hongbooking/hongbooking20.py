@@ -1,63 +1,9 @@
-#Fixed errors
-
-#1.projects name for the url
-#-> some project has "42cursus-" in front of project name
-
-#2.closed program (after install selenium)
-#-> automatically install selenium if there is no selenium package.
-#-> after install go next step
-
-#3.random host number was 65536 
-#-> it has not been happed yet. 
-#-> but I want to prevent from high demand (traffic jam) for just one host number.  
-#-> now host number is going to be 65536 to 65999
+#program runs with .pem
 
 
 
 
-# 1.Imports
-#import subprocess
-#import pkg_resources #to check for installed package
-#import sys  # Import the sys module
 
-
-# def install(library_name):
-#     subprocess.check_call([sys.executable, "-m", "pip", "install", library_name])
-
-# def is_library_installed(library_name):
-#     try:
-#         pkg_resources.get_distribution(library_name)
-#         return True
-#     except pkg_resources.DistributionNotFound:
-#         return False
-
-# library_name = "selenium"
-
-# if is_library_installed(library_name):
-#     print(f"{library_name} is already installed.")
-# else:
-#     print(f"{library_name} is not installed. Installing now...")
-#     install(library_name)
-#     print(f"{library_name} installed successfully.")
-
-
-
-# try:
-#     # Try to import the selenium package
-#     pkg_resources.require("selenium")
-    
-
-# except pkg_resources.DistributionNotFound:
-#     # If selenium is not installed, install it
-#     print("Selenium is not installed. Installing now...")
-#     install("selenium")
-#     print("Selenium installed successfully.")
-
-# except pkg_resources.VersionConflict as e:
-#     # Handle cases where the installed version does not match the required version
-#     print(f"A version conflict was detected: {e}")
-#     # Optionally, upgrade the package or handle the conflict as required
-#     # install("selenium --upgrade")
 
 import sys
 import getpass
@@ -76,37 +22,44 @@ import random
 
 from pyotp import TOTP
 
+# Import necessary modules for license generation and signing
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives import serialization
+import datetime
 
 
+def generate_license():
+    # Load your private key
+    with open("private.pem", "rb") as key_file:
+        private_key = serialization.load_pem_private_key(
+            key_file.read(),
+            password=None,
+            backend=default_backend()
+        )
 
+    # Assume you retrieve the old license info and calculate a new expiry
+    user_id = "123"
+    old_expiry_date = datetime.date(2024, 1, 1)
+    new_expiry_date = old_expiry_date + datetime.timedelta(days=365)  # Extend by one year
 
+    # Update license information with the new expiry date
+    license_info = f"user_id:{user_id}|expiry:{new_expiry_date}".encode()
 
-#2.Setup Chrome WebDriver:
-#This line creates a ChromeOptions object, 
-#which allows you to set various options for the Chrome driver.
-#options = webdriver.ChromeOptions()
-# chrome_options = Options()
+    # Sign the updated license information
+    signature = private_key.sign(
+        license_info,
+        padding.PSS(
+            mgf=padding.MGF1(hashes.SHA256()),
+            salt_length=padding.PSS.MAX_LENGTH
+        ),
+        hashes.SHA256()
+    )
 
+    # Return the generated license info and signature
+    return license_info, signature
 
-
-
-# options = uc.ChromeOptions()
-# localhost_number = random.randint(65536, 65999)
-# options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
-
-
-
-
-
-#This option runs Chrome in headless mode, 
-#it will not display a UI or open a browser window.
-########################################################################
-#options.add_argument("--headless")  # Run in headless mode, without a UI.
-########################################################################
-#driver = uc.Chrome(options=options)
-
-
-#driver = webdriver.Chrome()  # Add options=chrome_options if needed
 
 
 #log-in 
@@ -119,19 +72,10 @@ def attempt_login(driver, username, password):
     time.sleep(1)
 
     try:
-        # WebDriverWait(driver, 1).until(
-        #     EC.element_to_be_clickable((By.ID, username_field_id))
-        # )
-        
-        # EC.element_to_be_clickable(By.ID, username_field_id)
-        
+
         username_field = driver.find_element(By.ID, username_field_id)
         username_field.send_keys(username)
 
-        # WebDriverWait(driver, 1).until(
-        #     EC.element_to_be_clickable((By.ID, password_field_id))
-        # )
-        # EC.element_to_be_clickable(By.ID, password_field_id)
         password_field = driver.find_element(By.ID, password_field_id)
         password_field.send_keys(password)
 
@@ -259,11 +203,6 @@ def attempt_project_name(project_name):
         return False
 
 
-
-
-
-
-
 #Select time 
 def is_valid_time(time_str):
     try:
@@ -279,7 +218,6 @@ def attempt_time(start_time, end_time):
     else:
         print("Invalid time format. Please use HH:MM format.")
         return False
-
 
 
 # Function to convert 12-hour format time to 24-hour format
@@ -301,25 +239,32 @@ def is_time_within_range(time_str, start_time, end_time):
 
 
 def main():
-    if (len(sys.argv) != 2):
-        print("Usage: hongbooking19 <password>")
-        try:
-            driver.quit()
-        except NameError:
-            pass  # Ignore if the driver is not defined
-        sys.exit(1)  # Terminate the program with a non-zero exit code
+    # Generate the license
+    license_info, signature = generate_license()
+
+    # Provide `license_info` and `signature` back to the user
+    print("License Info:", license_info)
+    print("Signature:", signature)
     
-    # Define the correct password
-    correct_password = "1234"
+    # if (len(sys.argv) != 2):
+    #     print("Usage: hongbooking19 <password>")
+    #     try:
+    #         driver.quit()
+    #     except NameError:
+    #         pass  # Ignore if the driver is not defined
+    #     sys.exit(1)  # Terminate the program with a non-zero exit code
+    
+    # # Define the correct password
+    # correct_password = "1234"
 
-    entered_password = sys.argv[1]
+    # entered_password = sys.argv[1]
 
-    print("Welcome to Hongbooking(my name is Hongbaekim)!")
+    # print("Welcome to Hongbooking(my name is Hongbaekim)!")
 
 
-    if entered_password != correct_password:
-        print("Incorrect password. Access denied.")
-        return
+    # if entered_password != correct_password:
+    #     print("Incorrect password. Access denied.")
+    #     return
 
     # If the correct password is entered, continue with your program logic
     print("Access granted. Running the program...")
@@ -370,6 +315,8 @@ def main():
     while not time_in:
         print("ex) 10:00 AM = 10:00")
         print("ex)  1:00 PM = 13:00")
+        print("ex)  9:00 PM = 21:00")
+
         start_time = input("Enter your desired start time (24-hour format): ")
         end_time = input("Enter your desired end time (24-hour format): ")
 
