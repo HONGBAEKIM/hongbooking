@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime, timedelta
+from flasgger import Swagger
+import requests  # Import requests library
 
 app = Flask(__name__)
+swagger = Swagger(app)
 
 # This dictionary will store generated licenses with their expiration times
 licenses = {}
@@ -44,6 +47,32 @@ def update_expiration():
     new_expiration_time = datetime.now() + timedelta(hours=1)
     licenses[user_id] = new_expiration_time
     return jsonify({'message': 'Expiration time updated successfully'})
+
+@app.route('/hello/<string:name>', methods=['GET'])
+def hello(name):
+    """
+    This is an example endpoint that returns a greeting message.
+    ---
+    parameters:
+      - name: name
+        in: path
+        type: string
+        required: true
+        description: The name to greet
+    responses:
+      200:
+        description: A greeting message
+    """
+    return jsonify({'message': 'Hello, {}!'.format(name)})
+
+# Function to send GET request to /hello endpoint
+def send_hello_request():
+    response = requests.get('http://localhost:5000/hello/John')
+    print(response.json())
+
+# Code to trigger the request
+send_hello_request()
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
