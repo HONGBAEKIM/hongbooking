@@ -32,7 +32,7 @@ import datetime
 
 def generate_license():
     # Load your private key
-    with open("private.pem", "rb") as key_file:
+    with open("../../private.pem", "rb") as key_file:
         private_key = serialization.load_pem_private_key(
             key_file.read(),
             password=None,
