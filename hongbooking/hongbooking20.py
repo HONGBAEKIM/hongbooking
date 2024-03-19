@@ -36,7 +36,8 @@ from datetime import datetime, timedelta
 
 def generate_license():
     # Load your private key
-    with open("../../private.pem", "rb") as key_file:
+    privatedir = "../../private.pem" or "../../../../private.pem"
+    with open(privatedir, "rb") as key_file:
         private_key = serialization.load_pem_private_key(
             key_file.read(),
             password=None,
@@ -72,7 +73,8 @@ def generate_license():
 
 def verify_license(signature, license_info):
     # Load the public key
-    with open("../../public.pem", "rb") as key_file:
+    publicdir = "../../public.pem" or "../../../../public.pem"
+    with open(publicdir, "rb") as key_file:
         public_key = serialization.load_pem_public_key(
             key_file.read(),
             backend=default_backend()
@@ -299,7 +301,7 @@ def main():
     options = uc.ChromeOptions()
     localhost_number = random.randint(65536, 65999)
     options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
-    options.add_argument("--headless")
+    #options.add_argument("--headless")
     driver = uc.Chrome(options=options)
 
     print("Let's book an evaluation slot automatically")
