@@ -36,7 +36,7 @@ from datetime import datetime, timedelta
 
 def generate_license():
     # Load your private key
-    privatedir = "../../private.pem" or "../../../../private.pem"
+    privatedir = "../../private.pem"
     with open(privatedir, "rb") as key_file:
         private_key = serialization.load_pem_private_key(
             key_file.read(),
@@ -73,7 +73,7 @@ def generate_license():
 
 def verify_license(signature, license_info):
     # Load the public key
-    publicdir = "../../public.pem" or "../../../../public.pem"
+    publicdir = "../../public.pem"
     with open(publicdir, "rb") as key_file:
         public_key = serialization.load_pem_public_key(
             key_file.read(),
