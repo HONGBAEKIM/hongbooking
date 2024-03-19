@@ -2,9 +2,6 @@
 
 
 
-
-
-
 import sys
 import getpass
 from selenium import webdriver
@@ -32,8 +29,6 @@ from datetime import datetime, timedelta
 
 
 
-
-
 def generate_license():
     # Load your private key
     privatedir = "../../private.pem"
@@ -47,11 +42,14 @@ def generate_license():
     # Assume you retrieve the old license info and calculate a new expiry
     user_id = "123"
     #old_expiry_date = datetime.date(2024, 1, 1)
-    old_expiry_date = datetime(2024, 1, 1)
+    #old_expiry_date = datetime(2024, 1, 1)
+    old_expiry_date = datetime.now()  # Current date and time
     
     #new_expiry_date = old_expiry_date + datetime.timedelta(days=365)  # Extend by one year
     new_expiry_date = old_expiry_date + timedelta(days=365)  # Extend by one year
-
+    
+    # new_expiry_date = old_expiry_date + timedelta(hours=1)  # Extend by one hour
+    # print("new_expiry_date : ", new_expiry_date)
 
     # Update license information with the new expiry date
     license_info = f"user_id:{user_id}|expiry:{new_expiry_date}".encode()
@@ -68,6 +66,21 @@ def generate_license():
 
     # Return the generated license info and signature
     return license_info, signature
+
+
+
+def is_license_valid(license_info):
+    # Extract expiry date from the license info
+    expiry_str = license_info.decode().split('|')[1].split(':')[1]
+    print("expiry_str : ", expiry_str)
+    #expiry_date = datetime.strptime(expiry_str, '%Y-%m-%d %H:%M:%S')
+    expiry_date = datetime.strptime(expiry_str, '%Y-%m-%d %H')
+    print("expiry_date : ", expiry_date)
+
+
+
+    # Check if the expiry date is in the future
+    return expiry_date > datetime.now()
 
 
 
@@ -284,6 +297,8 @@ def main():
     # Provide `license_info` and `signature` back to the user
     print("License Info:", license_info)
     print("Signature:", signature)
+
+   
     
 
     if verify_license(signature, license_info):
@@ -296,6 +311,18 @@ def main():
             pass  # Ignore if the driver is not defined
         sys.exit(1)
     
+
+    # license_info, _ = generate_license()
+    if is_license_valid(license_info):
+        print("License is valid.")
+    else:
+        print("License has expired.")
+        try:
+            driver.quit()
+        except NameError:
+            pass  # Ignore if the driver is not defined
+        sys.exit(1)
+
     print("Access granted. Running the program...")
 
     options = uc.ChromeOptions()
