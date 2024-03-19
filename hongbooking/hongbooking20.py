@@ -62,6 +62,33 @@ def generate_license():
 
 
 
+def verify_license(signature, license_info):
+    # Load the public key
+    with open("../../public.pem", "rb") as key_file:
+        public_key = serialization.load_pem_public_key(
+            key_file.read(),
+            backend=default_backend()
+        )
+
+    try:
+        # Verify the signature
+        public_key.verify(
+            signature,
+            license_info,
+            padding.PSS(
+                mgf=padding.MGF1(hashes.SHA256()),
+                salt_length=padding.PSS.MAX_LENGTH
+            ),
+            hashes.SHA256()
+        )
+        # If verification succeeds, the license is valid
+        return True
+    except Exception as e:
+        # If verification fails, the license is invalid or tampered with
+        print("License verification failed:", e)
+        return False
+
+
 #log-in 
 def attempt_login(driver, username, password):
     username_field_id = "username"  # Replace with the actual ID of the username field
@@ -246,6 +273,16 @@ def main():
     print("License Info:", license_info)
     print("Signature:", signature)
     
+
+    if verify_license(signature, license_info):
+        print("License is valid. Allow the software to run.")
+    else:
+        print("License is invalid or tampered with. Do not allow the software to run.")
+        try:
+            driver.quit()
+        except NameError:
+            pass  # Ignore if the driver is not defined
+        sys.exit(1)
     # if (len(sys.argv) != 2):
     #     print("Usage: hongbooking19 <password>")
     #     try:
