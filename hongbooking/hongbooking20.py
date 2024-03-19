@@ -283,27 +283,7 @@ def main():
         except NameError:
             pass  # Ignore if the driver is not defined
         sys.exit(1)
-    # if (len(sys.argv) != 2):
-    #     print("Usage: hongbooking19 <password>")
-    #     try:
-    #         driver.quit()
-    #     except NameError:
-    #         pass  # Ignore if the driver is not defined
-    #     sys.exit(1)  # Terminate the program with a non-zero exit code
     
-    # # Define the correct password
-    # correct_password = "1234"
-
-    # entered_password = sys.argv[1]
-
-    # print("Welcome to Hongbooking(my name is Hongbaekim)!")
-
-
-    # if entered_password != correct_password:
-    #     print("Incorrect password. Access denied.")
-    #     return
-
-    # If the correct password is entered, continue with your program logic
     print("Access granted. Running the program...")
 
     options = uc.ChromeOptions()
