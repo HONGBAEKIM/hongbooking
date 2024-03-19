@@ -289,7 +289,7 @@ def main():
     options = uc.ChromeOptions()
     localhost_number = random.randint(65536, 65999)
     options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
-    #options.add_argument("--headless")
+    options.add_argument("--headless")
     driver = uc.Chrome(options=options)
 
     print("Let's book an evaluation slot automatically")
