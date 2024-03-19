@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 
-app = Flask(__name__, static_url_path='/static')
+#app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__)
+
 
 @app.route('/')
 def index():
@@ -10,13 +12,13 @@ def index():
 def hongbooking():
     return render_template('hongbooking.html')
 
-@app.route('/submit_booking', methods=['POST'])
+@app.route('/submit_booking', methods=['GET', 'POST'])
 def submit_booking():
     # Handle form submission logic here
     # For example, you can access form data using request.form
     # Process the form data and return a response
-    return render_template('hongbooking.html')
-    #return 'Booking submitted successfully'
+    #return render_template('hongbooking.html')
+    return 'Booking submitted successfully'
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
