@@ -6,7 +6,7 @@ from http.server import BaseHTTPRequestHandler
 class DownloadRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         # Specify the file you want to serve
-        filepath = 'downloadfiles'
+        filepath = 'downloadfileshongbooking19_piscine'
         filename = os.path.basename(filepath)
         
         # Check if file exists
