@@ -8,21 +8,7 @@
     <link rel="stylesheet" href="/static/style.css">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <script src="/static/script.js"></script>
-    <style>
-        /* Add your CSS styles for download links/buttons */
-        .download-link {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 10px;
-        }
-        .download-link:hover {
-            background-color: #0056b3;
-        }
-    </style>
+
     <title>Progress Updates</title>
 </head>
 
@@ -30,17 +16,76 @@
     <main>
         <header>
             <h2>Booking evaluation slots</h2>
-        </header>       
-        <a href="https://www.hongpage.com/downloads/private.pem" class="download-link">Download Private Key</a>
-        <a href="https://www.hongpage.com/downloads/public.pem" class="download-link">Download Public Key</a>
+        </header>  
+
+        
+        <!-- Hidden input field to hold the password -->
+        <input type="hidden" id="passwordInput" value="{{ password }}">
+        
+        <!-- Display the password -->
+        <p>Password: <span id="displayPassword">{{ password }}</span></p>
+        
+        <!-- Button to copy password -->
+        <button id="copyButton" class="copy-password">Copy password</button>
 
         <section>         
-            <h2>Input</h2>
-            <form id="myForm" action="/submit_booking" method="POST" onsubmit="return validateTime()">
+           
+            
             <footer>
                 <p>&copy; 2024 Your Simple Website</p>
             </footer>
         </section>    
     </main>
+
+    <script>
+        // Function to copy password to clipboard
+        function copyPassword() {
+            // Select the span element containing the password
+            var passwordSpan = document.getElementById("displayPassword");
+            
+            // Create a range object
+            var range = document.createRange();
+            // Select the text inside the span element
+            range.selectNode(passwordSpan);
+            // Add the range to the current selection
+            window.getSelection().addRange(range);
+            
+            // Copy the selected text to clipboard
+            document.execCommand("copy");
+            
+            // Clear the selection
+            window.getSelection().removeAllRanges();
+            
+            // Alert the user
+            alert("Password copied to clipboard!");
+        }
+
+        // Add click event listener to copy button
+        document.getElementById("copyButton").addEventListener("click", copyPassword);
+    
+        // Function to fetch a new password every 30 minutes
+        function updatePassword() {
+            // Fetch the new password from the server
+            fetch('/get_password')
+                .then(response => response.json())
+                .then(data => {
+                    var password = data.password;
+                    // Update the displayed password
+                    document.getElementById("passwordInput").value = password;
+                    document.getElementById("displayPassword").textContent = password;
+                })
+                .catch(error => console.error('Error fetching password:', error));
+        }
+
+        // Call the updatePassword function initially
+        updatePassword();
+
+        // Call the updatePassword function every 30 minutes
+        setInterval(updatePassword, 30 * 60 * 1000); // 30 minutes in milliseconds
+
+    
+    
+    
+    </script>
 </body>
 </html>

@@ -1,10 +1,28 @@
-from flask import Flask, render_template, request, jsonify
-from datetime import datetime
+from flask import Flask, render_template, jsonify, session
+from datetime import datetime, timedelta
 import hashlib
-
+import random
+import string
+import time
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
+app.secret_key = 'bQHbgRtIv5PtkwRgMMwVQd4JzFeDFJqempwh48dUqHObo'
 
+current_password = None
+
+def generate_password():
+    characters = string.ascii_letters + string.digits
+    return ''.join(random.choice(characters) for i in range(36))
+
+def update_password():
+    global current_password
+    current_password = generate_password()
+    print("New password generated:", current_password)
+
+scheduler = BackgroundScheduler(daemon=True)
+scheduler.add_job(update_password, 'interval', minutes=30)
+scheduler.start()
 
 
 @app.route('/')
@@ -13,29 +31,20 @@ def index():
 
 @app.route('/hongbooking')
 def hongbooking():
-    return render_template('hongbooking.html')
-
-
-def generate_password():
-    # Generate password based on current time
-    current_time = datetime.datetime.now()
-    password_str = str(current_time)
-    password_hash = hashlib.sha256(password_str.encode()).hexdigest()
-    return password_hash[:32]  # Return first 32 characters of the hash as the password
-
+    global current_password
+    if current_password is None:
+        current_password = generate_password()
+        print("Initial password generated:", current_password)
+    else:
+        print("Password found:", current_password)
+    return render_template('hongbooking.html', password=current_password)
 
 
 
-# @app.route('/submit_booking', methods=['GET', 'POST'])
-@app.route('/submit_booking', methods=['POST'])
-def submit_booking():
-    password = generate_password()
-    # Handle form submission logic here
-    # For example, you can access form data using request.form
-    # Process the form data and return a response
-    # return render_template('hongbooking.html')
-    return f'Booking submitted successfully. Password: {password}'
-
+@app.route('/get_password')
+def get_password():
+    global current_password
+    return jsonify({'password': current_password})
 
 
 if __name__ == "__main__":
