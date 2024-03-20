@@ -382,8 +382,10 @@ def main():
                 slots = driver.find_elements(By.XPATH, xpath)
                 if (len(slots) == 0):
                     driver.refresh()
-                # print("Grab a coffee and tea or watch a youtube video")
-                # print("https://youtu.be/FClqKwgo5Bw?feature=shared")
+                print("Every 30 min, new password will be regenerated")
+                print("New password is here")
+                print("www.hongpage.com/hongbooking")
+
 
                 for slot in slots:
                     print("there is another available slot", slot.text)
@@ -392,7 +394,7 @@ def main():
                     #print("21 : time_str:", time_str, "Type:", type(time_str))
 
                     if is_time_within_range(convert_to_24hr_format(time_str), desired_start_time, desired_end_time):
-                        print("30 : check time range")
+                        #print("30 : check time range")
                         available_slots_today.append(slot)
 
                 if not available_slots_today:
@@ -420,7 +422,7 @@ def main():
                             
                             
                             print("BEFORE: Clicking 'OK' button.")
-                            #nextok.click()
+                            nextok.click()
                             print("AFTER: Clicked 'OK' button.")
                     except NoSuchElementException:
                         print("OK button not found.")
@@ -439,10 +441,7 @@ def main():
             print(f"An unexpected error occurred: {e}")
             break
 
-    
-
-
-    time.sleep(50)
+    #time.sleep(50)
     # Close the WebDriver
     #8.Close the WebDriver:
     #This line closes the browser and ends the WebDriver's session. 
