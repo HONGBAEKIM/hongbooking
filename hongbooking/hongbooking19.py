@@ -15,7 +15,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from datetime import datetime
-from webdriver_manager.chrome import ChromeDriverManager
+#from webdriver_manager.chrome import ChromeDriverManager
 #from undetected_chromedriver import Chrome
 #import undetected_chromedriver as uc 
 
@@ -227,10 +227,6 @@ def main():
     
     if (len(sys.argv) != 2):
         
-        # if (len(sys.argv) == 3):
-        #     print("--headless")
-
-        # else:
         
         print("Usage: hongbooking19 <password>")
         try:
