@@ -229,29 +229,12 @@ def get_current_password():
     return data['password']
 
 def main():
-    
-    #Define the correct password
-    correct_password = get_current_password()
 
-    #before make a.out file
-    #before make a.out file
-    #before make a.out file
-    #entered_password = sys.argv[2]
-    entered_password = sys.argv[3]
-
-    print("Welcome to Hongbooking(my name is Hongbaekim)!")
-
-
-    if entered_password != correct_password:
-        print("Incorrect password. Access denied.")
-        return
     #before make a.out file
     #before make a.out file
     #before make a.out file
     #if (len(sys.argv) != 2):
     if (len(sys.argv) != 3):
-        
-        
         print("Usage: hongbooking19 <password>")
         try:
             driver.quit()
@@ -259,6 +242,22 @@ def main():
             pass  # Ignore if the driver is not defined
         sys.exit(1)  # Terminate the program with a non-zero exit code
     
+
+    #Define the correct password
+    correct_password = get_current_password()
+
+    #before make a.out file
+    #before make a.out file
+    #before make a.out file
+    #entered_password = sys.argv[1]
+    entered_password = sys.argv[2]
+
+    print("Welcome to Hongbooking(my name is Hongbaekim)!")
+
+
+    if entered_password != correct_password:
+        print("Incorrect password. Access denied.")
+        return
 
 
     # If the correct password is entered, continue with your program logic
