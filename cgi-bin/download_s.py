@@ -36,19 +36,22 @@ class DownloadRequestHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server_address = ('localhost', 5000)
-    #server_address = ('www.hongpage.com', 5000)
     httpd = HTTPServer(server_address, DownloadRequestHandler)
 
     # Load SSL certificate and key
     certfile = '/home/ubuntu/public.pem'
     keyfile = '/home/ubuntu/private.pem'
 
-    # Create SSL context
-    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-    context.load_cert_chain(certfile, keyfile)
+    try:
+        # Create SSL context
+        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+        context.load_cert_chain(certfile, keyfile)
 
-    # Start HTTPS server
-    httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
-    print("Server started on localhost port 5000 (HTTPS)...")
-    httpd.serve_forever()
+        # Start HTTPS server
+        httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
+        print("Server started on localhost port 5000 (HTTPS)...")
+        httpd.serve_forever()
+    
+    except Exception as e:
+        logging.exception("An error occurred while starting the server")
 
