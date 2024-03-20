@@ -35,7 +35,7 @@ class DownloadRequestHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     #server_address = ('', 5000)
-    server_address = ('www.hongpage.com', 5000)
+    server_address = ('172.31.31.55', 5000)
     httpd = HTTPServer(server_address, DownloadRequestHandler)
 
     # Load SSL certificate and key
