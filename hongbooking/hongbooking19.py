@@ -34,9 +34,9 @@ from pyotp import TOTP
 def attempt_login(driver, username, password):
     username_field_id = "username"  # Replace with the actual ID of the username field
     password_field_id = "password"  # Replace with the actual ID of the password field
-    # login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
+    login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
 
-    # driver.get(login_url)
+    driver.get(login_url)
     time.sleep(1)
 
     try:
@@ -224,8 +224,7 @@ def is_time_within_range(time_str, start_time, end_time):
 def main():
     
 
-    
-    if (len(sys.argv) != 2):
+    if (len(sys.argv) != 1):
         
         
         print("Usage: hongbooking19 <password>")
@@ -270,11 +269,9 @@ def main():
 
 
 
-    driver = Driver(uc=True, headless=False)
+    driver = Driver(uc=True)
 
-    login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
-
-    driver.get(login_url)
+    
 
     print("Let's book an evaluation slot automatically")
 
