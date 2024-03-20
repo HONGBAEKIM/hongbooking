@@ -224,7 +224,7 @@ def is_time_within_range(time_str, start_time, end_time):
         return False
 
 def get_current_password():
-    response = requests.get('https://www.hongpage.com/hongbooking/get_password')
+    response = requests.get('https://www.hongpage.com/get_password')
     data = response.json()
     return data['password']
 
