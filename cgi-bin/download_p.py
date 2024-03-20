@@ -6,7 +6,7 @@ from http.server import BaseHTTPRequestHandler
 class DownloadRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         # Specify the file you want to serve
-        filepath = 'downloadfileshongbooking19_piscine'
+        filepath = 'downloadfiles/hongbooking19_piscine'
         filename = os.path.basename(filepath)
         
         # Check if file exists
@@ -27,8 +27,19 @@ class DownloadRequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(b'File not found.')
 
 if __name__ == "__main__":
-    from http.server import HTTPServer
-    server_address = ('', 5000)  # Serve at: http://localhost:5000
+    server_address = ('', 5000)
     httpd = HTTPServer(server_address, DownloadRequestHandler)
-    print("Server started on localhost port 5000...")
+
+    # Load SSL certificate and key
+    certfile = '/home/ubuntu/public.pem'
+    keyfile = '/home/ubuntu/private.pem'
+
+    # Create SSL context
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    context.load_cert_chain(certfile, keyfile)
+
+    # Start HTTPS server
+    httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
+    print("Server started on localhost port 5000 (HTTPS)...")
     httpd.serve_forever()
+    
