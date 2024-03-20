@@ -35,7 +35,7 @@ class DownloadRequestHandler(BaseHTTPRequestHandler):
             logging.exception("An error occurred during request handling")
 
 if __name__ == "__main__":
-    server_address = ('localhost', 5000)
+    server_address = ('127.0.0.1', 5000)
     #server_address = ('www.hongpage.com', 5000)
     httpd = HTTPServer(server_address, DownloadRequestHandler)
 
