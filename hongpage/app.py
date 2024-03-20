@@ -44,7 +44,7 @@ def hongbooking():
 @app.route('/get_password')
 def get_password():
     global current_password
-    return jsonify(current_password)
+    return jsonify({'password': current_password})
 
 
 if __name__ == "__main__":
