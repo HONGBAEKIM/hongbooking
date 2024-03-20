@@ -13,13 +13,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from datetime import datetime
+from webdriver_manager.chrome import ChromeDriverManager
 #from undetected_chromedriver import Chrome
-import undetected_chromedriver as uc 
+#import undetected_chromedriver as uc 
 
-#from seleniumbase import Driver
+from seleniumbase import Driver
 
 
 import time
@@ -34,9 +34,9 @@ from pyotp import TOTP
 def attempt_login(driver, username, password):
     username_field_id = "username"  # Replace with the actual ID of the username field
     password_field_id = "password"  # Replace with the actual ID of the password field
-    login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
+    # login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
 
-    driver.get(login_url)
+    # driver.get(login_url)
     time.sleep(1)
 
     try:
@@ -225,51 +225,60 @@ def main():
     
 
     
-    # if (len(sys.argv) != 2):
+    if (len(sys.argv) != 2):
         
-    #     # if (len(sys.argv) == 3):
-    #     #     print("--headless")
+        # if (len(sys.argv) == 3):
+        #     print("--headless")
 
-    #     # else:
+        # else:
         
-    #     print("Usage: hongbooking19 <password>")
-    #     try:
-    #         driver.quit()
-    #     except NameError:
-    #         pass  # Ignore if the driver is not defined
-    #     sys.exit(1)  # Terminate the program with a non-zero exit code
+        print("Usage: hongbooking19 <password>")
+        try:
+            driver.quit()
+        except NameError:
+            pass  # Ignore if the driver is not defined
+        sys.exit(1)  # Terminate the program with a non-zero exit code
     
-    # Define the correct password
-    # correct_password = "1234"
+    #Define the correct password
+    correct_password = "1234"
 
-    # entered_password = sys.argv[1]
+    entered_password = sys.argv[1]
 
-    # print("Welcome to Hongbooking(my name is Hongbaekim)!")
+    print("Welcome to Hongbooking(my name is Hongbaekim)!")
 
 
-    # if entered_password != correct_password:
-    #     print("Incorrect password. Access denied.")
-    #     return
+    if entered_password != correct_password:
+        print("Incorrect password. Access denied.")
+        return
 
     # If the correct password is entered, continue with your program logic
-    # print("Access granted. Running the program...")
+    print("Access granted. Running the program...")
 
     #driver = webdriver.Chrome(ChromeDriverManager().install())
     # uc.Chrome(version_main=124)
     
-    options = uc.ChromeOptions()
-    localhost_number = random.randint(65536, 65999)
-    options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")    
-    driver = uc.Chrome(options=options)
+
+
+
+    #options = uc.ChromeOptions()
+    #localhost_number = random.randint(65536, 65999)
+    #options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")    
+    #chromedriver_path = '/home/hongbaki/bin/chromedriver'
+    #driver = uc.Chrome(driver_executable_path=chromedriver_path ,options=options)
+    
+    
+    
     #driver = Driver(uc=True, incognito=True)
     
     # options.add_argument("--headless")
 
 
 
-    #driver = Driver(uc=True, headless=True)
+    driver = Driver(uc=True, headless=False)
 
-    
+    login_url = "https://auth.42.fr/auth/realms/students-42/protocol/openid-connect/auth?client_id=intra&redirect_uri=https%3A%2F%2Fprofile.intra.42.fr%2Fusers%2Fauth%2Fkeycloak_student%2Fcallback&response_type=code&state=e510170b7adc7ed8fc39319b0c9896692df12a594087df4c"
+
+    driver.get(login_url)
 
     print("Let's book an evaluation slot automatically")
 
