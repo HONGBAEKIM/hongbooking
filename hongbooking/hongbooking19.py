@@ -30,6 +30,9 @@ from pyotp import TOTP
 
 
 
+import requests
+
+
 #log-in 
 def attempt_login(driver, username, password):
     username_field_id = "username"  # Replace with the actual ID of the username field
@@ -220,11 +223,33 @@ def is_time_within_range(time_str, start_time, end_time):
         print(f"Error parsing time: {time_str} - {e}")
         return False
 
+def get_current_password():
+    response = requests.get('https://www.hongpage.com/hongbooking/get_password')
+    data = response.json()
+    return data['password']
 
 def main():
     
+    #Define the correct password
+    correct_password = get_current_password()
 
-    if (len(sys.argv) != 2):
+    #before make a.out file
+    #before make a.out file
+    #before make a.out file
+    #entered_password = sys.argv[1]
+    entered_password = sys.argv[2]
+
+    print("Welcome to Hongbooking(my name is Hongbaekim)!")
+
+
+    if entered_password != correct_password:
+        print("Incorrect password. Access denied.")
+        return
+    #before make a.out file
+    #before make a.out file
+    #before make a.out file
+    #if (len(sys.argv) != 2):
+    if (len(sys.argv) != 3):
         
         
         print("Usage: hongbooking19 <password>")
@@ -234,17 +259,7 @@ def main():
             pass  # Ignore if the driver is not defined
         sys.exit(1)  # Terminate the program with a non-zero exit code
     
-    #Define the correct password
-    correct_password = "1234"
 
-    entered_password = sys.argv[1]
-
-    print("Welcome to Hongbooking(my name is Hongbaekim)!")
-
-
-    if entered_password != correct_password:
-        print("Incorrect password. Access denied.")
-        return
 
     # If the correct password is entered, continue with your program logic
     print("Access granted. Running the program...")
@@ -336,7 +351,7 @@ def main():
     time_min_is_60 = 60
     ###################################################
     #################################################
-    time_for_min = 0.5 #30sec
+    time_for_min = 30 #30min
     #################################################
     ###################################################
     setting_time = time_for_min * time_min_is_60 
@@ -393,12 +408,12 @@ def main():
                 
 
                 for slot in available_slots_today:
-                    #print("40")
+
                     # WebDriverWait(driver, 1).until(EC.element_to_be_clickable(slot))
                     
                     EC.element_to_be_clickable(slot)
-                    #print("41")
-                    #slot.click()
+
+                    slot.click()
                     print("Clicked on an available slot.")
                     slot_clicked = True
                     
@@ -409,10 +424,9 @@ def main():
                         if nextok.text == "OK":
                             
                             
+                            print("BEFORE: Clicking 'OK' button.")
                             #nextok.click()
-                            
-                            
-                            print("Clicked 'OK' button.")
+                            print("AFTER: Clicked 'OK' button.")
                     except NoSuchElementException:
                         print("OK button not found.")
     
