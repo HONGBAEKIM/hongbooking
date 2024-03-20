@@ -6,7 +6,7 @@ from http.server import BaseHTTPRequestHandler
 class DownloadRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         # Specify the file you want to serve
-        filepath = 'tmp/to/your/downloadfile.txt'
+        filepath = 'downloadfiles/hongbooking19_student'
         filename = os.path.basename(filepath)
         
         # Check if file exists
@@ -28,7 +28,7 @@ class DownloadRequestHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     from http.server import HTTPServer
-    server_address = ('', 8000)  # Serve at: http://localhost:8000
+    server_address = ('', 5000)  # Serve at: http://localhost:5000
     httpd = HTTPServer(server_address, DownloadRequestHandler)
-    print("Server started on localhost port 8000...")
+    print("Server started on localhost port 5000...")
     httpd.serve_forever()
