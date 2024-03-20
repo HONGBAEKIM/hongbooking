@@ -224,7 +224,7 @@ def is_time_within_range(time_str, start_time, end_time):
 def main():
     
 
-    if (len(sys.argv) != 1):
+    if (len(sys.argv) != 2):
         
         
         print("Usage: hongbooking19 <password>")
