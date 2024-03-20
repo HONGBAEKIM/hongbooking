@@ -236,8 +236,8 @@ def main():
     #before make a.out file
     #before make a.out file
     #before make a.out file
-    #entered_password = sys.argv[1]
-    entered_password = sys.argv[2]
+    #entered_password = sys.argv[2]
+    entered_password = sys.argv[3]
 
     print("Welcome to Hongbooking(my name is Hongbaekim)!")
 
