@@ -1,4 +1,7 @@
-#program runs with .pem
+#program runs with argv[1] password
+#ex)
+#hongbooking19 *****
+
 
 
 
@@ -10,106 +13,21 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
-
+from datetime import datetime
+#from undetected_chromedriver import Chrome
 import undetected_chromedriver as uc 
+
+#from seleniumbase import Driver
+
+
 import time
 import random
 
 
 from pyotp import TOTP
 
-# Import necessary modules for license generation and signing
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.primitives import serialization
-from datetime import datetime, timedelta
-#import datetime
-
-
-
-def generate_license():
-    # Load your private key
-    privatedir = "../../private.pem"
-    with open(privatedir, "rb") as key_file:
-        private_key = serialization.load_pem_private_key(
-            key_file.read(),
-            password=None,
-            backend=default_backend()
-        )
-
-    # Assume you retrieve the old license info and calculate a new expiry
-    user_id = "123"
-    #old_expiry_date = datetime.date(2024, 1, 1)
-    #old_expiry_date = datetime(2024, 1, 1)
-    old_expiry_date = datetime.now()  # Current date and time
-    
-    #new_expiry_date = old_expiry_date + datetime.timedelta(days=365)  # Extend by one year
-    new_expiry_date = old_expiry_date + timedelta(days=365)  # Extend by one year
-    
-    # new_expiry_date = old_expiry_date + timedelta(hours=1)  # Extend by one hour
-    # print("new_expiry_date : ", new_expiry_date)
-
-    # Update license information with the new expiry date
-    license_info = f"user_id:{user_id}|expiry:{new_expiry_date}".encode()
-
-    # Sign the updated license information
-    signature = private_key.sign(
-        license_info,
-        padding.PSS(
-            mgf=padding.MGF1(hashes.SHA256()),
-            salt_length=padding.PSS.MAX_LENGTH
-        ),
-        hashes.SHA256()
-    )
-
-    # Return the generated license info and signature
-    return license_info, signature
-
-
-
-def is_license_valid(license_info):
-    # Extract expiry date from the license info
-    expiry_str = license_info.decode().split('|')[1].split(':')[1]
-    print("expiry_str : ", expiry_str)
-    #expiry_date = datetime.strptime(expiry_str, '%Y-%m-%d %H:%M:%S')
-    expiry_date = datetime.strptime(expiry_str, '%Y-%m-%d %H')
-    print("expiry_date : ", expiry_date)
-
-
-
-    # Check if the expiry date is in the future
-    return expiry_date > datetime.now()
-
-
-
-def verify_license(signature, license_info):
-    # Load the public key
-    publicdir = "../../public.pem"
-    with open(publicdir, "rb") as key_file:
-        public_key = serialization.load_pem_public_key(
-            key_file.read(),
-            backend=default_backend()
-        )
-
-    try:
-        # Verify the signature
-        public_key.verify(
-            signature,
-            license_info,
-            padding.PSS(
-                mgf=padding.MGF1(hashes.SHA256()),
-                salt_length=padding.PSS.MAX_LENGTH
-            ),
-            hashes.SHA256()
-        )
-        # If verification succeeds, the license is valid
-        return True
-    except Exception as e:
-        # If verification fails, the license is invalid or tampered with
-        print("License verification failed:", e)
-        return False
 
 
 #log-in 
@@ -122,10 +40,19 @@ def attempt_login(driver, username, password):
     time.sleep(1)
 
     try:
-
+        # WebDriverWait(driver, 1).until(
+        #     EC.element_to_be_clickable((By.ID, username_field_id))
+        # )
+        
+        # EC.element_to_be_clickable(By.ID, username_field_id)
+        
         username_field = driver.find_element(By.ID, username_field_id)
         username_field.send_keys(username)
 
+        # WebDriverWait(driver, 1).until(
+        #     EC.element_to_be_clickable((By.ID, password_field_id))
+        # )
+        # EC.element_to_be_clickable(By.ID, password_field_id)
         password_field = driver.find_element(By.ID, password_field_id)
         password_field.send_keys(password)
 
@@ -241,8 +168,6 @@ project_name_mapping = {
     "fttran": "ft_transcendence"
 }
 
-
-
 def attempt_project_name(project_name):
     
     mapped_name = project_name_mapping.get(project_name, project_name)
@@ -253,6 +178,11 @@ def attempt_project_name(project_name):
     else:
         print("Invalid project name. Please check above project list.")
         return False
+
+
+
+
+
 
 
 #Select time 
@@ -270,6 +200,7 @@ def attempt_time(start_time, end_time):
     else:
         print("Invalid time format. Please use HH:MM format.")
         return False
+
 
 
 # Function to convert 12-hour format time to 24-hour format
@@ -291,45 +222,54 @@ def is_time_within_range(time_str, start_time, end_time):
 
 
 def main():
-    # Generate the license
-    license_info, signature = generate_license()
-
-    # Provide `license_info` and `signature` back to the user
-    print("License Info:", license_info)
-    print("Signature:", signature)
-
-   
     
 
-    if verify_license(signature, license_info):
-        print("License is valid. Allow the software to run.")
-    else:
-        print("License is invalid or tampered with. Do not allow the software to run.")
-        try:
-            driver.quit()
-        except NameError:
-            pass  # Ignore if the driver is not defined
-        sys.exit(1)
     
+    # if (len(sys.argv) != 2):
+        
+    #     # if (len(sys.argv) == 3):
+    #     #     print("--headless")
 
-    # license_info, _ = generate_license()
-    if is_license_valid(license_info):
-        print("License is valid.")
-    else:
-        print("License has expired.")
-        try:
-            driver.quit()
-        except NameError:
-            pass  # Ignore if the driver is not defined
-        sys.exit(1)
+    #     # else:
+        
+    #     print("Usage: hongbooking19 <password>")
+    #     try:
+    #         driver.quit()
+    #     except NameError:
+    #         pass  # Ignore if the driver is not defined
+    #     sys.exit(1)  # Terminate the program with a non-zero exit code
+    
+    # Define the correct password
+    # correct_password = "1234"
 
-    print("Access granted. Running the program...")
+    # entered_password = sys.argv[1]
 
+    # print("Welcome to Hongbooking(my name is Hongbaekim)!")
+
+
+    # if entered_password != correct_password:
+    #     print("Incorrect password. Access denied.")
+    #     return
+
+    # If the correct password is entered, continue with your program logic
+    # print("Access granted. Running the program...")
+
+    #driver = webdriver.Chrome(ChromeDriverManager().install())
+    # uc.Chrome(version_main=124)
+    
     options = uc.ChromeOptions()
     localhost_number = random.randint(65536, 65999)
-    options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
-    #options.add_argument("--headless")
+    options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")    
     driver = uc.Chrome(options=options)
+    #driver = Driver(uc=True, incognito=True)
+    
+    # options.add_argument("--headless")
+
+
+
+    #driver = Driver(uc=True, headless=True)
+
+    
 
     print("Let's book an evaluation slot automatically")
 
