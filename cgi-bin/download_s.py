@@ -7,7 +7,7 @@ import ssl
 class DownloadRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         # Specify the file you want to serve
-        filepath = 'downloadfiles/hongbooking19_student'
+        filepath = '/home/ubuntu/2booking/cgi-bin/downloadfiles/hongbooking19_student'
         filename = os.path.basename(filepath)
         
         # Check if file exists
@@ -43,4 +43,4 @@ if __name__ == "__main__":
     httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
     print("Server started on localhost port 5000 (HTTPS)...")
     httpd.serve_forever()
-    
+
