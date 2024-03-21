@@ -1,10 +1,13 @@
 from flask import Flask, render_template, jsonify, session, send_from_directory, request
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import hashlib
 import random
 import string
-import time
+
+
 from apscheduler.schedulers.background import BackgroundScheduler
+import os
+import pytz
 
 app = Flask(__name__)
 app.secret_key = 'bQHbgRtIv5PtkwRgMMwVQd4JzFeDFJqempwh48dUqHObo'
@@ -50,6 +53,9 @@ def get_password():
 # Directory where your files are located
 directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
 
+# Timezone object for UTC
+utc_timezone = pytz.utc
+
 @app.route('/download_student')
 def download_file():
     # Check if the IP address is already in the session
@@ -57,19 +63,19 @@ def download_file():
     if 'downloads' not in session:
         session['downloads'] = {}
     if ip_address not in session['downloads']:
-        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now()}
+        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(tz=utc_timezone)}
 
     # Check if the user has exceeded the download limit
     limit_per_hour = 5
-    time_difference = datetime.now() - session['downloads'][ip_address]['last_download']
+    time_difference = datetime.now(tz=utc_timezone) - session['downloads'][ip_address]['last_download']
     if time_difference.total_seconds() > 3600:
-        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now()}
+        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(tz=utc_timezone)}
     if session['downloads'][ip_address]['count'] >= limit_per_hour:
         return "You have reached the maximum download limit for this hour."
 
     # Increment the download count and update last download time
     session['downloads'][ip_address]['count'] += 1
-    session['downloads'][ip_address]['last_download'] = datetime.now()
+    session['downloads'][ip_address]['last_download'] = datetime.now(tz=utc_timezone)
 
     # Specify the filename you want to download
     filename = 'hongbooking19_student'
@@ -83,19 +89,19 @@ def download_piscine():
     if 'downloads' not in session:
         session['downloads'] = {}
     if ip_address not in session['downloads']:
-        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now()}
+        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(tz=utc_timezone)}
 
     # Check if the user has exceeded the download limit
     limit_per_hour = 5
-    time_difference = datetime.now() - session['downloads'][ip_address]['last_download']
+    time_difference = datetime.now(tz=utc_timezone) - session['downloads'][ip_address]['last_download']
     if time_difference.total_seconds() > 3600:
-        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now()}
+        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(tz=utc_timezone)}
     if session['downloads'][ip_address]['count'] >= limit_per_hour:
         return "You have reached the maximum download limit for this hour."
 
     # Increment the download count and update last download time
     session['downloads'][ip_address]['count'] += 1
-    session['downloads'][ip_address]['last_download'] = datetime.now()
+    session['downloads'][ip_address]['last_download'] = datetime.now(tz=utc_timezone)
 
     # Specify the filename you want to download
     filename = 'hongbooking19_piscine'
