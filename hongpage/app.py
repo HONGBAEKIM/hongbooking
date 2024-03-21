@@ -68,10 +68,10 @@ def download_file(filename):
     limit_per_hour = 5
     last_download_time = session['downloads'][ip_address]['last_download']
     print("last_download_time : ", last_download_time)
-    time_difference = datetime.now(tz=utc_timezone) - last_download_time
-    if time_difference.total_seconds() >= 3600:
-        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(tz=utc_timezone)}
-        print("Count reset for IP:", ip_address)
+    # time_difference = datetime.now(tz=utc_timezone) - last_download_time
+    # if time_difference.total_seconds() >= 3600:
+    #     session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(tz=utc_timezone)}
+    #     print("Count reset for IP:", ip_address)
     if session['downloads'][ip_address]['count'] >= limit_per_hour:
         print("Download limit reached for IP:", ip_address)
         return "You have reached the maximum download limit for this hour."
