@@ -88,6 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
 // Function to set a cookie
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
@@ -102,6 +104,9 @@ function checkCookie() {
     if (consent === "") {
         // Show cookie consent banner if consent cookie is not set
         document.getElementById("cookieConsent").style.display = "block";
+    } else {
+        // Hide cookie consent banner if consent cookie is set
+        document.getElementById("cookieConsent").style.display = "none";
     }
 }
 
@@ -132,4 +137,5 @@ function acceptCookies() {
 window.onload = function () {
     checkCookie();
 };
+
 
