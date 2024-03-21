@@ -63,7 +63,6 @@ def download_file(filename):
         session['downloads'] = {}
     if ip_address not in session['downloads']:
         session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(tz=utc_timezone)}
-
     # Check if the user has exceeded the download limit
     limit_per_hour = 5
     last_download_time = session['downloads'][ip_address]['last_download']
@@ -72,6 +71,8 @@ def download_file(filename):
     # if time_difference.total_seconds() >= 3600:
     #     session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(tz=utc_timezone)}
     #     print("Count reset for IP:", ip_address)
+    
+    
     if session['downloads'][ip_address]['count'] >= limit_per_hour:
         print("Download limit reached for IP:", ip_address)
         return "You have reached the maximum download limit for this hour."
@@ -84,8 +85,13 @@ def download_file(filename):
     session['downloads'][ip_address]['last_download'] = datetime.now(tz=utc_timezone)
 
     # Send the file for download
-    return send_from_directory(directory=directory, path=filename, as_attachment=True)
-
+    response = send_from_directory(directory=directory, path=filename, as_attachment=True)
+    
+    # If download is successful, update last download time
+    if response.status_code == 200:
+        session['downloads'][ip_address]['last_download'] = datetime.now(tz=utc_timezone)
+        print("!!Count +1 value :", session['downloads'][ip_address]['count'])
+    return response
 
 
 @app.route('/download_student')
