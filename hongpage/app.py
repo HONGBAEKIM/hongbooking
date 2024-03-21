@@ -57,23 +57,24 @@ directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
 
 
 
+from datetime import datetime, timezone
+
 def download_file(filename):
     # Check if the IP address is already in the session
     ip_address = request.remote_addr
     if 'downloads' not in session:
         session['downloads'] = {}
     if ip_address not in session['downloads']:
-        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now()}
+        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(timezone.utc)}
 
     # Check if the user has exceeded the download limit
     limit_per_hour = 5
-    last_download_time = session['downloads'][ip_address]['last_download'].replace(tzinfo=None)
-    current_time = datetime.now()
+    last_download_time = session['downloads'][ip_address]['last_download']
+    current_time = datetime.now(timezone.utc)
     time_difference_seconds = (current_time - last_download_time).total_seconds()
     print("Time difference in seconds:", time_difference_seconds)
     if time_difference_seconds >= 3600:
         session['downloads'][ip_address] = {'count': 0, 'last_download': current_time}
-        
         print("Count reset for IP:", ip_address)
     if session['downloads'][ip_address]['count'] >= limit_per_hour:
         print("Download limit reached for IP:", ip_address)
@@ -93,6 +94,7 @@ def download_file(filename):
         session['downloads'][ip_address]['last_download'] = current_time
         print("!!Count +1 value :", session['downloads'][ip_address]['count'])
     return response
+
 
 
 
