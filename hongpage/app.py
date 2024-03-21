@@ -61,7 +61,7 @@ def get_datetime_with_seconds(dt):
 
 
 def get_datetime_with_seconds(dt):
-    return dt.strftime("%Y-%m-%d %H:%M:") + str(dt.second) + dt.strftime(":%S+00:00")
+    return dt.strftime("%Y-%m-%d %H:%M:%S+00:00")
 
 def download_file(filename):
     # Check if the IP address is already in the session
