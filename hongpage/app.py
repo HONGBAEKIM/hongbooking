@@ -70,9 +70,10 @@ def download_file(filename):
     # Check if the user has exceeded the download limit
     limit_per_hour = 5
     last_download_time = session['downloads'][ip_address]['last_download']
-    print("last_download_time", last_download_time)
+    print("last_download_time:", last_download_time.strftime('%Y-%m-%d %H:%M:%S'))
     current_time = datetime.now(timezone.utc)
-    print("current_time", current_time)
+    print("current_time:", current_time.strftime('%Y-%m-%d %H:%M:%S'))
+    
     
     time_difference_seconds = (current_time - last_download_time).total_seconds()
     print("Time difference in seconds:", time_difference_seconds)
