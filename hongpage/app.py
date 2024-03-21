@@ -72,7 +72,7 @@ def download_file():
     session['downloads'][ip_address]['last_download'] = datetime.now()
 
     # Specify the filename you want to download
-    filename = 'hongbooking19_studente'
+    filename = 'hongbooking19_student'
     return send_from_directory(directory=directory, path=filename, as_attachment=True)
 
 
