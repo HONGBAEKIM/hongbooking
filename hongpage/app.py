@@ -54,10 +54,8 @@ def get_password():
 directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
 
 # Timezone object for UTC
-utc_timezone = pytz.utc
+#utc_timezone = pytz.utc
 
-def get_datetime_with_seconds(dt):
-    return dt.strftime("%Y-%m-%d %H:%M:") + str(dt.second) + dt.strftime(":%S+00:00")
 
 
 def get_datetime_with_seconds(dt):
@@ -69,7 +67,7 @@ def download_file(filename):
     if 'downloads' not in session:
         session['downloads'] = {}
     if ip_address not in session['downloads']:
-        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(tz=utc_timezone)}
+        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(timezone.utc)}
     
     # Check if the user has exceeded the download limit
     limit_per_hour = 5
@@ -84,14 +82,14 @@ def download_file(filename):
     # Increment the download count and update last download time
     session['downloads'][ip_address]['count'] += 1
     print("Count +1 value :", session['downloads'][ip_address]['count'])
-    session['downloads'][ip_address]['last_download'] = datetime.now(tz=utc_timezone)
+    session['downloads'][ip_address]['last_download'] = datetime.now(timezone.utc)
 
     # Send the file for download
     response = send_from_directory(directory=directory, path=filename, as_attachment=True)
     
     # If download is successful, update last download time
     if response.status_code == 200:
-        session['downloads'][ip_address]['last_download'] = datetime.now(tz=utc_timezone)
+        session['downloads'][ip_address]['last_download'] = datetime.now(timezone.utc)
         print("!!Count +1 value :", session['downloads'][ip_address]['count'])
     return response
 
