@@ -26,7 +26,7 @@ class DownloadRequestHandler(SimpleHTTPRequestHandler):
             self.wfile.write(b'Internal Server Error')
 
 if __name__ == "__main__":
-    server_address = ('localhost', 5000)
+    server_address = ('localhost', 8000)
     httpd = HTTPServer(server_address, DownloadRequestHandler)
 
     # Load SSL certificate and key
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
         # Start HTTPS server
         httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
-        print("Server started on localhost port 5000 (HTTPS)...")
+        print("Server started on localhost port 8000 (HTTPS)...")
         httpd.serve_forever()
     
     except Exception as e:
