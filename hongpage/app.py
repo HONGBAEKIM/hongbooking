@@ -64,14 +64,18 @@ def get_password():
 def download_student():
     directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
 
-    filename = 'hongbooking19_student'
-    return send_from_directory(directory=directory, path=filename, as_attachment=True)
+    #filename = 'hongbooking19_student'
+    #return send_from_directory(directory=directory, path=filename, as_attachment=True)
+    return send_from_directory(directory=directory, as_attachment=True)
+
 
 @app.route('/download_piscine')
 def download_piscine():
     directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles_piscine'
-    filename = 'hongbooking19_piscine'
-    return send_from_directory(directory=directory, path=filename, as_attachment=True)
+    #filename = 'hongbooking19_piscine'
+    return send_from_directory(directory=directory, as_attachment=True)
+    
+    #return send_from_directory(directory=directory, path=filename, as_attachment=True)
 
 
 
