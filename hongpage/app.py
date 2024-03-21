@@ -76,9 +76,11 @@ def download_file(filename):
         print("Download limit reached for IP:", ip_address)
         return "You have reached the maximum download limit for this hour."
 
+
+    print("Count value before +1:", session['downloads'][ip_address]['count'])
     # Increment the download count and update last download time
     session['downloads'][ip_address]['count'] += 1
-    print("Count value :", session['downloads'][ip_address]['count'])
+    print("Count +1 value :", session['downloads'][ip_address]['count'])
     session['downloads'][ip_address]['last_download'] = datetime.now(tz=utc_timezone)
 
     # Send the file for download
