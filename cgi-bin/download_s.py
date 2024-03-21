@@ -26,7 +26,7 @@ class DownloadRequestHandler(SimpleHTTPRequestHandler):
             self.wfile.write(b'Internal Server Error')
 
 if __name__ == "__main__":
-    server_address = ('localhost', 8000)
+    server_address = ('localhost', 5000)
     httpd = HTTPServer(server_address, DownloadRequestHandler)
 
     # Load SSL certificate and key
