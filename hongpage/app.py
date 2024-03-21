@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, session, send_from_directory
+from flask import Flask, render_template, jsonify, session, send_from_directory, request
 from datetime import datetime, timedelta
 import hashlib
 import random
@@ -47,12 +47,58 @@ def get_password():
     return jsonify({'password': current_password})
 
 
-@app.route('/download')
+# Directory where your files are located
+directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
+
+@app.route('/download_student')
 def download_file():
-    # Specify the folder where your files are located
-    directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
+    # Check if the IP address is already in the session
+    ip_address = request.remote_addr
+    if 'downloads' not in session:
+        session['downloads'] = {}
+    if ip_address not in session['downloads']:
+        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now()}
+
+    # Check if the user has exceeded the download limit
+    limit_per_hour = 5
+    time_difference = datetime.now() - session['downloads'][ip_address]['last_download']
+    if time_difference.total_seconds() > 3600:
+        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now()}
+    if session['downloads'][ip_address]['count'] >= limit_per_hour:
+        return "You have reached the maximum download limit for this hour."
+
+    # Increment the download count and update last download time
+    session['downloads'][ip_address]['count'] += 1
+    session['downloads'][ip_address]['last_download'] = datetime.now()
+
     # Specify the filename you want to download
-    filename = 'hongbooking19_student'
+    filename = 'hongbooking19_studente'
+    return send_from_directory(directory=directory, path=filename, as_attachment=True)
+
+
+@app.route('/download_piscine')
+def download_piscine():
+    # Check if the IP address is already in the session
+    ip_address = request.remote_addr
+    if 'downloads' not in session:
+        session['downloads'] = {}
+    if ip_address not in session['downloads']:
+        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now()}
+
+    # Check if the user has exceeded the download limit
+    limit_per_hour = 5
+    time_difference = datetime.now() - session['downloads'][ip_address]['last_download']
+    if time_difference.total_seconds() > 3600:
+        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now()}
+    if session['downloads'][ip_address]['count'] >= limit_per_hour:
+        return "You have reached the maximum download limit for this hour."
+
+    # Increment the download count and update last download time
+    session['downloads'][ip_address]['count'] += 1
+    session['downloads'][ip_address]['last_download'] = datetime.now()
+
+    # Specify the filename you want to download
+    filename = 'hongbooking19_piscine'
     return send_from_directory(directory=directory, path=filename, as_attachment=True)
 
 
