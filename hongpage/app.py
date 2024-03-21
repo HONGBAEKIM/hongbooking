@@ -56,21 +56,20 @@ directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
 # Timezone object for UTC
 utc_timezone = pytz.utc
 
-@app.route('/download_student')
-def download_file():
+def download_file(filename):
     # Check if the IP address is already in the session
     ip_address = request.remote_addr
     if 'downloads' not in session:
         session['downloads'] = {}
     if ip_address not in session['downloads']:
         session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(tz=utc_timezone)}
-    else:
-        time_difference = datetime.now(tz=utc_timezone) - session['downloads'][ip_address]['last_download']
-        if time_difference.total_seconds() > 3600:
-            session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(tz=utc_timezone)}
 
     # Check if the user has exceeded the download limit
     limit_per_hour = 5
+    time_difference = datetime.now(tz=utc_timezone) - session['downloads'][ip_address]['last_download']
+    if time_difference.total_seconds() >= 3600:
+        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(tz=utc_timezone)}
+        print("count : ", session['downloads'][ip_address]['count'])
     if session['downloads'][ip_address]['count'] >= limit_per_hour:
         return "You have reached the maximum download limit for this hour."
 
@@ -78,38 +77,18 @@ def download_file():
     session['downloads'][ip_address]['count'] += 1
     session['downloads'][ip_address]['last_download'] = datetime.now(tz=utc_timezone)
 
-
-    # Specify the filename you want to download
-    filename = 'hongbooking19_student'
+    # Send the file for download
     return send_from_directory(directory=directory, path=filename, as_attachment=True)
 
+
+@app.route('/download_student')
+def download_student():
+    return download_file('hongbooking19_student')
 
 @app.route('/download_piscine')
 def download_piscine():
-    # Check if the IP address is already in the session
-    ip_address = request.remote_addr
-    if 'downloads' not in session:
-        session['downloads'] = {}
-    if ip_address not in session['downloads']:
-        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(tz=utc_timezone)}
-    else:
-        time_difference = datetime.now(tz=utc_timezone) - session['downloads'][ip_address]['last_download']
-        if time_difference.total_seconds() > 3600:
-            session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(tz=utc_timezone)}
+    return download_file('hongbooking19_piscine')
 
-    # Check if the user has exceeded the download limit
-    limit_per_hour = 5
-    if session['downloads'][ip_address]['count'] >= limit_per_hour:
-        return "You have reached the maximum download limit for this hour."
-
-    # Increment the download count and update last download time
-    session['downloads'][ip_address]['count'] += 1
-    session['downloads'][ip_address]['last_download'] = datetime.now(tz=utc_timezone)
-
-
-    # Specify the filename you want to download
-    filename = 'hongbooking19_piscine'
-    return send_from_directory(directory=directory, path=filename, as_attachment=True)
 
 
 if __name__ == "__main__":
