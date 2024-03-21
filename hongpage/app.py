@@ -67,7 +67,7 @@ def download_file(filename):
 
     # Check if the user has exceeded the download limit
     limit_per_hour = 5
-    last_download_time = session['downloads'][ip_address]['last_download']
+    last_download_time = session['downloads'][ip_address]['last_download'].replace(tzinfo=None)
     current_time = datetime.now()
     if (current_time - last_download_time).total_seconds() >= 3600:
         session['downloads'][ip_address] = {'count': 0, 'last_download': current_time}
@@ -90,6 +90,7 @@ def download_file(filename):
         session['downloads'][ip_address]['last_download'] = current_time
         print("!!Count +1 value :", session['downloads'][ip_address]['count'])
     return response
+
 
 
 
