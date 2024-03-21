@@ -51,38 +51,38 @@ def get_password():
 
 
 # Directory where your files are located
-directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
+# directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
 
 
 
-def download_file(filename):
-    # Check if the IP address is already in the session
-    ip_address = request.remote_addr
-    if 'downloads' not in session:
-        session['downloads'] = {}
-    if ip_address not in session['downloads']:
-        current_hour = datetime.now().hour
-        session['downloads'][ip_address] = {'count': 0, 'hour': current_hour}
+# def download_file(filename):
+#     # Check if the IP address is already in the session
+#     ip_address = request.remote_addr
+#     if 'downloads' not in session:
+#         session['downloads'] = {}
+#     if ip_address not in session['downloads']:
+#         current_hour = datetime.now().hour
+#         session['downloads'][ip_address] = {'count': 0, 'hour': current_hour}
 
-    # Check if the user has exceeded the download limit for the current hour
-    limit_per_hour = 5
-    current_hour = datetime.now().hour
-    if current_hour != session['downloads'][ip_address].get('hour', None):
-        # If the current hour is different from the hour stored in the session, reset the count
-        session['downloads'][ip_address]['count'] = 0
-        session['downloads'][ip_address]['hour'] = current_hour
-        print("Count reset for IP:", ip_address)
+#     # Check if the user has exceeded the download limit for the current hour
+#     limit_per_hour = 5
+#     current_hour = datetime.now().hour
+#     if current_hour != session['downloads'][ip_address].get('hour', None):
+#         # If the current hour is different from the hour stored in the session, reset the count
+#         session['downloads'][ip_address]['count'] = 0
+#         session['downloads'][ip_address]['hour'] = current_hour
+#         print("Count reset for IP:", ip_address)
 
-    if session['downloads'][ip_address]['count'] >= limit_per_hour:
-        print("Download limit reached for IP:", ip_address)
-        return "You have reached the maximum download limit for this hour."
+#     if session['downloads'][ip_address]['count'] >= limit_per_hour:
+#         print("Download limit reached for IP:", ip_address)
+#         return "You have reached the maximum download limit for this hour."
 
-    # Increment the download count
-    session['downloads'][ip_address]['count'] += 1
-    print("Count value:", session['downloads'][ip_address]['count'])
+#     # Increment the download count
+#     session['downloads'][ip_address]['count'] += 1
+#     print("Count value:", session['downloads'][ip_address]['count'])
 
-    # Send the file for download
-    return send_from_directory(directory=directory, path=filename, as_attachment=True)
+#     # Send the file for download
+#     return send_from_directory(directory=directory, path=filename, as_attachment=True)
 
 
 
