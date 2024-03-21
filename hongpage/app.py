@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, session
+from flask import Flask, render_template, jsonify, session, send_from_directory
 from datetime import datetime, timedelta
 import hashlib
 import random
@@ -45,6 +45,16 @@ def hongbooking():
 def get_password():
     global current_password
     return jsonify({'password': current_password})
+
+
+@app.route('/download')
+def download_file():
+    # Specify the folder where your files are located
+    directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
+    # Specify the filename you want to download
+    filename = 'hongbooking19_student'
+    return send_from_directory(directory=directory, path=filename, as_attachment=True)
+
 
 
 if __name__ == "__main__":
