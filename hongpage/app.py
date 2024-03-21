@@ -79,6 +79,7 @@ def download_file(filename):
     print("Time difference in seconds:", time_difference_seconds)
     if time_difference_seconds >= 3600:
         session['downloads'][ip_address] = {'count': 0, 'last_download': current_time}
+        last_download_time = current_time  # Update last_download_time here
         print("Count reset for IP:", ip_address)
     if session['downloads'][ip_address]['count'] >= limit_per_hour:
         print("Download limit reached for IP:", ip_address)
