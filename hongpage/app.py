@@ -57,48 +57,33 @@ directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
 
 
 
-from datetime import datetime, timezone
-
 def download_file(filename):
     # Check if the IP address is already in the session
     ip_address = request.remote_addr
     if 'downloads' not in session:
         session['downloads'] = {}
     if ip_address not in session['downloads']:
-        session['downloads'][ip_address] = {'count': 0, 'last_download': datetime.now(timezone.utc)}
+        session['downloads'][ip_address] = {'count': 0, 'hour': datetime.now().hour}
 
-    # Check if the user has exceeded the download limit
+    # Check if the user has exceeded the download limit for the current hour
     limit_per_hour = 5
-    last_download_time = session['downloads'][ip_address]['last_download']
-    print("last_download_time:", last_download_time.strftime('%Y-%m-%d %H:%M:%S'))
-    current_time = datetime.now(timezone.utc)
-    print("current_time:", current_time.strftime('%Y-%m-%d %H:%M:%S'))
-    
-    
-    time_difference_seconds = (current_time - last_download_time).total_seconds()
-    print("Time difference in seconds:", time_difference_seconds)
-    if time_difference_seconds >= 3600:
-        session['downloads'][ip_address] = {'count': 0, 'last_download': current_time}
-        last_download_time = current_time  # Update last_download_time here
+    current_hour = datetime.now().hour
+    if current_hour != session['downloads'][ip_address]['hour']:
+        # If the current hour is different from the hour stored in the session, reset the count
+        session['downloads'][ip_address]['count'] = 0
+        session['downloads'][ip_address]['hour'] = current_hour
         print("Count reset for IP:", ip_address)
+
     if session['downloads'][ip_address]['count'] >= limit_per_hour:
         print("Download limit reached for IP:", ip_address)
         return "You have reached the maximum download limit for this hour."
 
-    print("Count value before +1:", session['downloads'][ip_address]['count'])
-    
     # Increment the download count
     session['downloads'][ip_address]['count'] += 1
-    print("Count +1 value :", session['downloads'][ip_address]['count'])
+    print("Count value:", session['downloads'][ip_address]['count'])
 
     # Send the file for download
-    response = send_from_directory(directory=directory, path=filename, as_attachment=True)
-    
-    # If download is successful, update last download time
-    if response.status_code == 200:
-        session['downloads'][ip_address]['last_download'] = current_time
-        print("!!Count +1 value :", session['downloads'][ip_address]['count'])
-    return response
+    return send_from_directory(directory=directory, path=filename, as_attachment=True)
 
 
 
