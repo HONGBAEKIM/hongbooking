@@ -52,22 +52,26 @@ def get_password():
     return jsonify({'password': current_password})
 
 
-#Directory where your files are located
-directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
 
-def download_file(filename):
-    # Send the file for download
-    response = send_from_directory(directory=directory, path=filename, as_attachment=True)
-    return response
+
+# def download_file(filename):
+#     # Send the file for download
+#     response = send_from_directory(directory=directory, path=filename, as_attachment=True)
+#     return response
 
 
 @app.route('/download_student')
 def download_student():
-    return download_file('hongbooking19_student')
+    directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
+
+    filename = 'hongbooking19_student'
+    return send_from_directory(directory=directory, path=filename, as_attachment=True)
 
 @app.route('/download_piscine')
 def download_piscine():
-    return download_file('hongbooking19_piscine')
+    directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles_piscine'
+    filename = 'hongbooking19_piscine'
+    return send_from_directory(directory=directory, path=filename, as_attachment=True)
 
 
 
