@@ -43,7 +43,7 @@ def hongbooking():
     return render_template('hongbooking.html', password=current_password)
 
 @app.route('/imprint')
-def index():
+def imprint():
     return render_template('imprint.html')
 
 @app.route('/get_password')
