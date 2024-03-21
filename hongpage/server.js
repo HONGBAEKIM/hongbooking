@@ -95,3 +95,31 @@
 // server.listen(PORT, () => {
 //     console.log(`Server is listening on port ${PORT}`);
 // });
+
+
+
+//this is for counting how many people are in my website
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+
+let userCount = 0;
+
+io.on('connection', (socket) => {
+    userCount++; // Increment user count
+    io.emit('user count', { count: userCount }); // Update all clients
+
+    socket.on('disconnect', () => {
+        userCount--; // Decrement user count
+        io.emit('user count', { count: userCount }); // Update all clients
+    });
+});
+
+server.listen(3000, () => {
+    console.log('Server is running on port 3000');
+});
+

@@ -3,8 +3,6 @@ from datetime import datetime, timedelta, timezone
 import hashlib
 import random
 import string
-
-
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 import pytz
@@ -52,6 +50,10 @@ def get_password():
     return jsonify({'password': current_password})
 
 
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
+
 
 
 # def download_file(filename):
@@ -60,28 +62,26 @@ def get_password():
 #     return response
 
 
-@app.route('/download_student')
-def download_student():
-    directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
+# @app.route('/download_student')
+# def download_student():
+#     directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles'
 
-    filename = 'dist.zip'
-    return send_from_directory(directory=directory, path=filename, as_attachment=True)
-    #return send_from_directory(directory=directory, as_attachment=True)
+#     filename = 'dist.zip'
+#     return send_from_directory(directory=directory, path=filename, as_attachment=True)
+#     #return send_from_directory(directory=directory, as_attachment=True)
 
 
-@app.route('/download_piscine')
-def download_piscine():
+# @app.route('/download_piscine')
+# def download_piscine():
     
-    directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles_piscine'
+#     directory = '/home/ubuntu/2booking/cgi-bin/downloadfiles_piscine'
     
-    filename = 'dist.zip'
-    #return send_from_directory(directory=directory, as_attachment=True)
-    return send_from_directory(directory=directory, path=filename, as_attachment=True)
+#     filename = 'dist.zip'
+#     #return send_from_directory(directory=directory, as_attachment=True)
+#     return send_from_directory(directory=directory, path=filename, as_attachment=True)
 
 
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
 
 
 
