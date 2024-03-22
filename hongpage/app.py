@@ -70,16 +70,21 @@ def get_password():
 #     emit('update_active_users', {'active_users': active_users}, broadcast=True)
 
 
+
 @socketio.on('connect')
 def handle_connect():
-    # Increment user count and emit to clients
-    socketio.emit('user count', {'count': len(socketio.server.eio.clients)})
+    # Emit user count to clients when a new user connects
+    emit_user_count()
 
 @socketio.on('disconnect')
 def handle_disconnect():
-    # Decrement user count and emit to clients
-    socketio.emit('user count', {'count': len(socketio.server.eio.clients)})
+    # Emit user count to clients when a user disconnects
+    emit_user_count()
 
+def emit_user_count():
+    # Emit the current user count to all connected clients
+    user_count = len(socketio.eio.clients)
+    socketio.emit('user count', {'count': user_count}, broadcast=True)
 
 
 
