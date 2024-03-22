@@ -57,18 +57,28 @@ def get_password():
     return jsonify({'password': current_password})
 
 
+# @socketio.on('connect')
+# def handle_connect():
+#     global active_users
+#     active_users += 1
+#     emit('update_active_users', {'active_users': active_users}, broadcast=True)
+
+# @socketio.on('disconnect')
+# def handle_disconnect():
+#     global active_users
+#     active_users -= 1
+#     emit('update_active_users', {'active_users': active_users}, broadcast=True)
+
+
 @socketio.on('connect')
 def handle_connect():
-    global active_users
-    active_users += 1
-    emit('update_active_users', {'active_users': active_users}, broadcast=True)
+    # Increment user count and emit to clients
+    socketio.emit('user count', {'count': len(socketio.server.eio.clients)})
 
 @socketio.on('disconnect')
 def handle_disconnect():
-    global active_users
-    active_users -= 1
-    emit('update_active_users', {'active_users': active_users}, broadcast=True)
-
+    # Decrement user count and emit to clients
+    socketio.emit('user count', {'count': len(socketio.server.eio.clients)})
 
 
 
