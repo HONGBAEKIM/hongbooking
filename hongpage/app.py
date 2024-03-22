@@ -6,8 +6,15 @@ import string
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 import pytz
+from flask_socketio import SocketIO, emit
+
 
 app = Flask(__name__)
+socketio = SocketIO(app)
+
+# Variable to keep track of the number of active users
+active_users = 0
+
 app.secret_key = 'bQHbgRtIv5PtkwRgMMwVQd4JzFeDFJqempwh48dUqHObo'
 
 current_password = None
@@ -28,7 +35,7 @@ scheduler.start()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', active_users=active_users)
 
 @app.route('/hongbooking')
 def hongbooking():
@@ -38,11 +45,11 @@ def hongbooking():
         print("Initial password generated:", current_password)
     else:
         print("Password found:", current_password)
-    return render_template('hongbooking.html', password=current_password)
+    return render_template('hongbooking.html', password=current_password, active_users=active_users)
 
 @app.route('/imprint')
 def imprint():
-    return render_template('imprint.html')
+    return render_template('imprint.html', active_users=active_users)
 
 @app.route('/get_password')
 def get_password():
@@ -50,8 +57,26 @@ def get_password():
     return jsonify({'password': current_password})
 
 
+@socketio.on('connect')
+def handle_connect():
+    global active_users
+    active_users += 1
+    emit('update_active_users', {'active_users': active_users}, broadcast=True)
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    global active_users
+    active_users -= 1
+    emit('update_active_users', {'active_users': active_users}, broadcast=True)
+
+
+
+
+
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    #app.run(host='0.0.0.0', port=5000, debug=True)
+    #socketio.run(app)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
 
 
 

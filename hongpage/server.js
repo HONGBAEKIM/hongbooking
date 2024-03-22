@@ -99,29 +99,29 @@
 
 
 //this is for counting how many people are in my website
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
+// const express = require('express');
+// const http = require('http');
+// const socketIo = require('socket.io');
 
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
+// const app = express();
+// const server = http.createServer(app);
+// const io = socketIo(server);
 
-let userCount = 0;
+// let userCount = 0;
 
-io.on('connection', (socket) => {
-    userCount++; // Increment user count
-    io.emit('user count', { count: userCount }); // Update all clients
+// io.on('connection', (socket) => {
+//     userCount++; // Increment user count
+//     io.emit('user count', { count: userCount }); // Update all clients
 
-    socket.on('disconnect', () => {
-        userCount--; // Decrement user count
-        io.emit('user count', { count: userCount }); // Update all clients
-    });
-});
+//     socket.on('disconnect', () => {
+//         userCount--; // Decrement user count
+//         io.emit('user count', { count: userCount }); // Update all clients
+//     });
+// });
 
-// Serve your static files (HTML, CSS, etc.)
-app.use(express.static('/var/www/html/static'));  
+// // Serve your static files (HTML, CSS, etc.)
+// app.use(express.static('/var/www/html/static'));  
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// const PORT = process.env.PORT || 3000;
+// server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
