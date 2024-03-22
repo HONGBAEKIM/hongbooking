@@ -10,10 +10,10 @@ from flask_socketio import SocketIO, emit
 
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+#socketio = SocketIO(app)
 
 # Variable to keep track of the number of active users
-active_users = 0
+#active_users = 0
 
 app.secret_key = 'bQHbgRtIv5PtkwRgMMwVQd4JzFeDFJqempwh48dUqHObo'
 
@@ -69,28 +69,28 @@ def get_password():
 #     active_users -= 1
 #     emit('update_active_users', {'active_users': active_users}, broadcast=True)
 
-@socketio.on('connect')
-def handle_connect():
-    # Emit the current user count to clients whenever a new client connects
-    emit_user_count()
+# @socketio.on('connect')
+# def handle_connect():
+#     # Emit the current user count to clients whenever a new client connects
+#     emit_user_count()
 
-@socketio.on('disconnect')
-def handle_disconnect():
-    # Emit the updated user count to clients whenever a client disconnects
-    emit_user_count()
+# @socketio.on('disconnect')
+# def handle_disconnect():
+#     # Emit the updated user count to clients whenever a client disconnects
+#     emit_user_count()
 
-def emit_user_count():
-    # Emit the user count to all connected clients
-    user_count = len(socketio.server.eio.clients)
-    socketio.emit('user count', {'count': user_count}, broadcast=True)
+# def emit_user_count():
+#     # Emit the user count to all connected clients
+#     user_count = len(socketio.server.eio.clients)
+#     socketio.emit('user count', {'count': user_count}, broadcast=True)
 
 
 
 
 if __name__ == "__main__":
-    #app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
     #socketio.run(app)
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+    #socketio.run(app, host='0.0.0.0', port=5000, debug=True)
 
 
 

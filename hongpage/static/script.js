@@ -137,11 +137,11 @@
 
 
 
-// Connect to the server using Socket.IO
-var socket = io();
+// // Connect to the server using Socket.IO
+// var socket = io();
 
-// Listen for the 'user count' event from the server
-socket.on('user count', function(data) {
-    // Update the user count display with the count received from the server
-    document.getElementById('usersOnline').textContent = data.count;
-});
+// // Listen for the 'user count' event from the server
+// socket.on('user count', function(data) {
+//     // Update the user count display with the count received from the server
+//     document.getElementById('usersOnline').textContent = data.count;
+// });
