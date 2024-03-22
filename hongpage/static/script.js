@@ -67,7 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to update the UI with the attempt count
     function updateUI(attempt) {
         var progressDiv = document.getElementById('progress');
-        progressDiv.innerHTML = '<p>' + attempt + ' / 3</p>';
+        if (progressDiv) {
+            progressDiv.innerHTML = '<p>' + attempt + ' / 3</p>';
+        }
     }
 
     // Listen for the attempt_count event from the server
@@ -84,54 +86,63 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(function() {
         console.log('Printing every 3 seconds');
     }, 3000); // 3000 milliseconds = 3 seconds
+
+    // Call checkCookie after the DOM has fully loaded
+    checkCookie();
+
+    // Function to set a cookie
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    // Function to check if the user has accepted cookies
+    function checkCookie() {
+        var consent = getCookie("cookieConsent");
+        if (consent === "") {
+            // Show cookie consent banner if consent cookie is not set
+            var cookieConsentDiv = document.getElementById("cookieConsent");
+            if (cookieConsentDiv) {
+                cookieConsentDiv.style.display = "block";
+            }
+        } else {
+            // Hide cookie consent banner if consent cookie is set
+            var cookieConsentDiv = document.getElementById("cookieConsent");
+            if (cookieConsentDiv) {
+                cookieConsentDiv.style.display = "none";
+            }
+        }
+    }
+
+    // Function to get a cookie by name
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    // Function to accept cookies and hide the cookie consent banner
+    function acceptCookies() {
+        setCookie("cookieConsent", "accepted", 365); // Cookie expires in 365 days
+        var cookieConsentDiv = document.getElementById("cookieConsent");
+        if (cookieConsentDiv) {
+            cookieConsentDiv.style.display = "none";
+        }
+    }
 });
 
-
-
-
-
-// Function to set a cookie
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-// Function to check if the user has accepted cookies
-function checkCookie() {
-    var consent = getCookie("cookieConsent");
-    if (consent === "") {
-        // Show cookie consent banner if consent cookie is not set
-        document.getElementById("cookieConsent").style.display = "block";
-    } else {
-        // Hide cookie consent banner if consent cookie is set
-        document.getElementById("cookieConsent").style.display = "none";
-    }
-}
-
-// Function to get a cookie by name
-function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) === ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
-// Function to accept cookies and hide the cookie consent banner
-function acceptCookies() {
-    setCookie("cookieConsent", "accepted", 365); // Cookie expires in 365 days
-    document.getElementById("cookieConsent").style.display = "none";
-}
 
 // Check cookie consent when the page loads
 window.onload = function () {
