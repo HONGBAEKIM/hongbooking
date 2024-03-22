@@ -70,16 +70,6 @@ def get_password():
 #     emit('update_active_users', {'active_users': active_users}, broadcast=True)
 
 
-@socketio.on('connect')
-def handle_connect():
-    # Increment user count and emit to clients
-    socketio.emit('user count', {'count': len(socketio.server.eio.clients)})
-
-@socketio.on('disconnect')
-def handle_disconnect():
-    # Decrement user count and emit to clients
-    socketio.emit('user count', {'count': len(socketio.server.eio.clients)})
-
 
 
 
@@ -116,6 +106,14 @@ if __name__ == "__main__":
 #     return send_from_directory(directory=directory, path=filename, as_attachment=True)
 
 
+
+
+
+
+
+
+
+
 # def download_file(filename):
 #     # Check if the IP address is already in the session
 #     ip_address = request.remote_addr
@@ -144,6 +142,9 @@ if __name__ == "__main__":
 
 #     # Send the file for download
 #     return send_from_directory(directory=directory, path=filename, as_attachment=True)
+
+
+
 
 #def download_file(filename):
     # Check if the IP address is already in the session
