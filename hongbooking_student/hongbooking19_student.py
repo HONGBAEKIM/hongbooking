@@ -406,18 +406,19 @@ def main():
 
                 for slot in available_slots_today:
 
-                    # WebDriverWait(driver, 1).until(EC.element_to_be_clickable(slot))
+                    WebDriverWait(driver, 1).until(EC.element_to_be_clickable(slot))
                     
-                    EC.element_to_be_clickable(slot)
+                    #EC.element_to_be_clickable(slot)
 
                     slot.click()
                     print("Clicked on an available slot.")
                     slot_clicked = True
                     
-                    #time.sleep(1)
+                    
                     # Find the "OK" button. Adjust the selector as per your page's structure
                     try:
                         nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
+                        WebDriverWait(driver, 1).until(EC.element_to_be_clickable(nextok))
                         if nextok.text == "OK":
                             
                             
