@@ -6,7 +6,7 @@ import string
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 import pytz
-from flask_socketio import SocketIO, emit
+#from flask_socketio import SocketIO, emit
 
 
 app = Flask(__name__)
