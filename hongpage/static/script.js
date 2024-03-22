@@ -61,79 +61,79 @@
 // });
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize the SocketIO connection
-    var socket = io();
+// document.addEventListener('DOMContentLoaded', function() {
+//     // Initialize the SocketIO connection
+//     var socket = io();
 
-    // Function to update the UI with the attempt count
-    function updateUI(attempt) {
-        var progressDiv = document.getElementById('progress');
-        progressDiv.innerHTML = '<p>' + attempt + ' / 3</p>';
-    }
+//     // Function to update the UI with the attempt count
+//     function updateUI(attempt) {
+//         var progressDiv = document.getElementById('progress');
+//         progressDiv.innerHTML = '<p>' + attempt + ' / 3</p>';
+//     }
 
-    // Listen for the attempt_count event from the server
-    socket.on('attempt_count', function(data) {
-        console.log('Attempt count:', data.attempt);
-        // Update the UI with the received attempt count
-        updateUI(data.attempt);
-    });
+//     // Listen for the attempt_count event from the server
+//     socket.on('attempt_count', function(data) {
+//         console.log('Attempt count:', data.attempt);
+//         // Update the UI with the received attempt count
+//         updateUI(data.attempt);
+//     });
 
-    // Request the initial attempt count from the server upon page load
-    socket.emit('request_attempt_count');
+//     // Request the initial attempt count from the server upon page load
+//     socket.emit('request_attempt_count');
 
-    // Print out every 3 seconds
-    setInterval(function() {
-        console.log('Printing every 3 seconds');
-    }, 3000); // 3000 milliseconds = 3 seconds
+//     // Print out every 3 seconds
+//     setInterval(function() {
+//         console.log('Printing every 3 seconds');
+//     }, 3000); // 3000 milliseconds = 3 seconds
     
-    // Function to set a cookie
-    function setCookie(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-    }
+//     // Function to set a cookie
+//     function setCookie(cname, cvalue, exdays) {
+//         var d = new Date();
+//         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+//         var expires = "expires=" + d.toUTCString();
+//         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+//     }
 
-    // Function to check if the user has accepted cookies
-    function checkCookie() {
-        var consent = getCookie("cookieConsent");
-        if (consent === "") {
-            // Show cookie consent banner if consent cookie is not set
-            document.getElementById("cookieConsent").style.display = "block";
-        } else {
-            // Hide cookie consent banner if consent cookie is set
-            document.getElementById("cookieConsent").style.display = "none";
-        }
-    }
+//     // Function to check if the user has accepted cookies
+//     function checkCookie() {
+//         var consent = getCookie("cookieConsent");
+//         if (consent === "") {
+//             // Show cookie consent banner if consent cookie is not set
+//             document.getElementById("cookieConsent").style.display = "block";
+//         } else {
+//             // Hide cookie consent banner if consent cookie is set
+//             document.getElementById("cookieConsent").style.display = "none";
+//         }
+//     }
 
-    // Function to get a cookie by name
-    function getCookie(cname) {
-        var name = cname + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) === ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) === 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
+//     // Function to get a cookie by name
+//     function getCookie(cname) {
+//         var name = cname + "=";
+//         var decodedCookie = decodeURIComponent(document.cookie);
+//         var ca = decodedCookie.split(';');
+//         for (var i = 0; i < ca.length; i++) {
+//             var c = ca[i];
+//             while (c.charAt(0) === ' ') {
+//                 c = c.substring(1);
+//             }
+//             if (c.indexOf(name) === 0) {
+//                 return c.substring(name.length, c.length);
+//             }
+//         }
+//         return "";
+//     }
 
-    // Function to accept cookies and hide the cookie consent banner
-    function acceptCookies() {
-        setCookie("cookieConsent", "accepted", 365); // Cookie expires in 365 days
-        document.getElementById("cookieConsent").style.display = "none";
-    }
+//     // Function to accept cookies and hide the cookie consent banner
+//     function acceptCookies() {
+//         setCookie("cookieConsent", "accepted", 365); // Cookie expires in 365 days
+//         document.getElementById("cookieConsent").style.display = "none";
+//     }
 
-    // Check cookie consent when the page loads
-    window.onload = function () {
-        checkCookie();
-    };
-});
+//     // Check cookie consent when the page loads
+//     window.onload = function () {
+//         checkCookie();
+//     };
+// });
 
 
 
