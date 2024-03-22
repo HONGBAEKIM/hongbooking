@@ -35,7 +35,7 @@ scheduler.start()
 
 @app.route('/')
 def index():
-    return render_template('index.html', active_users=active_users)
+    return render_template('index.html')
 
 @app.route('/hongbooking')
 def hongbooking():
@@ -45,11 +45,11 @@ def hongbooking():
         print("Initial password generated:", current_password)
     else:
         print("Password found:", current_password)
-    return render_template('hongbooking.html', password=current_password, active_users=active_users)
+    return render_template('hongbooking.html', password=current_password)
 
 @app.route('/imprint')
 def imprint():
-    return render_template('imprint.html', active_users=active_users)
+    return render_template('imprint.html')
 
 @app.route('/get_password')
 def get_password():
