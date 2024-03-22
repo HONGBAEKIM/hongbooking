@@ -60,6 +60,7 @@
 //     });
 // });
 
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize the SocketIO connection
     var socket = io();
@@ -67,9 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to update the UI with the attempt count
     function updateUI(attempt) {
         var progressDiv = document.getElementById('progress');
-        if (progressDiv) {
-            progressDiv.innerHTML = '<p>' + attempt + ' / 3</p>';
-        }
+        progressDiv.innerHTML = '<p>' + attempt + ' / 3</p>';
     }
 
     // Listen for the attempt_count event from the server
@@ -86,10 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(function() {
         console.log('Printing every 3 seconds');
     }, 3000); // 3000 milliseconds = 3 seconds
-
-    // Call checkCookie after the DOM has fully loaded
-    checkCookie();
-
+    
     // Function to set a cookie
     function setCookie(cname, cvalue, exdays) {
         var d = new Date();
@@ -103,16 +99,10 @@ document.addEventListener('DOMContentLoaded', function() {
         var consent = getCookie("cookieConsent");
         if (consent === "") {
             // Show cookie consent banner if consent cookie is not set
-            var cookieConsentDiv = document.getElementById("cookieConsent");
-            if (cookieConsentDiv) {
-                cookieConsentDiv.style.display = "block";
-            }
+            document.getElementById("cookieConsent").style.display = "block";
         } else {
             // Hide cookie consent banner if consent cookie is set
-            var cookieConsentDiv = document.getElementById("cookieConsent");
-            if (cookieConsentDiv) {
-                cookieConsentDiv.style.display = "none";
-            }
+            document.getElementById("cookieConsent").style.display = "none";
         }
     }
 
@@ -136,17 +126,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to accept cookies and hide the cookie consent banner
     function acceptCookies() {
         setCookie("cookieConsent", "accepted", 365); // Cookie expires in 365 days
-        var cookieConsentDiv = document.getElementById("cookieConsent");
-        if (cookieConsentDiv) {
-            cookieConsentDiv.style.display = "none";
-        }
+        document.getElementById("cookieConsent").style.display = "none";
     }
+
+    // Check cookie consent when the page loads
+    window.onload = function () {
+        checkCookie();
+    };
 });
 
-
-// Check cookie consent when the page loads
-window.onload = function () {
-    checkCookie();
-};
 
 
