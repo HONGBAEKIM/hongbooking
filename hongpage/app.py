@@ -116,14 +116,6 @@ if __name__ == "__main__":
 #     return send_from_directory(directory=directory, path=filename, as_attachment=True)
 
 
-
-
-
-
-
-
-
-
 # def download_file(filename):
 #     # Check if the IP address is already in the session
 #     ip_address = request.remote_addr
@@ -152,9 +144,6 @@ if __name__ == "__main__":
 
 #     # Send the file for download
 #     return send_from_directory(directory=directory, path=filename, as_attachment=True)
-
-
-
 
 #def download_file(filename):
     # Check if the IP address is already in the session

@@ -139,15 +139,3 @@ window.onload = function () {
 };
 
 
-
-
-
-
-// this is for updating how many people are now in my webpage
-var socket = io(); // Connects to the server
-
-socket.on('user count', function(data) {
-    document.getElementById('usersOnline').textContent = data.count;
-});
-
-
