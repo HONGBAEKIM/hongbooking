@@ -133,15 +133,17 @@ footer {
 }
 
 
+
 .link-container {
     display: flex;
-    justify-content: start; /* Adjust this as needed */
-    align-items: center;
 }
 
-.link-container h4 {
-    margin-right: 20px; /* Adjust the spacing between the links */
+.link-container a h4 {
+    margin-right: 20px; /* Space between the links */
+    display: inline; /* Makes h4 inline, but you might not need this due to flexbox */
 }
+
+
 
 
 
