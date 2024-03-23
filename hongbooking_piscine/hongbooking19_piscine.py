@@ -306,7 +306,7 @@ def main():
     time_min_is_60 = 60
     ###################################################
     #################################################
-    time_for_min = 20 #30min
+    time_for_min = 20 #20min
     #################################################
     ###################################################
     setting_time = time_for_min * time_min_is_60 
@@ -332,7 +332,7 @@ def main():
         try:
         
             attempts += 1
-            print(f"{attempts}")
+            print(f"{attempts}, booking attempt")
             time.sleep(1)
 
             try:         
@@ -342,7 +342,7 @@ def main():
                 slots = driver.find_elements(By.XPATH, xpath)
                 if (len(slots) == 0):
                     driver.refresh()
-                print("Every 30 min, new password will be regenerated")
+                print("Every 20 min, new password will be regenerated")
                 print("New password is here")
                 print("www.hongpage.com/hongbooking")
 
@@ -353,7 +353,6 @@ def main():
                     #print("21 : time_str:", time_str, "Type:", type(time_str))
 
                     if is_time_within_range(convert_to_24hr_format(time_str), desired_start_time, desired_end_time):
-                        #print("30 : check time range")
                         available_slots_today.append(slot)
 
                 if not available_slots_today:

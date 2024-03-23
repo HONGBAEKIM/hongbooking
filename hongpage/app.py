@@ -29,7 +29,7 @@ def update_password():
     print("New password generated:", current_password)
 
 scheduler = BackgroundScheduler(daemon=True)
-scheduler.add_job(update_password, 'interval', minutes=30)
+scheduler.add_job(update_password, 'interval', minutes=20)
 scheduler.start()
 
 
