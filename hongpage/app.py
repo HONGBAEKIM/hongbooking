@@ -53,7 +53,7 @@ def imprint():
 
 
 @app.route('/privacypolicy')
-def imprint():
+def privacypolicy():
     return render_template('privacypolicy.html')
 
 
