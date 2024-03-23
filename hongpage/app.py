@@ -51,6 +51,12 @@ def hongbooking():
 def imprint():
     return render_template('imprint.html')
 
+
+@app.route('/privacypolicy')
+def imprint():
+    return render_template('privacypolicy.html')
+
+
 @app.route('/get_password')
 def get_password():
     global current_password

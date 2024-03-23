@@ -132,6 +132,19 @@ footer {
     background-color: #45a049;
 }
 
+
+.link-container {
+    display: flex;
+    justify-content: start; /* Adjust this as needed */
+    align-items: center;
+}
+
+.link-container h4 {
+    margin-right: 20px; /* Adjust the spacing between the links */
+}
+
+
+
 /* Cookie Consent */
 .cookie-consent {
     position: fixed;
@@ -156,3 +169,4 @@ footer {
 .cookie-consent p {
     margin: 0;
 }
+
