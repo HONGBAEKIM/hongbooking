@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+
 #program runs with argv[1] password
 #ex)
 #hongbooking19 *****
