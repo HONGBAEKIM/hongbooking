@@ -7,6 +7,9 @@
 
 
 
+#from PyQt5 import QtWidgets
+#from PyQt5.QtWidgets import QApplication, QMainWindow
+
 
 import sys
 import getpass
@@ -23,17 +26,20 @@ from datetime import datetime
 #import undetected_chromedriver as uc 
 
 from seleniumbase import Driver
-
-
 import time
 import random
-
-
 from pyotp import TOTP
-
-
-
 import requests
+
+
+def window():
+    app = QApplication(sys.argv)
+    win = QMainWindow()
+    win.setGeometry(200, 200, 300, 300)
+    win.setWindowTitle("Hongbooking")
+
+    win.show()
+    sys.exit(app.exec_())
 
 
 #log-in 
@@ -233,7 +239,8 @@ def get_current_password():
 
 def main():
 
- 
+    #window()
+
 
     #Define the correct password
     correct_password = get_current_password()
@@ -248,7 +255,7 @@ def main():
         return
 
 
-    # If the correct password is entered, continue with your program logic
+# If the correct password is entered, continue with your program logic
     print("Access granted. Running the program...")
 
 
