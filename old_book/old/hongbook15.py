@@ -16,29 +16,29 @@
 
 
 # 1.Imports
-#import subprocess
-#import pkg_resources #to check for installed package
-#import sys  # Import the sys module
+import subprocess
+import pkg_resources #to check for installed package
+import sys  # Import the sys module
 
 
-# def install(library_name):
-#     subprocess.check_call([sys.executable, "-m", "pip", "install", library_name])
+def install(library_name):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", library_name])
 
-# def is_library_installed(library_name):
-#     try:
-#         pkg_resources.get_distribution(library_name)
-#         return True
-#     except pkg_resources.DistributionNotFound:
-#         return False
+def is_library_installed(library_name):
+    try:
+        pkg_resources.get_distribution(library_name)
+        return True
+    except pkg_resources.DistributionNotFound:
+        return False
 
-# library_name = "selenium"
+library_name = "selenium"
 
-# if is_library_installed(library_name):
-#     print(f"{library_name} is already installed.")
-# else:
-#     print(f"{library_name} is not installed. Installing now...")
-#     install(library_name)
-#     print(f"{library_name} installed successfully.")
+if is_library_installed(library_name):
+    print(f"{library_name} is already installed.")
+else:
+    print(f"{library_name} is not installed. Installing now...")
+    install(library_name)
+    print(f"{library_name} installed successfully.")
 
 
 
@@ -68,14 +68,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from datetime import datetime
-import undetected_chromedriver as uc 
 import time
 import random
-
-
-from pyotp import TOTP
-
-
 
 
 
@@ -83,20 +77,18 @@ from pyotp import TOTP
 #This line creates a ChromeOptions object, 
 #which allows you to set various options for the Chrome driver.
 #options = webdriver.ChromeOptions()
-options = uc.ChromeOptions()
-# chrome_options = Options()
+chrome_options = Options()
 
 localhost_number = random.randint(65536, 65999)
-# chrome_options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
-options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
+chrome_options.add_experimental_option("debuggerAddress", f"localhost:{localhost_number}")
 
 #This option runs Chrome in headless mode, 
 #it will not display a UI or open a browser window.
 ########################################################################
-options.add_argument("--headless")  # Run in headless mode, without a UI.
+#options.add_argument("--headless")  # Run in headless mode, without a UI.
 ########################################################################
-driver = uc.Chrome(options=options)
-#driver = webdriver.Chrome()  # Add options=chrome_options if needed
+
+driver = webdriver.Chrome()  # Add options=chrome_options if needed
 
 
 #log-in 
@@ -109,27 +101,22 @@ def attempt_login(driver, username, password):
     time.sleep(1)
 
     try:
-        # WebDriverWait(driver, 1).until(
-        #     EC.element_to_be_clickable((By.ID, username_field_id))
-        # )
-        
-        # EC.element_to_be_clickable(By.ID, username_field_id)
-        
+        WebDriverWait(driver, 1).until(
+            EC.element_to_be_clickable((By.ID, username_field_id))
+        )
         username_field = driver.find_element(By.ID, username_field_id)
         username_field.send_keys(username)
 
-        # WebDriverWait(driver, 1).until(
-        #     EC.element_to_be_clickable((By.ID, password_field_id))
-        # )
-        # EC.element_to_be_clickable(By.ID, password_field_id)
+        WebDriverWait(driver, 1).until(
+            EC.element_to_be_clickable((By.ID, password_field_id))
+        )
         password_field = driver.find_element(By.ID, password_field_id)
         password_field.send_keys(password)
 
         password_field.send_keys(Keys.ENTER)
         
         # Wait for navigation and check if the login was successful
-        # WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
-        EC.url_to_be("https://profile.intra.42.fr/")
+        WebDriverWait(driver, 1).until(EC.url_to_be("https://profile.intra.42.fr/"))
 
         print("Successfully logged in")
         return True  # Return True to indicate successful login
@@ -332,10 +319,8 @@ try:
     if (int_evaluation_day == 1 and current_day == 6):
         #I should click next page 
         try:
-            # wait = WebDriverWait(driver, 5)
-            # next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
-            
-            next_page_button = EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right"))    
+            wait = WebDriverWait(driver, 5)
+            next_page_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.fc-next-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right")))       
             print("next page is ready?")
             next_page_button.click()
             print("Clicked next page")
@@ -416,13 +401,7 @@ while not slot_clicked and attempts < max_retries:
             available_slots_today = []                      
             current_day = datetime.now().weekday()
             xpath = f".//tr/td[{current_day + 2 + int_evaluation_day}]//div[contains(@class, 'fc-time')]"
-            print("current_day", current_day)
-
-            print("xpath", xpath)
             slots = driver.find_elements(By.XPATH, xpath)
-            print("XPATH", By.XPATH)
-            
-            print("slots", slots)
 
             if (len(slots) == 0):
                 driver.refresh()
@@ -442,15 +421,13 @@ while not slot_clicked and attempts < max_retries:
             if not available_slots_today:
                 print("No slots available within the desired time range.")
                 driver.refresh()
-                time.sleep(15)
+                time.sleep(5)
                 continue
             
 
             for slot in available_slots_today:
                 print("40")
-                # WebDriverWait(driver, 1).until(EC.element_to_be_clickable(slot))
-                
-                EC.element_to_be_clickable(slot)
+                WebDriverWait(driver, 1).until(EC.element_to_be_clickable(slot))
                 print("41")
                 slot.click()
                 print("Clicked on an available slot.")
@@ -463,7 +440,7 @@ while not slot_clicked and attempts < max_retries:
                     if nextok.text == "OK":
                         
                         
-                        #nextok.click()
+                        nextok.click()
                         
                         
                         print("Clicked 'OK' button.")
@@ -475,7 +452,7 @@ while not slot_clicked and attempts < max_retries:
         except NoSuchElementException:
             print("Today's column is not found or not highlighted.")
             driver.refresh()
-            time.sleep(15)
+            time.sleep(5)
 
     except TimeoutException:
         print("Timeout occurred while looking for slots. Refreshing and retrying...")
