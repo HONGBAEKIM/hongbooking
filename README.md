@@ -1,3 +1,8 @@
+how to pyinstaller in mac
+
+pyinstaller --onefile *
+xattr -d com.apple.quarantine *
+
 
 
 # Automatically booking evaluation slots  
