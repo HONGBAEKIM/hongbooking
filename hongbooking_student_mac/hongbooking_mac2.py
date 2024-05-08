@@ -1359,13 +1359,13 @@ class Ui_MainWindow(object):
                     if not available_slots_today:
                         print("No slots available within the desired time range.")
                         driver.refresh()
-                        time.sleep(15)
+                        time.sleep(1)
                         continue
                     
 
                     for slot in available_slots_today:
 
-                        WebDriverWait(driver, 1).until(EC.element_to_be_clickable(slot))
+                        WebDriverWait(driver, 10).until(EC.element_to_be_clickable(slot))
                         
                         #EC.element_to_be_clickable(slot)
 
@@ -1377,7 +1377,7 @@ class Ui_MainWindow(object):
                         # Find the "OK" button. Adjust the selector as per your page's structure
                         try:
                             nextok = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
-                            WebDriverWait(driver, 1).until(EC.element_to_be_clickable(nextok))
+                            WebDriverWait(driver, 10).until(EC.element_to_be_clickable(nextok))
                             if nextok.text == "OK":
                                 
                                 
@@ -1392,7 +1392,7 @@ class Ui_MainWindow(object):
                 except NoSuchElementException:
                     print("Today's column is not found or not highlighted.")
                     driver.refresh()
-                    time.sleep(15)
+                    time.sleep(1)
 
             except TimeoutException:
                 print("Timeout occurred while looking for slots. Refreshing and retrying...")
